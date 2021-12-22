@@ -5,8 +5,13 @@
     "name": "home",
     "id": 1,
     "children": [],
-    "components": [],
-    "meta": [] 
+    "components": [
+      "PageComponentsNavigation",
+      "PageComponentsHeader",
+      "PageComponentsText",
+      "PageComponentsFooter"
+    ],
+    "meta": {} 
   },
   {
     "slug": "/page-with-children",
@@ -31,19 +36,29 @@
                 "level": 4,
                 "name": "Demo child page with a parent and no children",
                 "id": 6,
-                "children": []
+                "children": [],
+                "components": [],
+                "meta": {}
               }
-            ]
+            ],
+            "components": [],
+            "meta": {}
           }
-        ]
+        ],
+        "components": [],
+        "meta": {}
       },
       {
         "slug": "/child-level-deeper-2",
         "level": 2,
         "name": "Demo page with a parent and no children",
         "id": 4,
-        "children": []
+        "children": [],
+        "components": [],
+        "meta": {}
       }
-    ]
+    ],
+    "components": [],
+    "meta": {}
   }
 ]

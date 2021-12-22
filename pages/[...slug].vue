@@ -2,9 +2,9 @@
   <div>
     <CookieWall v-if="cookie !== 'cookieWallAccepted'" />
     <AdminView
-      v-if="factory === 'renderAdmin'"/>
+      v-if="renderer === 'renderAdmin' || (renderer === 'renderPage' && isLoggedIn)"/>
     <RendererPage
-      v-if="factory === 'renderPage'"
+      v-if="renderer === 'renderPage'"
       :page="pageBasedOnPath"/>
   </div>
 </template>
@@ -14,21 +14,24 @@
   import pagesIndex from '~~/server/resources/pagesIndex.json'
   import { findPageBySlug } from '~~/utils'
 
-  const factory = ref('')
   const cookie = ref('')
+  const isLoggedIn = ref(false)
+  const renderer = ref('')
 
   const urlPath = useRoute().params.slug as Array<string>
 
   const index = urlPath.length
     ? urlPath.indexOf('')
     : -1
+    
   if (index > 0) {
     urlPath.splice(index)
   }
+
   const search = [...urlPath].pop()
   const pages = pagesIndex
  
-  factory.value = urlPath[0] === 'admin' || !pages.find(page => page.slug === '/')
+  renderer.value = urlPath[0] === 'admin' || !pages.find(page => page.slug === '/')
     ? 'renderAdmin'
     : 'renderPage'
 
