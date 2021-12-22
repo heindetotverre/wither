@@ -1,0 +1,41 @@
+[
+  {
+    "slug": "/",
+    "level": 1,
+    "name": "home",
+    "id": 1,
+    "children": [],
+    "components": [],
+    "meta": [] 
+  },
+  {
+    "slug": "/page-with-children",
+    "level": 1,
+    "name": "Demo page with children",
+    "id": 2,
+    "children": [
+      {
+        "slug": "/child-level-deeper",
+        "level": 2,
+        "name": "Demo child page with a parent and children",
+        "id": 3,
+        "children": [
+          {
+            "slug": "/child-level-even-deeper",
+            "level": 3,
+            "name": "Demo page with a parent and no children",
+            "id": 5,
+            "children": []
+          }
+        ]
+      },
+      {
+        "slug": "/child-level-deeper-2",
+        "level": 2,
+        "name": "Demo page with a parent and no children",
+        "id": 4,
+        "children": []
+      }
+    ]
+  }
+]
