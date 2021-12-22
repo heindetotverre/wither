@@ -1,7 +1,7 @@
 <template>
   <div>
     <p>Page with components</p>
-    <p>{{ page ? page : '404' }}</p>
+    <p>{{ Object.keys(page).length ? page : '404' }}</p>
     <component
       v-for="component in page.components"
       :is="component">
@@ -13,9 +13,7 @@
   const props = defineProps({
     page: {
       type: Object,
-      default: {
-        components: []
-      }
+      default: {}
     }
   })
 </script>
