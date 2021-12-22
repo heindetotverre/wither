@@ -1,16 +1,20 @@
 <template>
-  <CookieWall v-if="cookie !== 'cookieWallAccepted'" />
-  <AdminFactory
-    v-if="factory === 'renderAdmin'"/>
-  <ComponentFactory
-    v-if="factory === 'renderPage'"
-    :page="pageBasedOnPath"/>
+  <div>
+    <CookieWall v-if="cookie !== 'cookieWallAccepted'" />
+    <AdminFactory
+      v-if="factory === 'renderAdmin'"/>
+    <ComponentFactory
+      v-if="factory === 'renderPage'"
+      :page="pageBasedOnPath"/>
+  </div>
 </template>
 <script setup lang="ts">
   import { ref } from 'vue'
   import { useRoute } from 'vue-router'
 
   import pagesIndex from '~~/server/pagesIndex.json'
+
+  import { findPageBySlug } from '~~/utils'
 
   import AdminFactory from '~~/components/factory/AdminFactory.vue'
   import CookieWall from '~~/components/CookieWall.vue'
@@ -29,16 +33,7 @@
   }
   const search = [...urlPath].pop()
   const pages = pagesIndex
-
-  const findPageBySlug = (pages, slug) => {
-    return pages.reduce((pagesArray, page) => (page.slug.replace('/', '') === slug)
-      ? pagesArray.concat(page)
-      : page.children.length > 0
-        ? pagesArray.concat(findPageBySlug(page.children, slug))
-        : pagesArray
-    , [])
-  }
-  
+ 
   const pageBasedOnPath = !urlPath
     ? pages.find(page => page.slug === '/')
     : findPageBySlug(pages, search)[0]
