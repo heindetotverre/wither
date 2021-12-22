@@ -1,7 +1,6 @@
 <template>
   <p>Admin section</p>
-  <Login></Login>
+  <AdminLogin />
 </template>
 <script setup lang="ts">
-  import Login from '~~/components/admin/Login.vue'
 </script>

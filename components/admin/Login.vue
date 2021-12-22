@@ -1,13 +1,12 @@
 <template>
   <div>
     <p>Login section</p>
-    <FactoryFormFactory
+    <RendererForm
       :formFields="form"
       @submit="handleAuth($event)"/>
   </div>
 </template>
 <script setup lang="ts">
-  import { ref } from 'vue'
   import formFieldsIndex from '~~/server/resources/formFieldsIndex.json'
 
   const form = ref([

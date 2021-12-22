@@ -1,9 +1,9 @@
 <template>
   <div>
     <CookieWall v-if="cookie !== 'cookieWallAccepted'" />
-    <FactoryAdminFactory
+    <AdminView
       v-if="factory === 'renderAdmin'"/>
-    <FactoryComponentFactory
+    <RendererPage
       v-if="factory === 'renderPage'"
       :page="pageBasedOnPath"/>
   </div>
