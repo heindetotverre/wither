@@ -1,0 +1,10 @@
+[
+  {
+    "type": "TextInput",
+    "component": "UiInput"
+  },
+  {
+    "type": "Button",
+    "component": "UiButton"
+  }
+]
