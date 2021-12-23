@@ -6,8 +6,8 @@
       :label="field.label"
       :key="field.key"
       :name="field.key"
-      @click="emits('submit', formValues)"
-      @input="inputField($event)">
+      v-model="formValues[field.key]"
+      @click="submit()">
       <slot></slot>
     </component>
   </form>
@@ -29,7 +29,8 @@
 
   const formValues = ref<Record<string, any>>({})
 
-  const inputField = (formFieldEvent : any) => {
-    formValues.value[formFieldEvent.key] = formFieldEvent.value
+  const submit = () => {
+    emits('submit', formValues.value)
+    formValues.value = {}
   }
 </script>

@@ -1,15 +1,21 @@
 <template>
   <div>
-    <p>Login section</p>
-    <RendererForm
-      :formFields="form"
-      @submit="handleAuth($event)"/>
+    <div>
+      <p>Login section</p>
+      <RendererForm
+        :formFields="loginForm"
+        @submit="handleAuth($event)"/>
+    </div>
   </div>
 </template>
 <script setup lang="ts">
   import formFieldsIndex from '~~/server/resources/formFieldsIndex.json'
 
-  const form = ref([
+  const emits = defineEmits([
+    'auth'
+  ])
+
+  const loginForm = ref([
     {
       ...formFieldsIndex.find(field => field.type === 'TextInput'),
       label: 'email',
@@ -30,5 +36,6 @@
   const handleAuth = async (event: Event) => {
     const result = await $fetch('/api/auth')
     console.log(event, result)
+    emits('auth', true)
   }
 </script>

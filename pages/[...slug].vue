@@ -23,14 +23,14 @@
   const index = urlPath.length
     ? urlPath.indexOf('')
     : -1
-    
+
   if (index > 0) {
     urlPath.splice(index)
   }
 
   const search = [...urlPath].pop()
   const pages = pagesIndex
- 
+  
   renderer.value = urlPath[0] === 'admin' || !pages.find(page => page.slug === '/')
     ? 'renderAdmin'
     : 'renderPage'

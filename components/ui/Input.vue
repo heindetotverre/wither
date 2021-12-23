@@ -23,7 +23,7 @@
 
   const emits = defineEmits([
     'click',
-    'input'
+    'update:modelValue'
   ])
 
   const currentValue = ref<String>('')
@@ -39,6 +39,6 @@
   const input = (event : Event) => {
     const inputEl = event.target as HTMLInputElement
     currentValue.value = inputEl.value
-    emits('input', { key: props.name, value: currentValue.value })
+    emits('update:modelValue', currentValue.value)
   }
 </script>

@@ -1,0 +1,22 @@
+[
+  {
+    "type":  "header",
+    "component": "PageComponentsHeader",
+    "id": "1"
+  },
+  {
+    "type":  "text",
+    "component": "PageComponentsText",
+    "id": "2"
+  },
+  {
+    "type":  "footer",
+    "component": "PageComponentsFooter",
+    "id": "3"
+  },
+  {
+    "type":  "navigation",
+    "component": "PageComponentsNavigation",
+    "id": "4"
+  }
+]
