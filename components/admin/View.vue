@@ -1,6 +1,7 @@
 <template>
   <NuxtLayout name="admin"></NuxtLayout>
   <div v-if="isLoggedIn">
+    <NuxtLink to="/">Go to your website</NuxtLink>
     <NuxtLink to="/admin/page-management">Manage your pages</NuxtLink>
   </div>
   <AdminLogin 
@@ -13,7 +14,8 @@
 
 <script setup lang="ts">
   import { getUrlPath } from '~~/utils'
+  import { store } from '~~/store'
 
   const search = getUrlPath().last
-  const isLoggedIn = checkForLoggedIn()
+  const isLoggedIn = computed(() => store.get.getLoginState())
 </script>

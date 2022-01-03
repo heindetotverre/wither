@@ -11,8 +11,7 @@
 <script setup lang="ts">
   import formFieldsIndex from '~~/server/resources/formFieldsIndex.json'
   import { createId } from '~~/utils'
-
-  const isLoggedIn = checkForLoggedIn()
+  import { store } from '~~/store'
 
   const loginForm = ref([
     {
@@ -36,10 +35,13 @@
   ])
 
   const handleAuth = async (event: Event) => {
+    const router = useRouter()
     const { data } = await useFetch('/api/auth', {
       method: 'POST',
       pick: ['result']
     })
-    isLoggedIn.value = true
+    console.log(event, data.value)
+    store.do.setLoginState(true)
+    router.push('/admin/page-management')
   }
 </script>
