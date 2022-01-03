@@ -38,9 +38,12 @@
     const router = useRouter()
     const { data } = await useFetch('/api/auth', {
       method: 'POST',
-      pick: ['result']
+      pick: ['result'],
+      body: {
+        data: event
+      }
     })
-    console.log(event, data.value)
+    console.log(event, data.value.result)
     store.do.setLoginState(true)
     router.push('/admin/page-management')
   }
