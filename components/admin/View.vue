@@ -3,11 +3,15 @@
   <AdminLogin 
     v-if="!isLoggedIn"
     @auth="handleAuth($event)"/>
-  <AdminPageManagement 
-    v-else/>
-  
+  <PageManagement 
+    v-if="isLoggedIn && search === 'page-management'"/>
+  <PageCreation
+    v-if="isLoggedIn && search === 'page-creation'"/>
 </template>
 <script setup lang="ts">
+  import { getUrlPath } from '~~/utils'
+
+  const search = getUrlPath().last
   const isLoggedIn = ref(false)
 
   const handleAuth = (event) => {

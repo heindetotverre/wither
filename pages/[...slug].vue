@@ -10,32 +10,21 @@
 </template>
 <script setup lang="ts">
   import { ref } from 'vue'
-  import { useRoute } from 'vue-router'
   import pagesIndex from '~~/server/resources/pagesIndex.json'
-  import { findPageBySlug } from '~~/utils'
+  import { findPageBySlug, getUrlPath } from '~~/utils'
 
   const cookie = ref('')
   const isLoggedIn = ref(false)
   const renderer = ref('')
 
-  const urlPath = useRoute().params.slug as Array<string>
-
-  const index = urlPath.length
-    ? urlPath.indexOf('')
-    : -1
-
-  if (index > 0) {
-    urlPath.splice(index)
-  }
-
-  const search = [...urlPath].pop()
+  const search = getUrlPath().last
   const pages = pagesIndex
   
-  renderer.value = urlPath[0] === 'admin' || !pages.find(page => page.slug === '/')
+  renderer.value = getUrlPath().full[0] === 'admin' || !pages.find(page => page.slug === '/')
     ? 'renderAdmin'
     : 'renderPage'
 
-  const pageBasedOnPath = !urlPath
+  const pageBasedOnPath = !getUrlPath().full
     ? pages.find(page => page.slug === '/')
     : findPageBySlug(pages, search)[0]
 

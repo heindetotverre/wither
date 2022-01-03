@@ -18,6 +18,10 @@
     modelValue: {
       type: String,
       default: ''
+    },
+    id: {
+      type: String,
+      required: true
     }
   })
 

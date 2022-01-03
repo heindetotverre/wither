@@ -1,6 +1,6 @@
 <template>
   <div>
-    <NuxtLink to="/admin/create-page" >Create a page</NuxtLink>
+    <NuxtLink to="/admin/page-creation">Create Page</NuxtLink>
     <ul>
       <li v-for="(page) of flattenPages"
         :key="page">

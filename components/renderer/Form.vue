@@ -2,6 +2,7 @@
   <form>
     <component
       v-for="field in formFields"
+      :id="field.id"
       :is="field.component"
       :label="field.label"
       :key="field.key"

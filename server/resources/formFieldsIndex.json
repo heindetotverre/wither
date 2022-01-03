@@ -6,5 +6,9 @@
   {
     "type": "Button",
     "component": "UiButton"
+  },
+  {
+    "type": "SelectInput",
+    "component": "UiSelect"
   }
 ]

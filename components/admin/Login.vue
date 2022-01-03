@@ -10,6 +10,7 @@
 </template>
 <script setup lang="ts">
   import formFieldsIndex from '~~/server/resources/formFieldsIndex.json'
+  import { createId } from '~~/utils'
 
   const emits = defineEmits([
     'auth'
@@ -19,17 +20,20 @@
     {
       ...formFieldsIndex.find(field => field.type === 'TextInput'),
       label: 'email',
-      key: 'Email'
+      key: 'Email',
+      id: createId('login')
     },
     {
       ...formFieldsIndex.find(field => field.type === 'TextInput'),
       label: 'password',
-      key: 'Password'
+      key: 'Password',
+      id: createId('login')
     },
     {
       ...formFieldsIndex.find(field => field.type === 'Button'),
       label: 'Login',
-      key: 'Button'
+      key: 'Button',
+      id: createId('login')
     }
   ])
 
