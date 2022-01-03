@@ -21,7 +21,7 @@
   const search = getUrlPath().last
   const pages = pagesIndex
   
-  renderer.value = getUrlPath().full[0] === 'admin' || !pages.find(page => page.slug === '/')
+  renderer.value = getUrlPath().full[0] === 'admin' || !pages.find(page => page.name === 'home')
     ? 'renderAdmin'
     : 'renderPage'
 
