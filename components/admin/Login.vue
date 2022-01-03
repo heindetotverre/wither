@@ -12,9 +12,7 @@
   import formFieldsIndex from '~~/server/resources/formFieldsIndex.json'
   import { createId } from '~~/utils'
 
-  const emits = defineEmits([
-    'auth'
-  ])
+  const isLoggedIn = checkForLoggedIn()
 
   const loginForm = ref([
     {
@@ -38,8 +36,10 @@
   ])
 
   const handleAuth = async (event: Event) => {
-    const result = await $fetch('/api/auth')
-    console.log(event, result)
-    emits('auth', true)
+    const { data } = await useFetch('/api/auth', {
+      method: 'POST',
+      pick: ['result']
+    })
+    isLoggedIn.value = true
   }
 </script>

@@ -1,7 +1,7 @@
 import { useRoute } from 'vue-router'
 
-const createId = (formName : string) => {
-  return `${formName}_${Math.random().toString(16).slice(2)}`
+const createId = (idPrefix : string) => {
+  return `${idPrefix ? idPrefix : ''}_${Math.random().toString(16).slice(2)}`
 }
 
 const findPageBySlug = (pages, slug) => {

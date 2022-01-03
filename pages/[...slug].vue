@@ -8,15 +8,15 @@
       :page="pageBasedOnPath"/>
   </div>
 </template>
+
 <script setup lang="ts">
   import { ref } from 'vue'
   import pagesIndex from '~~/server/resources/pagesIndex.json'
   import { findPageBySlug, getUrlPath } from '~~/utils'
 
   const cookie = ref('')
-  const isLoggedIn = ref(false)
   const renderer = ref('')
-
+  const isLoggedIn = checkForLoggedIn()
   const search = getUrlPath().last
   const pages = pagesIndex
   
@@ -29,5 +29,4 @@
     : findPageBySlug(pages, search)[0]
 
   cookie.value = 'cookieWallAccepted'
-
 </script>
