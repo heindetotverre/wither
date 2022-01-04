@@ -36,15 +36,7 @@
 
   const handleAuth = async (event: Event) => {
     const router = useRouter()
-    const { data } = await useFetch('/api/auth', {
-      method: 'POST',
-      pick: ['result'],
-      body: {
-        data: event
-      }
-    })
-    console.log(event, data.value.result)
-    store.do.setLoginState(true)
-    router.push('/admin/page-management')
+    await store.do.login(event)
+    router.push('/admin')
   }
 </script>

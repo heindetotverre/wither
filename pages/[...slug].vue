@@ -2,7 +2,7 @@
   <div>
     <CookieWall v-if="cookie !== 'cookieWallAccepted'" />
     <AdminView
-      v-if="renderer === 'renderAdmin' || (renderer === 'renderPage' && isLoggedIn)"/>
+      v-if="renderer === 'renderAdmin'"/>
     <RendererPage
       v-if="renderer === 'renderPage'"
       :page="pageBasedOnPath"/>
@@ -13,11 +13,9 @@
   import { ref } from 'vue'
   import pagesIndex from '~~/server/resources/pagesIndex.json'
   import { findPageBySlug, getUrlPath } from '~~/utils'
-  import { store } from '~~/store'
 
   const cookie = ref('')
   const renderer = ref('')
-  const isLoggedIn = computed(() => store.get.getLoginState())
   const search = getUrlPath().last
   const pages = pagesIndex
   

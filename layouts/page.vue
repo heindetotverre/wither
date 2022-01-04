@@ -5,11 +5,16 @@
       <Meta name="description" :content="`My page's description`" />
     </Head>
   </Html>
-  <p>Default page template</p>
+
+  <AdminBar 
+    v-if="isLoggedIn()"/>
+
   <slot name="404" />
   <slot />
 </template>
 <script setup lang="ts">
+  import { store } from '~~/store'
+
   const props = defineProps({
     name: {
       type: String,
@@ -20,4 +25,6 @@
       default: {}
     }
   })
+
+  const isLoggedIn = () => store.get.getLoginState
 </script>
