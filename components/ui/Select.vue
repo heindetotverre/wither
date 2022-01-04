@@ -3,6 +3,10 @@
 </template>
 <script setup lang="ts">
   const props = defineProps({
+    disabled: {
+      type: Boolean,
+      default: false
+    },
     name: {
       type: String,
       required: true

@@ -2,9 +2,20 @@
   <div>
     <div>
       <p>Login section</p>
-      <RendererForm
-        :formFields="loginForm"
-        @submit="handleAuth($event)"/>
+      <div v-if="renderer === 'login'">
+        <RendererForm
+          :formFields="loginForm"
+          @submit="handleAuth($event)"/>
+        <p>Not a member yet?</p>
+        <button @click="renderer = 'register'">Register yourself</button>
+      </div>
+      <div v-if="renderer === 'register'">
+        <RendererForm
+          :formFields="registerForm"
+          @submit="handleAuth($event)"/>
+        <p>Already a member?</p>
+        <button @click="renderer = 'login'">Go to login</button>
+      </div>
     </div>
   </div>
 </template>
@@ -33,6 +44,45 @@
       id: createId('login')
     }
   ])
+  const registerForm = ref([
+    {
+      ...formFieldsIndex.find(field => field.type === 'TextInput'),
+      label: 'firstname',
+      key: 'First name',
+      id: createId('register')
+    },
+    {
+      ...formFieldsIndex.find(field => field.type === 'TextInput'),
+      label: 'lastname',
+      key: 'Last name',
+      id: createId('register')
+    },
+    {
+      ...formFieldsIndex.find(field => field.type === 'TextInput'),
+      label: 'email',
+      key: 'Email',
+      id: createId('register')
+    },
+    {
+      ...formFieldsIndex.find(field => field.type === 'TextInput'),
+      label: 'password',
+      key: 'Password',
+      id: createId('register')
+    },
+    {
+      ...formFieldsIndex.find(field => field.type === 'TextInput'),
+      label: 'password again',
+      key: 'PasswordAgain',
+      id: createId('register')
+    },
+    {
+      ...formFieldsIndex.find(field => field.type === 'Button'),
+      label: 'Register',
+      key: 'Button',
+      id: createId('login')
+    }
+  ])
+  const renderer = ref('login')
 
   const handleAuth = async (event: Event) => {
     const router = useRouter()

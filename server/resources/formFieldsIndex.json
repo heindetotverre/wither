@@ -1,7 +1,8 @@
 [
   {
     "type": "TextInput",
-    "component": "UiInput"
+    "component": "UiInput",
+    "required": true
   },
   {
     "type": "Button",
@@ -9,6 +10,7 @@
   },
   {
     "type": "SelectInput",
-    "component": "UiSelect"
+    "component": "UiSelect",
+    "required": false
   }
 ]

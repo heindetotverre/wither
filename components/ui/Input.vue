@@ -7,6 +7,14 @@
 </template>
 <script setup lang="ts">
   const props = defineProps({
+    disabled: {
+      type: Boolean,
+      default: false
+    },
+    id: {
+      type: String,
+      required: true
+    },      
     name: {
       type: String,
       required: true
@@ -18,10 +26,6 @@
     modelValue: {
       type: String,
       default: ''
-    },
-    id: {
-      type: String,
-      required: true
     }
   })
 

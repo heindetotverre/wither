@@ -40,4 +40,5 @@ export const store = readonly({
     getLoginState
   }
 })
+
 // internals

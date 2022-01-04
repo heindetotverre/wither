@@ -9,7 +9,7 @@
 </template>
 <script setup lang="ts">
   import formFieldsIndex from '~~/server/resources/formFieldsIndex.json'
-  import { createId, flattenObject } from '~~/utils/index'
+  import { createId } from '~~/utils/index'
 
   const createPageForm = ref([
     {
