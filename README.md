@@ -16,12 +16,11 @@ create a page
 
 enjoy your website
 
-
 ## Details
 
 This is a sort of CMS/Website builder
 
-It has the capability of adding pages to a pagesIndex.json and reading the components added to those pages with their content and serve pages built on those components. 
+It has the capability of adding pages to a pagesIndex.json and reading the components added to those pages with their content and serve pages built on those components.
 
 All metadata can be added to the pages
 
@@ -32,6 +31,10 @@ Once Nuxt3 supports generating static pages the project will be updated for SEO 
 ## DB
 
 # windows @ work
+
 mongod -dbpath C:\www\projects--home\wither\db
+
 # mac @ home
-mongod -dbpath *path_to_project*\db
+
+mongod -dbpath _path_to_project_\db
+// /Users/matthiaspoortvliet/Documents/PROJECTS/CODE/wither/db

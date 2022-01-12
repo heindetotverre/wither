@@ -39,7 +39,7 @@
   ])
 
   const createPage = (formSubmitEvent) => {
-    console.log(formSubmitEvent)
+
   }
 
 </script>

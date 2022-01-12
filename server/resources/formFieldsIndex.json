@@ -1,16 +1,33 @@
 [
   {
-    "type": "TextInput",
+    "class": "TextInput",
     "component": "UiInput",
+    "type": "text",
     "required": true
   },
   {
-    "type": "Button",
-    "component": "UiButton"
+    "class": "EmailInput",
+    "component": "UiInput",
+    "key": "Email",
+    "type": "email",
+    "required": true
   },
   {
-    "type": "SelectInput",
+    "class": "PasswordInput",
+    "component": "UiInput",
+    "key": "Password",
+    "type": "password",
+    "required": true
+  },
+  {
+    "class": "Button",
+    "component": "UiButton",
+    "key": "Button"
+  },
+  {
+    "class": "SelectInput",
     "component": "UiSelect",
+    "type": "select",
     "required": false
   }
 ]

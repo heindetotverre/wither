@@ -1,4 +1,5 @@
 import { reactive, readonly, } from "vue"
+import { User, ServerResponseMessage } from '~~/types'
 
 // externals
 const initialState = {
@@ -20,18 +21,33 @@ const login = async (formContent) => {
   return data.value
 }
 
-const register = async (formContent) => {
-  const { data } = await useFetch('/api/auth/register', {
-    method: 'POST',
-    body: {
-      data: formContent
+const register = async (formContent: User): Promise<ServerResponseMessage> => {
+  if (formContent.Password === formContent.PasswordCheck) {
+    try {
+      const { data } = await useFetch('/api/auth/register', {
+        method: 'POST',
+        body: {
+          data: formContent
+        }
+      })
+      setLoginState(true)
+      if (data.value && data.value.message === 'UserRegistrated') {
+        return data.value
+      } else {
+        throw new Error
+      }
+    } catch (error) {
+      return error
     }
-  })
-  setLoginState(true)
-  return data.value
+  } else {
+    return {
+      message: 'UserNotRegistrated',
+      description: "Passwords do not match"
+    }
+  }
 }
 
-const setLoginState = (loginState : boolean) => {
+const setLoginState = (loginState: boolean) => {
   state.isLoggedIn = loginState
 }
 

@@ -3,7 +3,7 @@ import { useBody } from 'h3'
 import mongoConnect from './db'
 import { login, register } from './db/controllers/users'
 
-export default async (req : IncomingMessage, res : ServerResponse) => {
+export default async (req: IncomingMessage, res: ServerResponse) => {
   const body = await useBody(req)
   const client = await mongoConnect(req, res)
 
@@ -14,10 +14,10 @@ export default async (req : IncomingMessage, res : ServerResponse) => {
   }
 
   if (req.url.includes('register')) {
-    return register(client.db, body)
+    return await register(client.db, body)
   }
 
   if (req.url.includes('login')) {
-    return login(client.db, body)
+    return await login(client.db, body)
   }
 }

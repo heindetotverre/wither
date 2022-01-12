@@ -9,13 +9,32 @@ interface Page {
 }
 
 interface User {
-  firstName: string,
-  lastName: string,
-  email: string,
-  password: string
+  FirstName: string,
+  LastName: string,
+  Email: string,
+  Password: string,
+  PasswordCheck?: string
+}
+
+interface FormField {
+  class: string,
+  component: string,
+  key: string,
+  type: string,
+  required: boolean,
+  label: string,
+  id: string
+}
+
+interface ServerResponseMessage {
+  data?: any,
+  message: string,
+  description: string
 }
 
 export {
+  FormField,
   Page,
-  User
+  User,
+  ServerResponseMessage
 }

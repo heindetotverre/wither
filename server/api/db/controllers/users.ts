@@ -1,6 +1,6 @@
 import { Db } from 'mongodb'
 import { UserSchema } from '../models'
-import { User } from '~~/types'
+import { User, ServerResponseMessage } from '~~/types'
 
 const register = async (db, requestBody) => {
   try {
@@ -29,11 +29,14 @@ export {
   update
 }
 
-const insertUser = (db : Db, requestBody) => {
+const insertUser = (db: Db, requestBody): ServerResponseMessage => {
   const collection = db.collection('users')
-  const user : User = requestBody.data
+  const user: User = requestBody.data
+  delete user.PasswordCheck
   collection.insertOne(user)
   return {
-    message: 'User succesfully registered'
+    data: user,
+    message: 'UserRegistrated',
+    description: 'User succesfully registered'
   }
 }

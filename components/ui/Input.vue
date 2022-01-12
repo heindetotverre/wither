@@ -1,7 +1,10 @@
 <template>
-  <label>{{ label }}</label>
+  <label :for="id">{{ label }}</label>
   <input
+    :id="id"
     :value="currentValue"
+    :type="type"
+    :disabled="disabled"
     @input="input($event)"
   />
 </template>
@@ -21,11 +24,15 @@
     },
     label: {
       type: String,
-      default: ''
+      default: 'test'
     },
     modelValue: {
       type: String,
       default: ''
+    },
+    type: {
+      type: String,
+      default: 'text'
     }
   })
 
