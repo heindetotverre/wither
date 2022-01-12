@@ -5,16 +5,14 @@ import mongoose from 'mongoose'
 
 let client
 
-export default async (req : IncomingMessage, res : ServerResponse) => {
+export default async (req: IncomingMessage, res: ServerResponse) => {
   try {
-    MongoClient.connect("mongodb://localhost:27017/db", (err, db) => {
-      if (err)  {
-        throw err
-      }  
-    })
-    
     await mongoose.connect('mongodb://localhost:27017/db')
+    console.log(mongoose)
+
     client = mongoose.connection
+
+    console.log(client)
   } catch (error) {
     console.log(error);
   }
