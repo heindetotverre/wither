@@ -10,15 +10,25 @@ const state = reactive({
 })
 
 const login = async (formContent) => {
-  const { data } = await useFetch('/api/auth', {
+  const { data } = await useFetch('/api/auth/login', {
     method: 'POST',
-    pick: ['result'],
     body: {
       data: formContent
     }
   })
   setLoginState(true)
-  return data.value.result
+  return data.value
+}
+
+const register = async (formContent) => {
+  const { data } = await useFetch('/api/auth/register', {
+    method: 'POST',
+    body: {
+      data: formContent
+    }
+  })
+  setLoginState(true)
+  return data.value
 }
 
 const setLoginState = (loginState : boolean) => {
@@ -34,6 +44,7 @@ export const store = readonly({
   state: state,
   do: {
     login,
+    register,
     setLoginState
   },
   get: {

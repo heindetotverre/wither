@@ -5,14 +5,14 @@
       <div v-if="renderer === 'login'">
         <RendererForm
           :formFields="loginForm"
-          @submit="handleAuth($event)"/>
+          @submit="handleAuth($event, 'login')"/>
         <p>Not a member yet?</p>
         <button @click="renderer = 'register'">Register yourself</button>
       </div>
       <div v-if="renderer === 'register'">
         <RendererForm
           :formFields="registerForm"
-          @submit="handleAuth($event)"/>
+          @submit="handleAuth($event, 'register')"/>
         <p>Already a member?</p>
         <button @click="renderer = 'login'">Go to login</button>
       </div>
@@ -79,14 +79,17 @@
       ...formFieldsIndex.find(field => field.type === 'Button'),
       label: 'Register',
       key: 'Button',
-      id: createId('login')
+      id: createId('register')
     }
   ])
   const renderer = ref('login')
 
-  const handleAuth = async (event: Event) => {
+  const handleAuth = async (event: Event, authMethod : string) => {
     const router = useRouter()
-    await store.do.login(event)
+    authMethod === 'login'
+      ? await store.do.login(event)
+      : await store.do.register(event)
+
     router.push('/admin')
   }
 </script>

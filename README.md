@@ -28,3 +28,10 @@ All metadata can be added to the pages
 A cookie wall is present
 
 Once Nuxt3 supports generating static pages the project will be updated for SEO purposes.
+
+## DB
+
+# windows @ work
+mongod -dbpath C:\www\projects--home\wither\db
+# mac @ home
+mongod -dbpath *path_to_project*\db

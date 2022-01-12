@@ -1,8 +1,12 @@
 import { IncomingMessage, ServerResponse } from 'http'
-import * as auth from './auth'
+import auth from './auth'
 
-export default (req : IncomingMessage, res : ServerResponse) => {
-  if (req.url === 'auth') {
-    return auth
+export default async (req : IncomingMessage, res : ServerResponse) => {
+  try {
+    if (req.url.includes('auth')) {
+      return auth(req, res)
+    }
+  } catch (error) {
+    return error
   }
 }
