@@ -8,12 +8,17 @@ interface Page {
   meta: Record<string, any>
 }
 
-interface User {
+interface UserForm {
   FirstName: string,
   LastName: string,
   Email: string,
   Password: string,
   PasswordCheck?: string
+}
+
+interface LoginForm {
+  Email: UserForm['Email'],
+  Password: UserForm['Password']
 }
 
 interface FormField {
@@ -30,9 +35,18 @@ interface RequestObject {
   data: any
 }
 
+interface Token {
+  uuid: string,
+  user: string,
+  group: string,
+  created: Date
+}
+
 export {
   FormField,
+  LoginForm,
   Page,
   RequestObject,
-  User
+  UserForm,
+  Token
 }

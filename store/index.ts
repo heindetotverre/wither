@@ -1,39 +1,58 @@
 import { reactive, readonly, } from "vue"
-import { User } from '~~/types'
-import { useCookie } from "nuxt3"
+import { UserForm, LoginForm } from '~~/types'
 
 // externals
 const initialState = {
-  hasToken: false
+  hasToken: false,
+  tokenId: ''
 }
 
 const state = reactive({
   ...initialState
 })
 
-const setTokenState = (hasToken : boolean) => {
-  state.hasToken = hasToken
+const setTokenState = (hasToken : string) => {
+  state.hasToken = !!hasToken
 }
 
-const login = async (formContent) => {
-  const response = await useFetch('/api/auth/login', {
+const login = async (formContent : LoginForm) => {
+  const response = await useFetch<any>('/api/auth/login', {
     method: 'POST',
     body: {
       data: formContent
     }
   })
-  setTokenState(true)
+  if (response.data.value) {
+    state.hasToken = true
+    state.tokenId = response.data.value.uuid
+  }
   return response
 }
 
-const register = async (formContent: User) => {
+const logout = async () => {
+  await useFetch<any>('/api/auth/logout', {
+    method: 'POST',
+    body: {
+      data: state.tokenId
+    }
+  })
+  state.hasToken = false
+  state.tokenId = ''
+}
+
+const register = async (formContent: UserForm) => {
   if (formContent.Password === formContent.PasswordCheck) {
-    const response = await useFetch('/api/auth/register', {
+    const response = await useFetch<any>('/api/auth/register', {
       method: 'POST',
       body: {
         data: formContent
       }
     })
+    const loginForm : LoginForm = {
+      Email: formContent.Email,
+      Password: formContent.Password
+    }
+    await login(loginForm)
     return response
   } else {
     return {
@@ -50,6 +69,7 @@ export const store = readonly({
   state: state,
   do: {
     login,
+    logout,
     register,
     setTokenState
   },

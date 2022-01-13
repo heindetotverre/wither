@@ -7,7 +7,8 @@
 <script setup data-lang="ts">
   import { store } from '~~/store'
 
-  const logout = () => {
-    store.do.setTokenState(false)
+  const logout = async () => {
+    await store.do.logout()
+    useRouter().push('/')
   }
 </script>

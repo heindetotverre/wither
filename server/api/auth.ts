@@ -1,23 +1,24 @@
 import { IncomingMessage, ServerResponse } from 'http'
 import { useBody } from 'h3'
 import mongoConnect from './db'
-import { login, register } from './db/controllers/users'
+import { login, logout, register } from './db/controllers/users'
+import { checkCollectionAndCreate } from './db/tools/checkCollectionAndCreate'
 
 export default async (req: IncomingMessage, res: ServerResponse) => {
   const body = await useBody(req)
   const client = await mongoConnect(req, res)
 
-  const collections = await client.db.listCollections().toArray()
-  const collectionNames = collections.map(c => c.name)
-  if (!collectionNames.includes('users')) {
-    await client.db.createCollection('users')
-  }
+  checkCollectionAndCreate(client.db, 'users')
 
-  if (req.url.includes('register')) {
+  if (req.url === '/register') {
     await register(res, client.db, body)
   }
 
-  if (req.url.includes('login')) {
+  if (req.url === '/login') {
     await login(res, client.db, body)
+  }
+
+  if (req.url === '/logout') {
+    await logout(res, client.db, body)
   }
 }

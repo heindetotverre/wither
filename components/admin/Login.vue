@@ -4,15 +4,15 @@
       <p>Login section</p>
       <div v-if="formRenderer === 'login'">
         <RendererForm
-          :formFields="loginForm"
-          @submit="handleAuth($event, 'login')"/>
+          :form="loginForm"
+          @submit="handleLogin($event)"/>
         <p>Not a member yet?</p>
         <button @click="formRenderer = 'register'">Register yourself</button>
       </div>
       <div v-if="formRenderer === 'register'">
         <RendererForm
-          :formFields="registerForm"
-          @submit="handleAuth($event, 'register')"/>
+          :form="registerForm"
+          @submit="handleRegister($event)"/>
         <p>Already a member?</p>
         <button @click="formRenderer = 'login'">Go to login</button>
       </div>
@@ -24,7 +24,7 @@
   import formFieldsIndex from '~~/server/resources/formFieldsIndex.json'
   import { createId } from '~~/utils'
   import { store } from '~~/store'
-  import { User, FormField } from '~~/types'
+  import { UserForm, FormField, LoginForm } from '~~/types'
 
   const response = ref()
   const formRenderer = ref('login')
@@ -82,11 +82,17 @@
     }
   ] as Array<FormField>)
 
-  const handleAuth = async (event: User, authMethod : string) => {
-    const router = useRouter()
-    response.value  = authMethod === 'login'
-      ? await store.do.login(event)
-      : await store.do.register(event)
-    router.push('/admin')
+  const handleLogin = async (event: LoginForm) => {
+    response.value = await store.do.login(event)
+    if (response.value.data.message) {
+      useRouter().push('/')
+    }
+  }
+
+  const handleRegister = async (event: UserForm) => {
+    response.value = await store.do.register(event)
+    if (response.value.data.message) {
+      useRouter().push('/')
+    }
   }
 </script>

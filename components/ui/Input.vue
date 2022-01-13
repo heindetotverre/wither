@@ -37,7 +37,7 @@
   })
 
   const emits = defineEmits([
-    'click',
+    'submit',
     'update:modelValue'
   ])
 

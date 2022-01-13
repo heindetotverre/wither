@@ -2,28 +2,37 @@
   <form>
     <component
       v-for="field in formFields"
+      :is="field.component"
       :disabled="isDisabled(field)"
       :id="field.id"
-      :is="field.component"
       :label="field.label"
       :key="field.key"
       :name="field.key"
       :type="field.type"
-      v-model="formValues[field.key]"
-      @click="submit()">
+      v-model="formValues[field.key]">
       <slot></slot>
     </component>
+    <component
+      v-for="button in buttons"
+      :is="button.component"
+      :disabled="isDisabled(button)"
+      :label="button.label"
+      @click="submit()"
+    ></component>
   </form>
 </template>
 <script setup lang="ts">
   import { PropType } from 'vue'
 
   const props = defineProps({
-    formFields: {
+    form: {
       type: Array as PropType<Array<any>>,
       required: true
     }
   })
+
+  const formFields = props.form.filter(f => f.class !== 'Button')
+  const buttons = props.form.filter(f => f.class === 'Button')
 
   const emits = defineEmits([
     'inputField',
@@ -38,7 +47,7 @@
   }
 
   const validation = () => {
-    const fieldsToValidate = props.formFields.filter(field => field.required)
+    const fieldsToValidate = props.form.filter(field => field.required)
     const notValidated = []
     for (const singleFieldToValidate of fieldsToValidate) {
       !formValues.value[singleFieldToValidate.key]

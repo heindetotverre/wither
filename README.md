@@ -2,17 +2,20 @@
 
 A basic page server and content builder built in Nuxt3
 
+Make sure you have mongo community server installed and you have mongod available
 ## Setup
 
 npm install
+mongod -dbpath *path_to_project*\db
+npm run dev
 
 ## Development and usage
 
 npm run dev
 
-create an account
+create a user
 
-create a page
+create pages
 
 enjoy your website
 
@@ -20,21 +23,8 @@ enjoy your website
 
 This is a sort of CMS/Website builder
 
-It has the capability of adding pages to a pagesIndex.json and reading the components added to those pages with their content and serve pages built on those components.
+It has the capability of creating pages and reading the components added to those pages with their content and serve pages built on those components.
 
-All metadata can be added to the pages
+SEO friendly through SSR
 
-A cookie wall is present
-
-Once Nuxt3 supports generating static pages the project will be updated for SEO purposes.
-
-## DB
-
-# windows @ work
-
-mongod -dbpath C:\www\projects--home\wither\db
-
-# mac @ home
-
-mongod -dbpath _path_to_project_\db
-// /Users/matthiaspoortvliet/Documents/PROJECTS/CODE/wither/db
+Once Nuxt3 supports generating static pages the project will be updated for even more SEO friendliness
