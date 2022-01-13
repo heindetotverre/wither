@@ -30,6 +30,7 @@ const login = async (formContent : LoginForm) => {
 }
 
 const logout = async () => {
+  console.log('logout')
   await useFetch<any>('/api/auth/logout', {
     method: 'POST',
     body: {

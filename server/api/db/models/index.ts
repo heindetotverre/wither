@@ -1,9 +1,9 @@
 import mongoose from 'mongoose'
-import { Page, User } from '~~/types'
+import { Page, UserForm } from '~~/types'
 
 const schema = mongoose.Schema
 
-const UserSchema = new schema<User>({
+const UserSchema = new schema<UserForm>({
   FirstName: {
     type: String,
     required: true

@@ -6,19 +6,19 @@ import { checkCollectionAndCreate } from './db/tools/checkCollectionAndCreate'
 
 export default async (req: IncomingMessage, res: ServerResponse) => {
   const body = await useBody(req)
-  const client = await mongoConnect(req, res)
+  const client = await mongoConnect()
 
   checkCollectionAndCreate(client.db, 'users')
 
-  if (req.url === '/register') {
+  if (req.url === '/auth/register') {
     await register(res, client.db, body)
   }
 
-  if (req.url === '/login') {
+  if (req.url === '/auth/login') {
     await login(res, client.db, body)
   }
 
-  if (req.url === '/logout') {
+  if (req.url === '/auth/logout') {
     await logout(res, client.db, body)
   }
 }
