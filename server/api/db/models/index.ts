@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { Page, UserForm } from '~~/types'
+import { Page, UserForm, Token } from '~~/types'
 
 const schema = mongoose.Schema
 
@@ -51,7 +51,27 @@ const PageSchema = new schema<Page>({
   }
 })
 
+const TokenSchema = new schema<Token>({
+  user: {
+    type: String,
+    required: true
+  },
+  group: {
+    type: String,
+    required: true
+  },
+  uuid: {
+    type: String,
+    required: true
+  },
+  created: {
+    type: Number,
+    required: true
+  }
+})
+
 export {
   PageSchema,
-  UserSchema
+  UserSchema,
+  TokenSchema
 }

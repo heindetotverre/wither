@@ -23,7 +23,7 @@
 <script setup lang="ts">
   import formFieldsIndex from '~~/server/resources/formFieldsIndex.json'
   import { createId } from '~~/utils'
-  import { store } from '~~/store'
+  import { userStore } from '~~/store/user'
   import { UserForm, FormField, LoginForm } from '~~/types'
 
   const response = ref()
@@ -83,14 +83,14 @@
   ] as Array<FormField>)
 
   const handleLogin = async (event: LoginForm) => {
-    response.value = await store.do.login(event)
+    response.value = await userStore.do.login(event)
     if (response.value.data.message) {
       useRouter().push('/')
     }
   }
 
   const handleRegister = async (event: UserForm) => {
-    response.value = await store.do.register(event)
+    response.value = await userStore.do.register(event)
     if (response.value.data.message) {
       useRouter().push('/')
     }

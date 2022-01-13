@@ -14,8 +14,8 @@
 
 <script setup lang="ts">
   import { getUrlPath } from '~~/utils'
-  import { store } from '~~/store'
+  import { userStore } from '~~/store/user'
 
   const search = getUrlPath().last
-  const isLoggedIn = computed(() => store.get.getTokenState())
+  const isLoggedIn = computed(() => userStore.get.getTokenState())
 </script>

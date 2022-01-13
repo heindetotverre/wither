@@ -5,10 +5,10 @@
   </div>
 </template>
 <script setup data-lang="ts">
-  import { store } from '~~/store'
+  import { userStore } from '~~/store/user'
 
   const logout = async () => {
-    await store.do.logout()
+    await userStore.do.logout()
     useRouter().push('/')
   }
 </script>

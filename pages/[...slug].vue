@@ -13,14 +13,14 @@
   import { ref } from 'vue'
   import pagesIndex from '~~/server/resources/pagesIndex.json'
   import { findPageBySlug, getUrlPath } from '~~/utils'
-  import { store } from '~~/store'
+  import { userStore } from '~~/store/user'
 
   const cookie = ref('')
   const renderer = ref('')
   const search = getUrlPath().last
   const pages = pagesIndex
   const hasToken = useCookie<string>('witherLoginToken')
-  await store.do.setTokenState(hasToken.value)
+  await userStore.do.setTokenState(hasToken.value)
 
   renderer.value = getUrlPath().full[0] === 'admin' || !pages.find(page => page.name === 'home')
     ? 'renderAdmin'

@@ -39,7 +39,7 @@ interface Token {
   uuid: string,
   user: string,
   group: string,
-  created: Date
+  created: number
 }
 
 export {

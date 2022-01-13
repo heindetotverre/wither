@@ -1,7 +1,7 @@
 import { IncomingMessage, ServerResponse } from 'http'
 import { useBody } from 'h3'
 import mongoConnect from './db'
-import { login, logout, register } from './db/controllers/users'
+import { loginUser, logoutUser, registerUser } from './db/controllers/users'
 import { checkCollectionAndCreate } from './db/tools/checkCollectionAndCreate'
 
 export default async (req: IncomingMessage, res: ServerResponse) => {
@@ -10,15 +10,15 @@ export default async (req: IncomingMessage, res: ServerResponse) => {
 
   checkCollectionAndCreate(client.db, 'users')
 
-  if (req.url === '/auth/register') {
-    await register(res, client.db, body)
+  if (req.url === '/auth/loginUser') {
+    await loginUser(res, client.db, body)
   }
 
-  if (req.url === '/auth/login') {
-    await login(res, client.db, body)
+  if (req.url === '/auth/logoutUser') {
+    await logoutUser(res, client.db, body)
   }
 
-  if (req.url === '/auth/logout') {
-    await logout(res, client.db, body)
+  if (req.url === '/auth/registerUser') {
+    await registerUser(res, client.db, body)
   }
 }

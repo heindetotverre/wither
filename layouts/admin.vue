@@ -12,7 +12,7 @@
   <slot />
 </template>
 <script setup lang="ts">
-  import { store } from '~~/store'
+  import { userStore } from '~~/store/user'
   
   const props = defineProps({
     name: {
@@ -21,5 +21,5 @@
     }
   })
 
-  const isLoggedIn = computed(() => store.get.getTokenState())
+  const isLoggedIn = computed(() => userStore.get.getTokenState())
 </script>

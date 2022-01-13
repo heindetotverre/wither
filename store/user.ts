@@ -11,12 +11,12 @@ const state = reactive({
   ...initialState
 })
 
-const setTokenState = (hasToken : string) => {
+const setTokenState = (hasToken: string) => {
   state.hasToken = !!hasToken
 }
 
-const login = async (formContent : LoginForm) => {
-  const response = await useFetch<any>('/api/auth/login', {
+const login = async (formContent: LoginForm) => {
+  const response = await useFetch<any>('/api/auth/loginUser', {
     method: 'POST',
     body: {
       data: formContent
@@ -24,14 +24,13 @@ const login = async (formContent : LoginForm) => {
   })
   if (response.data.value) {
     state.hasToken = true
-    state.tokenId = response.data.value.uuid
+    state.tokenId = response.data.value.tokenId
   }
   return response
 }
 
 const logout = async () => {
-  console.log('logout')
-  await useFetch<any>('/api/auth/logout', {
+  await useFetch<any>('/api/auth/logoutUser', {
     method: 'POST',
     body: {
       data: state.tokenId
@@ -43,13 +42,13 @@ const logout = async () => {
 
 const register = async (formContent: UserForm) => {
   if (formContent.Password === formContent.PasswordCheck) {
-    const response = await useFetch<any>('/api/auth/register', {
+    const response = await useFetch<any>('/api/auth/registerUser', {
       method: 'POST',
       body: {
         data: formContent
       }
     })
-    const loginForm : LoginForm = {
+    const loginForm: LoginForm = {
       Email: formContent.Email,
       Password: formContent.Password
     }
@@ -66,7 +65,7 @@ const register = async (formContent: UserForm) => {
 const getTokenState = () => state.hasToken
 
 // exports
-export const store = readonly({
+export const userStore = readonly({
   state: state,
   do: {
     login,
