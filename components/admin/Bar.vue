@@ -8,6 +8,6 @@
   import { store } from '~~/store'
 
   const logout = () => {
-    store.do.setLoginState(false)
+    store.do.setTokenState(false)
   }
 </script>

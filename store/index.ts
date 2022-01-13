@@ -1,14 +1,19 @@
 import { reactive, readonly, } from "vue"
 import { User } from '~~/types'
+import { useCookie } from "nuxt3"
 
 // externals
 const initialState = {
-  isLoggedIn: false
+  hasToken: false
 }
 
 const state = reactive({
   ...initialState
 })
+
+const setTokenState = (hasToken : boolean) => {
+  state.hasToken = hasToken
+}
 
 const login = async (formContent) => {
   const response = await useFetch('/api/auth/login', {
@@ -17,7 +22,7 @@ const login = async (formContent) => {
       data: formContent
     }
   })
-  setLoginState(true)
+  setTokenState(true)
   return response
 }
 
@@ -38,13 +43,7 @@ const register = async (formContent: User) => {
   }
 }
 
-const setLoginState = (loginState: boolean) => {
-  state.isLoggedIn = loginState
-}
-
-const getLoginState = computed(() => {
-  return state.isLoggedIn
-})
+const getTokenState = () => state.hasToken
 
 // exports
 export const store = readonly({
@@ -52,10 +51,10 @@ export const store = readonly({
   do: {
     login,
     register,
-    setLoginState
+    setTokenState
   },
   get: {
-    getLoginState
+    getTokenState
   }
 })
 

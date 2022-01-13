@@ -7,7 +7,7 @@
   </Html>
 
   <AdminBar 
-    v-if="isLoggedIn()"/>
+    v-if="isLoggedIn"/>
 
   <slot name="404" />
   <slot />
@@ -26,5 +26,5 @@
     }
   })
 
-  const isLoggedIn = () => store.get.getLoginState
+  const isLoggedIn = computed(() => store.get.getTokenState())
 </script>

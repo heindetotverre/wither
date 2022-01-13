@@ -32,9 +32,14 @@ const update = (res, db, requestBody) => {
   return 'logged is triggered'
 }
 
+const token = (res : ServerResponse, db : Db, method : string) => {
+  return !!method
+}
+
 export {
   login,
   register,
+  token,
   update
 }
 
