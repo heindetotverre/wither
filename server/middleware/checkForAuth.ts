@@ -7,7 +7,7 @@ import { Token } from '~~/types'
 export default async (req: IncomingMessage, res: ServerResponse, next) => {
   const client = await mongoConnect()
   const cookie = useCookie(req, 'witherLoginToken') as any
-  if (JSON.parse(cookie)) {
+  if (typeof cookie === 'string') {
     const token = await manageToken(client.db, 'get', JSON.parse(cookie).id) as Token
     if (!token) {
       setCookie(res, 'witherLoginToken', null, { path: '/' })
