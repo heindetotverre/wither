@@ -6,7 +6,9 @@ Make sure you have mongo community server installed and you have mongod availabl
 ## Setup
 
 npm install
+
 mongod -dbpath *path_to_project*\db
+
 npm run dev
 
 ## Development and usage
