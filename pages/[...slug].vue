@@ -19,8 +19,8 @@
   const renderer = ref('')
   const search = getUrlPath().last
   const pages = pagesIndex
-  const hasToken = useCookie<string>('witherLoginToken')
-  await userStore.do.setTokenState(hasToken.value)
+  const tokenId = useCookie<string>('witherLoginToken')
+  await userStore.do.setTokenState(tokenId.value)
 
   renderer.value = getUrlPath().full[0] === 'admin' || !pages.find(page => page.name === 'home')
     ? 'renderAdmin'

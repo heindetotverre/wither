@@ -11,8 +11,8 @@ const state = reactive({
   ...initialState
 })
 
-const setTokenState = (hasToken: string) => {
-  state.hasToken = !!hasToken
+const setTokenState = (tokenId: string) => {
+  state.hasToken = !!tokenId
 }
 
 const login = async (formContent: LoginForm) => {
@@ -45,7 +45,10 @@ const register = async (formContent: UserForm) => {
     const response = await useFetch<any>('/api/auth/registerUser', {
       method: 'POST',
       body: {
-        data: formContent
+        data: {
+          Group: 'default',
+          ...formContent
+        }
       }
     })
     const loginForm: LoginForm = {

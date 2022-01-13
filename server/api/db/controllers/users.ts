@@ -31,7 +31,7 @@ const loginUser = async (res: ServerResponse, db: Db, requestBody: RequestObject
     const userByEmail = await db.collection('users').findOne({ Email: requestBody.data.Email })
     if (userByEmail) {
       if (userByEmail.Password === requestBody.data.Password) {
-        const createdToken = await manageToken(db, 'set', requestBody.data.Email) as Token
+        const createdToken = await manageToken(db, 'set', userByEmail) as Token
         setCookie(res, 'witherLoginToken', JSON.stringify({ id: createdToken.uuid }), { path: '/' })
         send(res, JSON.stringify({
           message: 'UserLoggedIn',
@@ -65,7 +65,7 @@ const logoutUser = async (res: ServerResponse, db: Db, requestBody: RequestObjec
   }
 }
 
-const manageToken = (db: Db, method: string, param: string) => {
+const manageToken = (db: Db, method: string, param: any) => {
   checkCollectionAndCreate(db, 'tokens')
   garbageCollect(db)
   return method === 'set'
@@ -118,12 +118,12 @@ const insertUser = async (db: Db, requestBody: RequestObject): Promise<boolean> 
   return addUser.acknowledged
 }
 
-const setToken = async (db: Db, userMail: string): Promise<Token> => {
+const setToken = async (db: Db, user: UserForm): Promise<Token> => {
   const now = new Date()
   const token: Token = {
     uuid: createUUID(),
-    user: userMail,
-    group: 'default',
+    user: user.Email,
+    group: user.Group,
     created: now.getTime()
   }
   const setToken = await db.collection('tokens').insertOne(token)
