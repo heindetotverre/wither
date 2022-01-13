@@ -26,15 +26,13 @@ interface FormField {
   id: string
 }
 
-interface ServerResponseMessage {
-  data?: any,
-  message: string,
-  description: string
+interface RequestObject {
+  data: any
 }
 
 export {
   FormField,
   Page,
-  User,
-  ServerResponseMessage
+  RequestObject,
+  User
 }

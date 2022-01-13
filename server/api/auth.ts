@@ -14,10 +14,10 @@ export default async (req: IncomingMessage, res: ServerResponse) => {
   }
 
   if (req.url.includes('register')) {
-    return await register(client.db, body)
+    await register(res, client.db, body)
   }
 
   if (req.url.includes('login')) {
-    return await login(client.db, body)
+    await login(res, client.db, body)
   }
 }

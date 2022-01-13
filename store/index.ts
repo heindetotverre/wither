@@ -1,5 +1,5 @@
 import { reactive, readonly, } from "vue"
-import { User, ServerResponseMessage } from '~~/types'
+import { User } from '~~/types'
 
 // externals
 const initialState = {
@@ -11,37 +11,28 @@ const state = reactive({
 })
 
 const login = async (formContent) => {
-  const { data } = await useFetch('/api/auth/login', {
+  const response = await useFetch('/api/auth/login', {
     method: 'POST',
     body: {
       data: formContent
     }
   })
   setLoginState(true)
-  return data.value
+  return response
 }
 
-const register = async (formContent: User): Promise<ServerResponseMessage> => {
+const register = async (formContent: User) => {
   if (formContent.Password === formContent.PasswordCheck) {
-    try {
-      const { data } = await useFetch('/api/auth/register', {
-        method: 'POST',
-        body: {
-          data: formContent
-        }
-      })
-      setLoginState(true)
-      if (data.value && data.value.message === 'UserRegistrated') {
-        return data.value
-      } else {
-        throw new Error
+    const response = await useFetch('/api/auth/register', {
+      method: 'POST',
+      body: {
+        data: formContent
       }
-    } catch (error) {
-      return error
-    }
+    })
+    return response
   } else {
     return {
-      message: 'UserNotRegistrated',
+      message: 'UserNotInserted',
       description: "Passwords do not match"
     }
   }

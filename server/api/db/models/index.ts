@@ -4,19 +4,19 @@ import { Page, User } from '~~/types'
 const schema = mongoose.Schema
 
 const UserSchema = new schema<User>({
-  firstName: {
+  FirstName: {
     type: String,
     required: true
   },
-  lastName: {
+  LastName: {
     type: String,
     required: true
   },
-  email: {
+  Email: {
     type: String,
     required: true
   },
-  password: {
+  Password: {
     type: String,
     required: true
   }
