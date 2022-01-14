@@ -66,7 +66,6 @@ const logoutUser = async (res: ServerResponse, db: Db, requestBody: RequestObjec
 }
 
 const manageToken = (db: Db, method: string, param: any) => {
-  checkCollectionAndCreate(db, 'tokens')
   garbageCollect(db)
   return method === 'set'
     ? setToken(db, param)

@@ -8,7 +8,8 @@ export default async (req: IncomingMessage, res: ServerResponse, next) => {
   const client = await mongoConnect()
   const cookie = useCookie(req, 'witherLoginToken') as any
   if (typeof cookie === 'string') {
-    const token = await manageToken(client.db, 'get', JSON.parse(cookie).id) as Token
+    const tokenId = JSON.parse(cookie)?.id
+    const token = await manageToken(client.db, 'get', tokenId) as Token
     if (!token) {
       setCookie(res, 'witherLoginToken', null, { path: '/' })
     } else {
