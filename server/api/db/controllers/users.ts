@@ -106,6 +106,7 @@ const updateUser = (res: ServerResponse, db: Db, requestBody: RequestObject) => 
 }
 
 export {
+  deleteUser,
   loginUser,
   logoutUser,
   manageToken,

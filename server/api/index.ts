@@ -1,7 +1,7 @@
 import { IncomingMessage, ServerResponse } from 'http'
 import { useBody } from 'h3'
 import mongoConnect from './db'
-import { loginUser, logoutUser, registerUser, returnUser, updateUser } from './db/controllers/users'
+import { deleteUser, loginUser, logoutUser, registerUser, returnUser, updateUser } from './db/controllers/users'
 import { getPages } from './db/controllers/pages'
 import { checkCollectionAndCreate } from './db/tools/checkCollectionAndCreate'
 
@@ -21,11 +21,14 @@ export default async (req: IncomingMessage, res: ServerResponse) => {
     await registerUser(res, client.db, body)
   }
 
+  if (req.url === '/user/deleteUser') {
+    await deleteUser(res, client.db, body)
+  }
   if (req.url === '/user/getUser') {
     await returnUser(res, client.db, body)
   }
   if (req.url === '/user/updateUser') {
-    await returnUser(res, client.db, body)
+    await updateUser(res, client.db, body)
   }
 
   if (req.url === '/pages/getPages') {
