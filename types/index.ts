@@ -8,21 +8,29 @@ interface Page {
   meta: Record<string, any>
 }
 
-interface UserForm {
+interface User {
   Group: string,
   FirstName: string,
   LastName: string,
   Email: string,
-  Password: string,
-  PasswordCheck?: string
+  Password: string
+}
+
+interface UserForm {
+  FirstName: User['FirstName'],
+  LastName: User['LastName'],
+  Email: User['Email'],
+  Password: User['Password'],
+  PasswordCheck?: User['Password']
 }
 
 interface LoginForm {
-  Email: UserForm['Email'],
-  Password: UserForm['Password']
+  Email: User['Email'],
+  Password: User['Password']
 }
 
 interface FormField {
+  autocomplete?: string,
   class: string,
   component: string,
   key: string,
@@ -48,6 +56,7 @@ export {
   LoginForm,
   Page,
   RequestObject,
+  User,
   UserForm,
   Token
 }

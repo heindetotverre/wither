@@ -1,7 +1,7 @@
 import { IncomingMessage, ServerResponse } from 'http'
 import { useBody } from 'h3'
 import mongoConnect from './db'
-import { loginUser, logoutUser, registerUser } from './db/controllers/users'
+import { loginUser, logoutUser, registerUser, returnUser, updateUser } from './db/controllers/users'
 import { getPages } from './db/controllers/pages'
 import { checkCollectionAndCreate } from './db/tools/checkCollectionAndCreate'
 
@@ -19,6 +19,13 @@ export default async (req: IncomingMessage, res: ServerResponse) => {
   }
   if (req.url === '/auth/registerUser') {
     await registerUser(res, client.db, body)
+  }
+
+  if (req.url === '/user/getUser') {
+    await returnUser(res, client.db, body)
+  }
+  if (req.url === '/user/updateUser') {
+    await returnUser(res, client.db, body)
   }
 
   if (req.url === '/pages/getPages') {

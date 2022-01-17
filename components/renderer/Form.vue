@@ -3,6 +3,7 @@
     <component
       v-for="field in formFields"
       :is="field.component"
+      :autocomplete="field.autocomplete"
       :disabled="isDisabled(field)"
       :id="field.id"
       :label="field.label"

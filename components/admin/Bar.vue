@@ -1,6 +1,11 @@
 <template>
   <div>
-    <NuxtLink to="/admin">Go to admin dashboard</NuxtLink>
+    <NuxtLink :to="urlPath === ''
+      ? '/admin'
+      : '/'">{{ urlPath === ''
+        ? 'Go to to admin'
+        : 'Go to website' }}
+    </NuxtLink>
     <button @click="logout()">Log out</button>
   </div>
 </template>
@@ -11,4 +16,6 @@
     await userStore.do.logout()
     useRouter().push('/')
   }
+
+  const urlPath = useRoute().params.slug
 </script>

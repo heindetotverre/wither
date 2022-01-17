@@ -4,7 +4,8 @@ import { UserForm, LoginForm } from '~~/types'
 // externals
 const initialState = {
   hasToken: false,
-  tokenId: ''
+  tokenId: '',
+  user: {}
 }
 
 const state = reactive({
@@ -25,6 +26,7 @@ const login = async (formContent: LoginForm) => {
   if (response.data.value) {
     state.hasToken = true
     state.tokenId = response.data.value.tokenId
+    state.user = response.data.value.user
   }
   return response
 }
@@ -51,11 +53,13 @@ const register = async (formContent: UserForm) => {
         }
       }
     })
-    const loginForm: LoginForm = {
-      Email: formContent.Email,
-      Password: formContent.Password
+    if (!response.error) {
+      const loginForm : LoginForm = {
+        Email: formContent.Email,
+        Password: formContent.Password
+      }
+      await login(loginForm)
     }
-    await login(loginForm)
     return response
   } else {
     return {
@@ -67,6 +71,8 @@ const register = async (formContent: UserForm) => {
 
 const getTokenState = () => state.hasToken
 
+const getUser = () => state.user
+
 // exports
 export const userStore = readonly({
   state: state,
@@ -77,7 +83,8 @@ export const userStore = readonly({
     setTokenState
   },
   get: {
-    getTokenState
+    getTokenState,
+    getUser
   }
 })
 

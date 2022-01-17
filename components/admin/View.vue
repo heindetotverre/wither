@@ -1,15 +1,20 @@
 <template>
   <NuxtLayout name="admin"></NuxtLayout>
   <div v-if="isLoggedIn">
-    <NuxtLink to="/">Go to your website</NuxtLink>
+    <NuxtLink to="/admin">Go to your dashboard</NuxtLink>
     <NuxtLink to="/admin/page-management">Manage your pages</NuxtLink>
   </div>
   <AdminLogin 
     v-if="!isLoggedIn"/>
-  <PageManagement 
-    v-if="isLoggedIn && search === 'page-management'"/>
-  <PageCreation
-    v-if="isLoggedIn && search === 'page-creation'"/>
+  <div v-if="isLoggedIn ">
+    <UserManagement
+      v-if="search === 'admin'"
+      :user="user" />
+    <PageManagement 
+      v-if="search === 'page-management'"/>
+    <PageCreation
+      v-if="search === 'page-creation'"/>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -18,4 +23,5 @@
 
   const search = getUrlPath().last
   const isLoggedIn = computed(() => userStore.get.getTokenState())
+  const user = computed(() => userStore.get.getUser())
 </script>

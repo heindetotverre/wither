@@ -2,6 +2,7 @@
   <label :for="id">{{ label }}</label>
   <input
     :id="id"
+    :autocomplete="autocomplete"
     :value="currentValue"
     :type="type"
     :disabled="disabled"
@@ -17,7 +18,10 @@
     id: {
       type: String,
       required: true
-    },      
+    },
+    autocomplete: {
+      type: String
+    },
     name: {
       type: String,
       required: true

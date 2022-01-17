@@ -1,26 +1,12 @@
 import { Db } from 'mongodb'
 import { ServerResponse } from 'http'
 import { createError, sendError, send, setCookie } from 'h3'
-import { UserForm, RequestObject, Token } from '~~/types'
+import { User, UserForm, RequestObject, Token } from '~~/types'
 import { createUUID } from '~~/utils'
-import { checkCollectionAndCreate } from '../tools/checkCollectionAndCreate'
 
-const registerUser = async (res: ServerResponse, db: Db, requestBody: RequestObject) => {
+const deleteUser = async (res: ServerResponse, db: Db, requestBody: RequestObject) => {
   try {
-    const exisitingUser = await db.collection('users').findOne({ Email: requestBody.data.Email })
-    if (!exisitingUser) {
-      const isUserInserted = await insertUser(db, requestBody)
-      if (isUserInserted) {
-        send(res, JSON.stringify({
-          message: 'UserInserted',
-          user: requestBody.data
-        }))
-      } else {
-        createError({ statusCode: 500, statusMessage: 'UserNotInserted', data: 'User was not inserted' })
-      }
-    } else {
-      throw createError({ statusCode: 500, statusMessage: 'UserAlreadyExists', data: 'User already exists' })
-    }
+
   } catch (error) {
     sendError(res, error)
   }
@@ -74,8 +60,49 @@ const manageToken = (db: Db, method: string, param: any) => {
       : deleteToken(db, param)
 }
 
-const updateUser = (res, db, requestBody) => {
-  return 'logged is triggered'
+const registerUser = async (res: ServerResponse, db: Db, requestBody: RequestObject) => {
+  try {
+    const exisitingUser = await db.collection('users').findOne({ Email: requestBody.data.Email })
+    if (!exisitingUser) {
+      const isUserInserted = await insertUser(db, requestBody)
+      if (isUserInserted) {
+        send(res, JSON.stringify({
+          message: 'UserInserted',
+          user: requestBody.data
+        }))
+      } else {
+        throw createError({ statusCode: 500, statusMessage: 'UserNotInserted', data: 'User was not inserted' })
+      }
+    } else {
+      throw createError({ statusCode: 500, statusMessage: 'UserAlreadyExists', data: 'User already exists' })
+    }
+  } catch (error) {
+    sendError(res, error)
+  }
+}
+
+const returnUser = async (res: ServerResponse, db: Db, requestBody: RequestObject) => {
+  try {
+    const user = await db.collection('users').findOne({ Email: requestBody.data.Email })
+    if (user) {
+      send(res, JSON.stringify({
+        message: 'UserFound',
+        user: user
+      }))
+    } else {
+      throw createError({ statusCode: 500, statusMessage: 'UserNotFound', data: `User was not found with email ${requestBody.data.Email}` })
+    }
+  } catch (error) {
+    sendError(res, error)
+  }
+}
+
+const updateUser = (res: ServerResponse, db: Db, requestBody: RequestObject) => {
+  try {
+
+  } catch (error) {
+    sendError(res, error)
+  }
 }
 
 export {
@@ -83,6 +110,7 @@ export {
   logoutUser,
   manageToken,
   registerUser,
+  returnUser,
   updateUser
 }
 
@@ -117,7 +145,7 @@ const insertUser = async (db: Db, requestBody: RequestObject): Promise<boolean> 
   return addUser.acknowledged
 }
 
-const setToken = async (db: Db, user: UserForm): Promise<Token> => {
+const setToken = async (db: Db, user: User): Promise<Token> => {
   const now = new Date()
   const token: Token = {
     uuid: createUUID(),
