@@ -2,14 +2,12 @@
 
 A basic page server and content builder built in Nuxt3
 
-Make sure you have mongo community server installed and you have mongod available
+Make sure you have mongo community server installed and you have mongod executable available
 ## Setup
 
 npm install
 
 mongod -dbpath *path_to_project*\db
-
-npm run dev
 
 ## Development and usage
 
