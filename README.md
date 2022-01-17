@@ -9,8 +9,6 @@ npm install
 
 mongod -dbpath *path_to_project*\db
 
-npm run dev
-
 ## Development and usage
 
 npm run dev
