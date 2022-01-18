@@ -34,4 +34,6 @@ export default async (req: IncomingMessage, res: ServerResponse) => {
   if (req.url === '/pages/getPages') {
     await getPages(res, client.db, body)
   }
+
+  await client.close()
 }
