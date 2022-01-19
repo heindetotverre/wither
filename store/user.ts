@@ -13,7 +13,10 @@ const state = reactive({
 })
 
 const setTokenState = (tokenId: string) => {
-  state.hasToken = !!tokenId
+  if(tokenId) {
+    state.tokenId = tokenId
+    state.hasToken = !!tokenId
+  }
 }
 
 const login = async (formContent: LoginForm) => {
@@ -53,7 +56,7 @@ const register = async (formContent: UserForm) => {
         }
       }
     })
-    if (!response.error) {
+    if (response.data.value?.message === 'UserInserted') {
       const loginForm : LoginForm = {
         Email: formContent.Email,
         Password: formContent.Password
@@ -71,7 +74,11 @@ const register = async (formContent: UserForm) => {
 
 const getTokenState = () => state.hasToken
 
-const getUser = () => state.user
+const getUser = () => {
+  return Object.keys(state.user).length
+    ? state.user
+    : getUserByTokenId()
+}
 
 // exports
 export const userStore = readonly({
@@ -89,3 +96,16 @@ export const userStore = readonly({
 })
 
 // internals
+const getUserByTokenId = async () => {
+  console.log('store section for get user by id')
+  const response = await useFetch<any>('/api/user/loginUser', {
+    method: 'POST',
+    body: {
+      data: state.tokenId
+    }
+  })
+  if (response.data.value) {
+    state.user = response.data.value.user
+  }
+  return response
+}

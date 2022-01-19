@@ -11,6 +11,8 @@ export default async (req: IncomingMessage, res: ServerResponse) => {
 
   checkCollectionAndCreate(client.db)
 
+  console.log(req.url)
+
   if (req.url === '/auth/loginUser') {
     await loginUser(res, client.db, body)
   }

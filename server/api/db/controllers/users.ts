@@ -3,6 +3,7 @@ import { ServerResponse } from 'http'
 import { createError, sendError, send, setCookie } from 'h3'
 import { User, UserForm, RequestObject, Token } from '~~/types'
 import { createUUID } from '~~/utils'
+import { userStore } from '~~/store/user'
 
 const deleteUser = async (res: ServerResponse, db: Db, requestBody: RequestObject) => {
   try {
@@ -83,12 +84,15 @@ const registerUser = async (res: ServerResponse, db: Db, requestBody: RequestObj
 
 const returnUser = async (res: ServerResponse, db: Db, requestBody: RequestObject) => {
   try {
-    const user = await db.collection('users').findOne({ Email: requestBody.data.Email })
+    console.log('RETURN USER API CONTROLLER')
+    const token = await db.collection('tokens').findOne({ uuid: requestBody.data.id })
+    const user = await db.collection('users').findOne({ Email: token.Email })
     if (user) {
       send(res, JSON.stringify({
         message: 'UserFound',
         user: user
       }))
+      return
     } else {
       throw createError({ statusCode: 500, statusMessage: 'UserNotFound', data: `User was not found with email ${requestBody.data.Email}` })
     }
