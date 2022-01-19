@@ -74,10 +74,11 @@ const register = async (formContent: UserForm) => {
 
 const getTokenState = () => state.hasToken
 
-const getUser = () => {
-  return Object.keys(state.user).length
+const getUser = async () => {
+  const user = await getUserByTokenId()
+  return state.user && Object.keys(state.user).length
     ? state.user
-    : getUserByTokenId()
+    : user
 }
 
 // exports
@@ -97,15 +98,17 @@ export const userStore = readonly({
 
 // internals
 const getUserByTokenId = async () => {
-  console.log('store section for get user by id')
-  const response = await useFetch<any>('/api/user/loginUser', {
+  const response = await useFetch<any>('/api/user/getUser', {
     method: 'POST',
     body: {
       data: state.tokenId
     }
   })
   if (response.data.value) {
-    state.user = response.data.value.user
+    const user = typeof response.data.value === 'string'
+      ? JSON.parse(response.data.value).user
+      : response.data.value.user
+    state.user = user
+    return user
   }
-  return response
 }

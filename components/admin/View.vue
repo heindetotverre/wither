@@ -21,7 +21,9 @@
   import { getUrlPath } from '~~/utils'
   import { userStore } from '~~/store/user'
 
-  const search = getUrlPath().last
   const isLoggedIn = computed(() => userStore.get.getTokenState())
-  const user = computed(() => userStore.get.getUser())
+  const user = ref({})
+  const search = getUrlPath().last
+
+  user.value = await userStore.get.getUser()
 </script>

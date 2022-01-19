@@ -84,17 +84,19 @@ const registerUser = async (res: ServerResponse, db: Db, requestBody: RequestObj
 
 const returnUser = async (res: ServerResponse, db: Db, requestBody: RequestObject) => {
   try {
-    console.log('RETURN USER API CONTROLLER')
-    const token = await db.collection('tokens').findOne({ uuid: requestBody.data.id })
-    const user = await db.collection('users').findOne({ Email: token.Email })
-    if (user) {
-      send(res, JSON.stringify({
-        message: 'UserFound',
-        user: user
-      }))
-      return
+    const token = await db.collection('tokens').findOne({ uuid: requestBody.data })
+    if (token) {
+      const user = await db.collection('users').findOne({ Email: token.user })
+      if (user) {
+        send(res, JSON.stringify({
+          message: 'UserFound',
+          user: user
+        }))
+      } else {
+        throw createError({ statusCode: 500, statusMessage: 'UserNotFound', data: `User was not found with email ${requestBody.data.Email}` })
+      }
     } else {
-      throw createError({ statusCode: 500, statusMessage: 'UserNotFound', data: `User was not found with email ${requestBody.data.Email}` })
+      throw createError({ statusCode: 500, statusMessage: 'TokenNotFound', data: `There was no token found to fetch a user with token id ${requestBody.data.id}`  })
     }
   } catch (error) {
     sendError(res, error)
