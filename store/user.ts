@@ -13,10 +13,8 @@ const state = reactive({
 })
 
 const setTokenState = (tokenId: string) => {
-  if(tokenId) {
-    state.tokenId = tokenId
-    state.hasToken = !!tokenId
-  }
+  state.tokenId = tokenId
+  state.hasToken = !!tokenId
 }
 
 const login = async (formContent: LoginForm) => {
