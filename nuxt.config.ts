@@ -3,8 +3,7 @@ import { defineNuxtConfig } from 'nuxt3'
 // https://v3.nuxtjs.org/docs/directory-structure/nuxt.config
 export default defineNuxtConfig({
   serverMiddleware: [
-    { path: '/api', handler: '~/server/api/index.ts' },
-    { path: '/favicon.ico', handler: '~/public/favicon.ico' }
+    { path: '/api', handler: '~/server/api/index.ts' }
   ],
   meta: {
     meta: [
