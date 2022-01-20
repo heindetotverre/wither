@@ -7,12 +7,12 @@
   <AdminLogin 
     v-if="!isLoggedIn"/>
   <div v-if="isLoggedIn ">
-    <UserManagement
+    <AdminUserManagement
       v-if="search === 'admin'"
       :user="user" />
-    <PageManagement 
+    <AdminPageManagement 
       v-if="search === 'page-management'"/>
-    <PageCreation
+    <AdminPageCreation
       v-if="search === 'page-creation'"/>
   </div>
 </template>
@@ -24,6 +24,7 @@
   const isLoggedIn = computed(() => userStore.get.getTokenState())
   const user = ref({})
   const search = getUrlPath().last
-
-  user.value = await userStore.get.getUser()
+  if (isLoggedIn.value) {
+    user.value = await userStore.get.getUser()
+  }
 </script>

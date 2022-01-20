@@ -1,5 +1,8 @@
 <template>
-  {{ user }}
+  <div v-for="(user, index) of userInfo"
+    :key="index">
+    {{ user }}
+  </div>
 </template>
 <script setup lang="ts">
   const props = defineProps({
@@ -9,7 +12,7 @@
     }
   })
 
-  onMounted(() => {
-    
-  })
+  const userInfo = ref(
+    Object.entries(props.user)
+  )
 </script>

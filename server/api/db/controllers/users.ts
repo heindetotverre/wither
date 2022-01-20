@@ -96,7 +96,7 @@ const returnUser = async (res: ServerResponse, db: Db, requestBody: RequestObjec
         throw createError({ statusCode: 500, statusMessage: 'UserNotFound', data: `User was not found with email ${requestBody.data.Email}` })
       }
     } else {
-      throw createError({ statusCode: 500, statusMessage: 'TokenNotFound', data: `There was no token found to fetch a user with token id ${requestBody.data.id}`  })
+      throw createError({ statusCode: 500, statusMessage: 'TokenNotFound', data: `There was no token found to fetch a user with token id ${requestBody.data}` })
     }
   } catch (error) {
     sendError(res, error)
@@ -140,9 +140,7 @@ const garbageCollect = async (db: Db) => {
 }
 
 const getToken = async (db: Db, tokenId) => {
-  if (tokenId) {
-    return await db.collection('tokens').findOne({ uuid: tokenId })
-  }
+  return await db.collection('tokens').findOne({ uuid: tokenId })
 }
 
 const insertUser = async (db: Db, requestBody: RequestObject): Promise<boolean> => {
