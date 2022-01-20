@@ -1,7 +1,8 @@
 {
   "scripts": {
     "dokku": {
-      "predeploy": "npm run build"
+      "predeploy": "npm run build",
+      "postdeploy": "npm run start"
     }
   }
 }
