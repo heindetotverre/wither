@@ -4,7 +4,7 @@ import { defineNuxtConfig } from 'nuxt3'
 export default defineNuxtConfig({
   serverMiddleware: [
     { path: '/api', handler: '~/server/api/index.ts' },
-    { path: '/favicon.ico', handler: '~/favicon.ico' }
+    { path: '/favicon.ico', handler: '~/public/favicon.ico' }
   ],
   meta: {
     meta: [
