@@ -1,22 +1,22 @@
 [
   {
     "type":  "header",
-    "component": "PageComponentsHeader",
+    "key": "PageComponentsHeader",
     "id": "1"
   },
   {
     "type":  "text",
-    "component": "PageComponentsText",
+    "key": "PageComponentsText",
     "id": "2"
   },
   {
     "type":  "footer",
-    "component": "PageComponentsFooter",
+    "key": "PageComponentsFooter",
     "id": "3"
   },
   {
     "type":  "navigation",
-    "component": "PageComponentsNavigation",
+    "key": "PageComponentsNavigation",
     "id": "4"
   }
 ]

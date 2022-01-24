@@ -37,6 +37,10 @@
     type: {
       type: String,
       default: 'text'
+    },
+    options: {
+      type: Array, 
+      default: []
     }
   })
 

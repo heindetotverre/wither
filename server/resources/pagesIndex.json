@@ -28,7 +28,7 @@
           {
             "slug": "/child-level-even-deeper",
             "level": 3,
-            "name": "Demo page with a parent and no children",
+            "name": "Demo child page with a parent and children",
             "id": 5,
             "children": [
               {

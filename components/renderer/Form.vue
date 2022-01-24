@@ -10,6 +10,7 @@
       :key="field.key"
       :name="field.key"
       :type="field.type"
+      :options="field.options"
       v-model="formValues[field.key]">
       <slot></slot>
     </component>
@@ -43,8 +44,7 @@
   const formValues = ref<Record<string, any>>({})
 
   const isDisabled = (field) => {
-    const state = field.class === 'Button' && validation()
-    return state
+    return field.class === 'Button' && validation()
   }
 
   const validation = () => {

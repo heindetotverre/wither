@@ -1,7 +1,7 @@
 <template>
   <div>
     <CookieWall v-if="cookie !== 'cookieWallAccepted'" />
-    <AdminView
+    <Admin
       v-if="renderer === 'renderAdmin'"/>
     <RendererPage
       v-if="renderer === 'renderPage'"
