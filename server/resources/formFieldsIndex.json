@@ -3,21 +3,24 @@
     "class": "TextInput",
     "component": "UiInput",
     "type": "text",
-    "required": true
+    "required": true,
+    "validator": "notempty"
   },
   {
     "class": "EmailInput",
     "component": "UiInput",
     "key": "Email",
     "type": "email",
-    "required": true
+    "required": true,
+    "validator": "email"
   },
   {
     "class": "PasswordInput",
     "component": "UiInput",
     "key": "Password",
     "type": "password",
-    "required": true
+    "required": true,
+    "validator": "notempty"
   },
   {
     "class": "Button",

@@ -11,7 +11,6 @@
       :name="field.key"
       :type="field.type"
       :options="field.options"
-      :validators="mappedValidators(field.validator)"
       v-model="formValues[field.key]">
       <slot></slot>
     </component>
@@ -25,13 +24,16 @@
   </form>
 </template>
 <script setup lang="ts">
-  import { PropType } from 'vue'
+  import { PropType, watch } from 'vue'
   import validators from '~~/utils/validators'
 
   const props = defineProps({
     form: {
       type: Array as PropType<Array<any>>,
       required: true
+    },
+    updatedForm: {
+      type: Array as PropType<Array<any>>
     }
   })
 
@@ -43,23 +45,31 @@
     'submit'
   ])
 
+  watch(() => props.updatedForm, () => {
+    console.log('update form')
+    formValues.value = props.updatedForm
+  })
+
   const formValues = ref<Record<string, any>>({})
 
   const isDisabled = (field) => {
-    return field.class === 'Button' && validation()
-  }
-
-  const mappedValidators = (validator) => {
-    return validators[validator]
+    return field.disabled
+      ? field.disabled
+      : field.class === 'Button' && validation()
   }
 
   const validation = () => {
-    const fieldsToValidate = props.form.filter(field => field.required)
+    const fieldsToValidate = props.form.filter(field => field.validator)
     const notValidated = []
     for (const singleFieldToValidate of fieldsToValidate) {
-      !formValues.value[singleFieldToValidate.key]
-        ? notValidated.push(singleFieldToValidate)
-        : notValidated.filter(field => field.key !== singleFieldToValidate.key)
+      const fieldKey = singleFieldToValidate.key
+      const fieldValidator = validators[singleFieldToValidate.validator]
+      const fieldValue = formValues.value[fieldKey]
+      if (fieldValidator) {
+        !fieldValidator(fieldValue)
+          ? notValidated.push(singleFieldToValidate)
+          : notValidated.filter(field => field.key !== fieldKey)
+      }
     }
     return notValidated.length !== 0
   }

@@ -3,21 +3,24 @@
     <p>Create a page</p>
     <RendererForm
       :form="createPageForm"
+      :updated-form="updatedForm"
       @submit="createPage($event)"/>
     <NuxtLink to="/admin/page-management">Cancel</NuxtLink>
   </div>
 </template>
 <script setup lang="ts">
   import formFieldsIndex from '~~/server/resources/formFieldsIndex.json'
-  import pagesIndex from '~~/server/resources/pagesIndex.json'
   import pageComponents from '~~/server/resources/pageComponentIndex.json'
+  import { pageStore } from '~~/store/pages'
   import { createId, flattenObject } from '~~/utils/index'
   import { FormField } from '~~/types'
 
   const formName = 'createPage'
-  const pageNames = () => flattenObject(pagesIndex).map(page => page.name)
+  const pages = await pageStore.get.getPages()
+  const pageNames = () => flattenObject(pages).map(page => page.name)
   const componentKeys = () => pageComponents.map(component => component.key)
 
+  const updatedForm = ref([])
   const createPageForm = ref([
     { ...formFieldsIndex.find(field => field.class === 'TextInput'), label: 'name', key: 'Name', id: createId(formName)},
     { ...formFieldsIndex.find(field => field.class === 'TextInput'), label: 'slug', key: 'Slug', id: createId(formName), validator: 'slug'},
@@ -25,6 +28,12 @@
     { ...formFieldsIndex.find(field => field.class === 'SelectInput'), label: 'components', key: 'PageComponents', options: componentKeys(), id: createId(formName)},
     { ...formFieldsIndex.find(field => field.class === 'Button'), label: 'Save', key: 'SavePage', id: createId(formName)}
   ] as Array<FormField>)
+
+  onMounted(() => {
+    if (!pages.length) {
+      updatedForm.value = [{ Name: 'home' },{ Slug: '/' }]
+    }
+  })
 
   const createPage = (formSubmitEvent) => {
 
