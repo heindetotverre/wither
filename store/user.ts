@@ -55,7 +55,7 @@ const register = async (formContent: UserForm) => {
       }
     })
     if (response.data.value?.message === 'UserInserted') {
-      const loginForm : LoginForm = {
+      const loginForm: LoginForm = {
         Email: formContent.Email,
         Password: formContent.Password
       }

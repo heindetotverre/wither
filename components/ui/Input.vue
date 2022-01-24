@@ -41,6 +41,10 @@
     options: {
       type: Array, 
       default: []
+    },
+    validators: {
+      type: Function,
+      default: () => true
     }
   })
 
@@ -52,6 +56,7 @@
   const currentValue = ref<String>('')
 
   onMounted (() => {
+    console.log(props.validators)
     currentValue.value = props.modelValue
   })
 

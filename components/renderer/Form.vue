@@ -11,6 +11,7 @@
       :name="field.key"
       :type="field.type"
       :options="field.options"
+      :validators="mappedValidators(field.validator)"
       v-model="formValues[field.key]">
       <slot></slot>
     </component>
@@ -25,6 +26,7 @@
 </template>
 <script setup lang="ts">
   import { PropType } from 'vue'
+  import validators from '~~/utils/validators'
 
   const props = defineProps({
     form: {
@@ -45,6 +47,10 @@
 
   const isDisabled = (field) => {
     return field.class === 'Button' && validation()
+  }
+
+  const mappedValidators = (validator) => {
+    return validators[validator]
   }
 
   const validation = () => {

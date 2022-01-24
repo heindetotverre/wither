@@ -43,6 +43,10 @@
     options: {
       type: Array, 
       default: []
+    },
+    validators: {
+      type: Function,
+      default: () => true
     }
   })
 

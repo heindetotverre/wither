@@ -18,11 +18,9 @@
   const pageNames = () => flattenObject(pagesIndex).map(page => page.name)
   const componentKeys = () => pageComponents.map(component => component.key)
 
-  console.log(pageNames(), componentKeys())
-
   const createPageForm = ref([
-    { ...formFieldsIndex.find(field => field.class === 'TextInput'), label: 'title', key: 'Title', id: createId(formName)},
-    { ...formFieldsIndex.find(field => field.class === 'TextInput'), label: 'slug', key: 'Slug', id: createId(formName)},
+    { ...formFieldsIndex.find(field => field.class === 'TextInput'), label: 'name', key: 'Name', id: createId(formName)},
+    { ...formFieldsIndex.find(field => field.class === 'TextInput'), label: 'slug', key: 'Slug', id: createId(formName), validator: 'slug'},
     { ...formFieldsIndex.find(field => field.class === 'SelectInput'), label: 'parent', key: 'ParentPage', options: pageNames(), id: createId(formName)},
     { ...formFieldsIndex.find(field => field.class === 'SelectInput'), label: 'components', key: 'PageComponents', options: componentKeys(), id: createId(formName)},
     { ...formFieldsIndex.find(field => field.class === 'Button'), label: 'Save', key: 'SavePage', id: createId(formName)}

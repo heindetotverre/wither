@@ -3,7 +3,6 @@ import { ServerResponse } from 'http'
 import { createError, sendError, send, setCookie } from 'h3'
 import { User, UserForm, RequestObject, Token } from '~~/types'
 import { createUUID } from '~~/utils'
-import { userStore } from '~~/store/user'
 
 const deleteUser = async (res: ServerResponse, db: Db, requestBody: RequestObject) => {
   try {

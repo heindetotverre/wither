@@ -8,17 +8,16 @@
       :page="pageBasedOnPath"/>
   </div>
 </template>
-
 <script setup lang="ts">
   import { ref } from 'vue'
-  import pagesIndex from '~~/server/resources/pagesIndex.json'
   import { findPageBySlug, getUrlPath } from '~~/utils'
+  import { pageStore } from '~~/store/pages'
   import { userStore } from '~~/store/user'
 
   const cookie = ref('')
   const renderer = ref('')
   const search = getUrlPath().last
-  const pages = pagesIndex
+  const pages = await pageStore.get.getPages()
   const tokenId = useCookie<Record<string, any>>('witherLoginToken')
   
   await userStore.do.setTokenState(tokenId.value?.id)
