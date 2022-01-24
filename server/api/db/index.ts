@@ -5,8 +5,8 @@ let client
 
 export default async () => {
   try {
-    console.log('db connection string: ', config)
-    await mongoose.connect('mongodb://127.0.0.1:27017/db')
+    console.log('db connection string: ', config.DB_LOCATION)
+    await mongoose.connect(config.DB_LOCATION)
     client = mongoose.connection
   } catch (error) {
     console.log(error)
