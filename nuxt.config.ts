@@ -10,7 +10,7 @@ export default defineNuxtConfig({
       { name: 'viewport', content: 'width=device-width, initial-scale=1' }
     ]
   },
-  privateRuntimeConfig: {
-    DB_LOCATION: process.env.DB_LOCATION
+  publicRuntimeConfig: {
+    DB_LOCATION: process.env.MONGO_URL
   }
 })
