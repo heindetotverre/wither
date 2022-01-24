@@ -6,6 +6,7 @@
       :updated-form="updatedForm"
       @submit="createPage($event)"/>
     <NuxtLink to="/admin/page-management">Cancel</NuxtLink>
+    <div v-if="response">{{ response }}</div>
   </div>
 </template>
 <script setup lang="ts">
@@ -20,6 +21,7 @@
   const pageNames = () => flattenObject(pages).map(page => page.name)
   const componentKeys = () => pageComponents.map(component => component.key)
 
+  const response = ref()
   const updatedForm = ref([])
   const createPageForm = ref([
     { ...formFieldsIndex.find(field => field.class === 'TextInput'), label: 'name', key: 'Name', id: createId(formName)},
@@ -35,8 +37,8 @@
     }
   })
 
-  const createPage = (formSubmitEvent) => {
-
+  const createPage = async (formSubmitEvent) => {
+    response.value = await pageStore.do.setPage(formSubmitEvent)
   }
 
 </script>

@@ -7,6 +7,9 @@
   <AdminLogin 
     v-if="!isLoggedIn"/>
   <div v-if="isLoggedIn ">
+    <div v-if="!search">
+      <p>You havent made a home page yet, <NuxtLink to="/admin/page-creation">go and make one</NuxtLink></p>
+    </div>
     <AdminUserManagement
       v-if="search === 'admin'"
       :user="user" />

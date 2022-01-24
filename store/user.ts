@@ -73,10 +73,11 @@ const register = async (formContent: UserForm) => {
 const getTokenState = () => state.hasToken
 
 const getUser = async () => {
+  if (Object.keys(state.user).length) {
+    return state.user
+  }
   const user = await getUserByTokenId()
-  return state.user && Object.keys(state.user).length
-    ? state.user
-    : user
+  return user
 }
 
 // exports

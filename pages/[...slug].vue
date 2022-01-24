@@ -19,10 +19,10 @@
   const search = getUrlPath().last
   const pages = await pageStore.get.getPages()
   const tokenId = useCookie<Record<string, any>>('witherLoginToken')
+  const isHomePage = pages.find(page => page.name === 'home')
   
   await userStore.do.setTokenState(tokenId.value?.id)
-
-  renderer.value = getUrlPath().full[0] === 'admin' || !pages.find(page => page.name === 'home')
+  renderer.value = getUrlPath().full[0] === 'admin' || !isHomePage
     ? 'renderAdmin'
     : 'renderPage'
 

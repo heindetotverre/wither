@@ -1,23 +1,27 @@
 import { useRoute } from 'vue-router'
 
-const createId = (idPrefix : string) => {
+const createId = (idPrefix: string) => {
   return `${idPrefix ? idPrefix : ''}_${Math.random().toString(16).slice(2)}`
 }
 
 const createUUID = () => {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
     var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8)
     return v.toString(16)
   })
 }
 
 const findPageBySlug = (pages, slug) => {
-  return pages.reduce((acc, curr) => curr.slug.replace('/', '') === slug
-    ? acc.concat(curr)
-    : curr.children.length > 0
-      ? acc.concat(findPageBySlug(curr.children, slug))
-      : acc
-  , [])
+  if (pages) {
+    return pages.reduce((acc, curr) => curr.slug.replace('/', '') === slug
+      ? acc.concat(curr)
+      : curr.children.length > 0
+        ? acc.concat(findPageBySlug(curr.children, slug))
+        : acc
+      , [])
+  } else {
+    return []
+  }
 }
 
 const flattenObject = (pages) => {

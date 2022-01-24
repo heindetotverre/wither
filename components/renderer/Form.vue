@@ -46,7 +46,6 @@
   ])
 
   watch(() => props.updatedForm, () => {
-    console.log('update form')
     formValues.value = props.updatedForm
   })
 

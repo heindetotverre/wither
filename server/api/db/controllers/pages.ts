@@ -6,18 +6,15 @@ import { RequestObject } from '~~/types'
 const returnPages = async (res: ServerResponse, db: Db, requestBody: RequestObject) => {
   try {
     const pages = await db.collection('pages').find({}).toArray()
-    if (pages.length) {
-      send(res, JSON.stringify({
-        message: 'PagesReturned',
-        pages: pages
-      }))
-    }
-    if (pages.length === 0) {
+    if (!pages.length) {
       send(res, JSON.stringify({
         message: 'NoPagesCreatedYet'
       }))
     } else {
-      throw createError({ statusCode: 500, statusMessage: 'NoPagesOrEmptyPagesReturned', data: 'No pages were returned and no empty array of pages was returned' })
+      send(res, JSON.stringify({
+        message: 'PagesReturned',
+        pages: pages
+      }))
     }
   } catch (error) {
     sendError(res, error)
@@ -26,9 +23,18 @@ const returnPages = async (res: ServerResponse, db: Db, requestBody: RequestObje
 
 const setPage = async (res: ServerResponse, db: Db, requestBody: RequestObject) => {
   try {
-
+    const page = requestBody.data
+    const insertedPage = await db.collection('pages').insertOne(page)
+    if (insertedPage) {
+      send(res, JSON.stringify({
+        message: 'PageInserted',
+        page: page
+      }))
+    } else {
+      throw createError({ statusCode: 500, statusMessage: 'PageNotInserted', data: 'Page was not inserted' })
+    }
   } catch (error) {
-
+    sendError(res, error)
   }
 }
 
