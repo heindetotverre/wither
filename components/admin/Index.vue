@@ -25,9 +25,12 @@
   import { userStore } from '~~/store/user'
   import { AdminSearch } from '~~/types/enums'
 
-  await userStore.get.fetchUser()
-
   const isLoggedIn = computed(() => userStore.get.getTokenState())
+
+  if (isLoggedIn.value) {
+    await userStore.get.fetchUser()
+  }
+
   const user = userStore.get.getUser
   const search = getUrlPath().last
 </script>

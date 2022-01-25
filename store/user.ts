@@ -19,11 +19,14 @@ const fetchUser = async () => {
       data: state.tokenId
     }
   }))
+  let userData
   if (typeof data.value === 'string') {
-    const userData = JSON.parse(data.value)
-    state.user = userData.user
-    return state.user
+    userData = JSON.parse(data.value)
+  } else {
+    userData = data.value
   }
+  state.user = userData.user
+  return state.user
 }
 
 const getTokenState = () => state.hasToken
