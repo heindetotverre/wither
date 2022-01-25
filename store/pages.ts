@@ -31,10 +31,11 @@ const fetchPages = async () => {
   const { data } = await useAsyncData('pages', () => $fetch('/api/pages/getPages', {
     method: 'POST'
   }))
+  console.log(data.value)
   if (typeof data.value === 'string') {
     const pageData = JSON.parse(data.value)
     state.pages = pageData.pages
-    return pageData.pages
+    return state.pages
   }
 }
 
@@ -71,7 +72,7 @@ export const pageStore = readonly({
 
 // internals
 const formatPageToInsert = async (unformattedPage): Promise<Page> => {
-  const user: User = await userStore.get.getUser()
+  const user: User = await userStore.get.getUser
   const page = {
     author: user.Email,
     slug: unformattedPage.Slug,

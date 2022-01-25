@@ -1,21 +1,37 @@
 import { reactive, readonly, } from "vue"
-import { UserForm, LoginForm } from '~~/types'
+import { User, UserForm, LoginForm } from '~~/types'
 
 // externals
 const initialState = {
   hasToken: false,
   tokenId: '',
-  user: {}
+  user: {} as User
 }
 
 const state = reactive({
   ...initialState
 })
 
-const setTokenState = (tokenId: string) => {
-  state.tokenId = tokenId
-  state.hasToken = !!tokenId
+const fetchUser = async () => {
+  const { data } = await useAsyncData('user', () => $fetch('/api/user/getUser', {
+    method: 'POST',
+    body: {
+      data: state.tokenId
+    }
+  }))
+  console.log(data.value)
+  if (typeof data.value === 'string') {
+    const userData = JSON.parse(data.value)
+    state.user = userData.user
+    return state.user
+  }
 }
+
+const getTokenState = () => state.hasToken
+
+const getUser = computed(() => {
+  return state.user
+})
 
 const login = async (formContent: LoginForm) => {
   const response = await useFetch<any>('/api/auth/loginUser', {
@@ -70,14 +86,9 @@ const register = async (formContent: UserForm) => {
   }
 }
 
-const getTokenState = () => state.hasToken
-
-const getUser = async () => {
-  if (Object.keys(state.user).length) {
-    return state.user
-  }
-  const user = await getUserByTokenId()
-  return user
+const setTokenState = (tokenId: string) => {
+  state.tokenId = tokenId
+  state.hasToken = !!tokenId
 }
 
 // exports
@@ -90,6 +101,7 @@ export const userStore = readonly({
     setTokenState
   },
   get: {
+    fetchUser,
     getTokenState,
     getUser
   }
@@ -97,17 +109,5 @@ export const userStore = readonly({
 
 // internals
 const getUserByTokenId = async () => {
-  const response = await useFetch<any>('/api/user/getUser', {
-    method: 'POST',
-    body: {
-      data: state.tokenId
-    }
-  })
-  if (response.data.value) {
-    const user = typeof response.data.value === 'string'
-      ? JSON.parse(response.data.value).user
-      : response.data.value.user
-    state.user = user
-    return user
-  }
+
 }
