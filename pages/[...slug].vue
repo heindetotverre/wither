@@ -17,11 +17,11 @@
 
   const cookie = ref()
   const renderer = ref()
+  await pageStore.get.fetchPages()
 
-  await pageStore.get.fetchPages('hit from ...slug')
+  const pages = pageStore.get.getPages
 
   const search = getUrlPath().last
-  const pages = pageStore.get.getPages
   const tokenId = useCookie<Record<string, any>>('witherLoginToken')
   const isHomePage = pages.find(page => page.name === 'home')
   

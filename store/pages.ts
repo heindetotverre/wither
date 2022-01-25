@@ -27,16 +27,14 @@ const deletePage = async (pageId) => {
   return response
 }
 
-const fetchPages = async (debug: string | void) => {
-  if (!state.pages.length) {
-    const response = await useFetch<any>('/api/pages/getPages', {
-      method: 'POST'
-    })
-    const data = typeof response.data.value === 'string'
-      ? JSON.parse(response.data.value)
-      : response.data.value
-    const pages = data.pages
-    state.pages = pages
+const fetchPages = async () => {
+  const { data } = await useAsyncData('pages', () => $fetch('/api/pages/getPages', {
+    method: 'POST'
+  }))
+  if (typeof data.value === 'string') {
+    const pageData = JSON.parse(data.value)
+    state.pages = pageData.pages
+    return pageData.pages
   }
 }
 
