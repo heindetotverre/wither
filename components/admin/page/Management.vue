@@ -1,6 +1,6 @@
 <template>
   <div>
-    <NuxtLink to="/admin/page-creation">Create Page</NuxtLink>
+    <NuxtLink :to="`/${AdminSearch.Admin}/${AdminSearch.PageCreation}`">Create Page</NuxtLink>
     <ul>
       <li v-for="(page) of flattenPages"
         :key="page">
@@ -9,15 +9,28 @@
         <p>Page MetaData: {{ page.meta }}</p>
         <p>Page Components: {{ page.components }}</p>
         <p>Menu level depth: {{ page.level }}</p>
+        <button @click="deletePage(page.id)">Delete page</button>
       </li>
     </ul>
+    <div v-if="!flattenPages.length">You haven't made any pages, please make one</div>
   </div>
+  <div v-if="response">{{ response }}</div>
 </template>
 <script setup lang="ts">
-  import pagesIndex from '~~/server/resources/pagesIndex.json'
   import { flattenObject } from '~~/utils/index'
+  import { pageStore } from '~~/store/pages'
+  import { AdminSearch } from '~~/types/enums'
 
-  const pages = ref(pagesIndex)
+  const pages = computed(() => pageStore.get.getPages)
 
-  const flattenPages = flattenObject(pages.value)
+  watch(() => pages.value, () => {
+    flattenPages.value = flattenObject(pages.value)
+  })
+
+  const flattenPages = ref(flattenObject(pages.value))
+  const response = ref()
+
+  const deletePage = async (pageId) => {
+    response.value = await pageStore.do.deletePage(pageId)
+  }
 </script>

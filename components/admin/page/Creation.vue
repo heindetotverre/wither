@@ -5,7 +5,7 @@
       :form="createPageForm"
       :updated-form="updatedForm"
       @submit="createPage($event)"/>
-    <NuxtLink to="/admin/page-management">Cancel</NuxtLink>
+    <NuxtLink :to="`/${AdminSearch.Admin}/${AdminSearch.PageManagement}`">Cancel</NuxtLink>
     <div v-if="response">{{ response }}</div>
   </div>
 </template>
@@ -15,9 +15,10 @@
   import { pageStore } from '~~/store/pages'
   import { createId, flattenObject } from '~~/utils/index'
   import { FormField } from '~~/types'
+  import { AdminSearch } from '~~/types/enums'
 
   const formName = 'createPage'
-  const pages = await pageStore.get.getPages()
+  const pages = pageStore.get.getPages
   const pageNames = () => flattenObject(pages).map(page => page.name)
   const componentKeys = () => pageComponents.map(component => component.key)
 
@@ -39,6 +40,9 @@
 
   const createPage = async (formSubmitEvent) => {
     response.value = await pageStore.do.setPage(formSubmitEvent)
+    if (response.value.data.message) {
+      useRouter().push(`${AdminSearch.Admin}/${AdminSearch.PageManagement}`)
+    }
   }
 
 </script>

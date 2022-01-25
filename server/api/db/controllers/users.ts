@@ -6,7 +6,15 @@ import { createUUID } from '~~/utils'
 
 const deleteUser = async (res: ServerResponse, db: Db, requestBody: RequestObject) => {
   try {
-
+    const userId = requestBody.data
+    const deletedUser = await db.collection('users').deleteOne({ _id: userId })
+    if (deletedUser) {
+      send(res, JSON.stringify({
+        message: 'UserDeleted'
+      }))
+    } else {
+      throw createError({ statusCode: 500, statusMessage: 'UserNotDeleted', data: 'User has not ben deleted' })
+    }
   } catch (error) {
     sendError(res, error)
   }

@@ -12,24 +12,37 @@ const state = reactive({
   ...initialState
 })
 
-const getPages = async (): Promise<Array<Page>> => {
-  if (state.pages && state.pages.length) {
-    return state.pages
-  }
-  const response = await useFetch<any>('/api/pages/getPages', {
-    method: 'POST'
+const deletePage = async (pageId) => {
+  const response = await useFetch<any>('/api/pages/deletePage', {
+    method: 'POST',
+    body: {
+      data: pageId
+    }
   })
-  const data = typeof response.data.value === 'string'
-    ? JSON.parse(response.data.value)
-    : response.data.value
-  if (data.message == 'NoPagesCreatedYet') {
-    return []
-  } else {
+  if (response.data.value?.message === 'PageDeleted') {
+    state.pages = state.pages.filter(page => {
+      return page.id !== pageId
+    })
+  }
+  return response
+}
+
+const fetchPages = async (debug: string | void) => {
+  if (!state.pages.length) {
+    const response = await useFetch<any>('/api/pages/getPages', {
+      method: 'POST'
+    })
+    const data = typeof response.data.value === 'string'
+      ? JSON.parse(response.data.value)
+      : response.data.value
     const pages = data.pages
     state.pages = pages
-    return pages
   }
 }
+
+const getPages = computed(() => {
+  return state.pages
+})
 
 const setPage = async (formContent: Page) => {
   const pageToInsert = await formatPageToInsert(formContent)
@@ -39,6 +52,9 @@ const setPage = async (formContent: Page) => {
       data: pageToInsert
     }
   })
+  if (response.data.value?.message === 'PageInserted') {
+    state.pages.push(response.data.value?.page)
+  }
   return response
 }
 
@@ -46,9 +62,11 @@ const setPage = async (formContent: Page) => {
 export const pageStore = readonly({
   state: state,
   do: {
+    deletePage,
     setPage
   },
   get: {
+    fetchPages,
     getPages
   }
 })

@@ -12,7 +12,7 @@ const createUUID = () => {
 }
 
 const findPageBySlug = (pages, slug) => {
-  if (pages) {
+  if (pages.length) {
     return pages.reduce((acc, curr) => curr.slug.replace('/', '') === slug
       ? acc.concat(curr)
       : curr.children.length > 0
@@ -25,17 +25,21 @@ const findPageBySlug = (pages, slug) => {
 }
 
 const flattenObject = (pages) => {
-  const flattenedArray = []
-  const reduceObject = (pages) => {
-    pages.reduce((acc, curr) => {
-      flattenedArray.push(curr)
-      if (curr.children.length > 0) {
-        return reduceObject(curr.children)
-      }
-    }, [])
+  if (pages.length) {
+    const flattenedArray = []
+    const reduceObject = (pages) => {
+      pages.reduce((acc, curr) => {
+        flattenedArray.push(curr)
+        if (curr.children.length > 0) {
+          return reduceObject(curr.children)
+        }
+      }, [])
+    }
+    reduceObject(pages)
+    return flattenedArray
+  } else {
+    return []
   }
-  reduceObject(pages)
-  return flattenedArray
 }
 
 const getUrlPath = () => {

@@ -1,10 +1,10 @@
 <template>
   <div>
-    <CookieWall v-if="cookie !== 'cookieWallAccepted'" />
+    <CookieWall v-if="cookie !== Cookie.Accepted" />
     <Admin
-      v-if="renderer === 'renderAdmin'"/>
+      v-if="renderer === Render.Admin"/>
     <RendererPage
-      v-if="renderer === 'renderPage'"
+      v-if="renderer === Render.Page"
       :page="pageBasedOnPath"/>
   </div>
 </template>
@@ -13,22 +13,27 @@
   import { findPageBySlug, getUrlPath } from '~~/utils'
   import { pageStore } from '~~/store/pages'
   import { userStore } from '~~/store/user'
+  import { Render, Cookie } from '~~/types/enums'
 
-  const cookie = ref('')
-  const renderer = ref('')
+  const cookie = ref()
+  const renderer = ref()
+
+  await pageStore.get.fetchPages('hit from ...slug')
+
   const search = getUrlPath().last
-  const pages = await pageStore.get.getPages()
+  const pages = pageStore.get.getPages
   const tokenId = useCookie<Record<string, any>>('witherLoginToken')
   const isHomePage = pages.find(page => page.name === 'home')
   
   await userStore.do.setTokenState(tokenId.value?.id)
+
   renderer.value = getUrlPath().full[0] === 'admin' || !isHomePage
-    ? 'renderAdmin'
-    : 'renderPage'
+    ? Render.Admin
+    : Render.Page
 
   const pageBasedOnPath = !getUrlPath().full
     ? pages.find(page => page.slug === '/')
     : findPageBySlug(pages, search)[0]
 
-  cookie.value = 'cookieWallAccepted'
+  cookie.value = Cookie.Accepted
 </script>

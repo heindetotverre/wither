@@ -2,7 +2,7 @@
   <Html :lang="'en-GB'">
     <Head>
       <Title>Admin</Title>
-      <Meta name="description" :content="`My page's description`" />
+      <Meta name="description" :content="`Admin section`" />
     </Head>
   </Html>
 
