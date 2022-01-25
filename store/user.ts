@@ -19,7 +19,6 @@ const fetchUser = async () => {
       data: state.tokenId
     }
   }))
-  console.log(data.value)
   if (typeof data.value === 'string') {
     const userData = JSON.parse(data.value)
     state.user = userData.user

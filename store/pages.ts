@@ -31,7 +31,6 @@ const fetchPages = async () => {
   const { data } = await useAsyncData('pages', () => $fetch('/api/pages/getPages', {
     method: 'POST'
   }))
-  console.log(data.value)
   if (typeof data.value === 'string') {
     const pageData = JSON.parse(data.value)
     state.pages = pageData.pages
