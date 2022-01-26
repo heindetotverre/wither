@@ -9,7 +9,10 @@
     "nuxt3": "latest"
   },
   "dependencies": {
+    "@apollo/client": "^3.5.8",
+    "graphql": "^16.2.0",
     "mongodb": "^4.3.0",
-    "mongoose": "^6.1.6"
+    "mongoose": "^6.1.6",
+    "vue-apollo": "^3.1.0"
   }
 }

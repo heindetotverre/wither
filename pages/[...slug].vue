@@ -35,5 +35,7 @@
     ? pages.find(page => page.slug === '/')
     : findPageBySlug(pages, search)[0]
 
+  
+
   cookie.value = Cookie.Accepted
 </script>
