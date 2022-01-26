@@ -13,20 +13,23 @@ const state = reactive({
 })
 
 const fetchUser = async () => {
-  const { data } = await useAsyncData('user', () => $fetch('/api/user/getUser', {
-    method: 'POST',
-    body: {
-      data: state.tokenId
+  // only fetch when neccessary
+  if (!process.client || !Object.keys(state.user).length) {
+    const { data } = await useAsyncData('user', () => $fetch('/api/user/getUser', {
+      method: 'POST',
+      body: {
+        data: state.tokenId
+      }
+    }))
+    let userData
+    if (typeof data.value === 'string') {
+      userData = JSON.parse(data.value)
+    } else {
+      userData = data.value
     }
-  }))
-  let userData
-  if (typeof data.value === 'string') {
-    userData = JSON.parse(data.value)
-  } else {
-    userData = data.value
+    state.user = userData.user
+    return state.user
   }
-  state.user = userData.user
-  return state.user
 }
 
 const getTokenState = () => state.hasToken

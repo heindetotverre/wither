@@ -17,15 +17,15 @@
 
   const cookie = ref()
   const renderer = ref()
-  await pageStore.get.fetchPages()
-
-  const pages = pageStore.get.getPages
 
   const search = getUrlPath().last
   const tokenId = useCookie<Record<string, any>>('witherLoginToken')
-  const isHomePage = pages.find(page => page.name === 'home')
   
+  await pageStore.get.fetchPages()
   await userStore.do.setTokenState(tokenId.value?.id)
+
+  const pages = pageStore.get.getPages
+  const isHomePage = pages.find(page => page.name === 'home')
 
   renderer.value = getUrlPath().full[0] === 'admin' || !isHomePage
     ? Render.Admin

@@ -28,13 +28,16 @@ const deletePage = async (pageId) => {
 }
 
 const fetchPages = async () => {
-  const { data } = await useAsyncData('pages', () => $fetch('/api/pages/getPages', {
-    method: 'POST'
-  }))
-  if (typeof data.value === 'string') {
-    const pageData = JSON.parse(data.value)
-    state.pages = pageData.pages
-    return state.pages
+  // only fetch when neccessary
+  if (!process.client || !state.pages.length) {
+    const { data } = await useAsyncData('pages', () => $fetch('/api/pages/getPages', {
+      method: 'POST'
+    }))
+    if (typeof data.value === 'string') {
+      const pageData = JSON.parse(data.value)
+      state.pages = pageData.pages
+      return state.pages
+    }
   }
 }
 
