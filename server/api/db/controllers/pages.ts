@@ -29,11 +29,35 @@ const returnPages = async (res: ServerResponse, db: Db) => {
       }))
     } else {
       send(res, JSON.stringify({
-        message: 'PagesReturned',
+        message: 'AllPagesReturned',
         pages: pages
       }))
     }
     return pages
+  } catch (error) {
+    sendError(res, error)
+  }
+}
+
+const returnSinglePage = async (res: ServerResponse, db: Db, requestBody: RequestObject) => {
+  try {
+    const pageSlug = requestBody.data
+    const page = await db.collection('pages').findOne({ slug: pageSlug })
+    if (!page) {
+      send(res, JSON.stringify({
+        message: 'NoPageFoundBySlug',
+        page: {
+          name: '404',
+          children: []
+        }
+      }))
+    } else {
+      send(res, JSON.stringify({
+        message: 'SinglePageReturned',
+        page: page
+      }))
+    }
+    return page
   } catch (error) {
     sendError(res, error)
   }
@@ -59,5 +83,6 @@ const setPage = async (res: ServerResponse, db: Db, requestBody: RequestObject) 
 export {
   deletePage,
   returnPages,
+  returnSinglePage,
   setPage
 }

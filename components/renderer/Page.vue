@@ -15,10 +15,17 @@
 </template>
 
 <script setup lang="ts">
+  import { pageStore } from '~~/store/pages'
+
   const props = defineProps({
-    page: {
-      type: Object,
-      default: {}
+    search: {
+      type: String,
+      required: true
     }
   })
+
+  await pageStore.get.fetchSinglePage(`/${props.search ? props.search : ''}`)
+
+  const page = pageStore.get.getCurrentPage
+
 </script>

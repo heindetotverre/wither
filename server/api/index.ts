@@ -2,7 +2,7 @@ import { IncomingMessage, ServerResponse } from 'http'
 import { useBody } from 'h3'
 import mongoConnect from './db'
 import { deleteUser, loginUser, logoutUser, registerUser, returnUser, updateUser } from './db/controllers/users'
-import { deletePage, returnPages, setPage } from './db/controllers/pages'
+import { deletePage, returnPages, returnSinglePage,  setPage } from './db/controllers/pages'
 import { checkCollectionAndCreate } from './db/tools/checkCollectionAndCreate'
 
 export default async (req: IncomingMessage, res: ServerResponse) => {
@@ -36,6 +36,9 @@ export default async (req: IncomingMessage, res: ServerResponse) => {
   }
   if (req.url === '/pages/getPages') {
     await returnPages(res, client.db)
+  }
+  if (req.url === '/pages/getSinglePage') {
+    await returnSinglePage(res, client.db, body)
   }
   if (req.url === '/pages/setPage') {
     await setPage(res, client.db, body)
