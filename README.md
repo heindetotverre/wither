@@ -32,9 +32,9 @@ Once Nuxt3 supports generating static pages the project will be updated for even
 
 ## Roadmap
 
-- CHECK _ User creation and token hydration _
-- CHECK _ Page creation and deletion _
-- GraphQL implementation
+- DONE: User creation and token hydration
+- DONE: Page creation and deletion
+- CURRENT: GraphQL implementation
 - Form from state management implementation
 - Page nesting
 - Page component rendering
