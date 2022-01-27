@@ -41,21 +41,18 @@ const fetchPages = async () => {
   }
 }
 
-const fetchSinglePage = async (currentPageUrl : string) => {
-  // only fetch when neccessary
-  // if (!process.client || !state.pages.length) {
-    const { data } = await useAsyncData('page', () => $fetch('/api/pages/getSinglePage', {
-      method: 'POST',
-      body: {
-        data: currentPageUrl
-      }
-    }))
-    const pageData = typeof data.value === 'string'
-      ? JSON.parse(data.value)
-      : data.value
-    state.currentPage = pageData.page
-    return state.currentPage
-  // }
+const fetchSinglePage = async (currentPageUrl: string) => {
+  const { data } = await useAsyncData('page', () => $fetch('/api/pages/getSinglePage', {
+    method: 'POST',
+    body: {
+      data: currentPageUrl
+    }
+  }))
+  const pageData = typeof data.value === 'string'
+    ? JSON.parse(data.value)
+    : data.value
+  state.currentPage = pageData.page
+  return state.currentPage
 }
 
 const getPages = computed(() => state.pages)

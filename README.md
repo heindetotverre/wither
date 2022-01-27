@@ -8,11 +8,11 @@ Make sure you have mongo community server installed and you have mongod executab
 
 npm install
 
-mongod -dbpath ./db
-
 ## Development and usage
 
 npm run dev
+
+mongod -dbpath ./db
 
 create a user
 
@@ -29,3 +29,12 @@ It has the capability of creating pages and reading the components added to thos
 SEO friendly through SSR
 
 Once Nuxt3 supports generating static pages the project will be updated for even more SEO friendliness
+
+## Roadmap
+
+~~ - User creation and token hydration ~~
+~~ - Page creation and deletion ~~
+
+- Form from state management implementation
+- Page nesting
+- Page component rendering
