@@ -31,9 +31,7 @@ const loginUser = async (res: ServerResponse, db: Db, requestBody: RequestObject
           message: 'UserLoggedIn',
           tokenId: createdToken.uuid,
           user: {
-            firstName: userByEmail.FirstName,
-            lastName: userByEmail.LastName,
-            mail: userByEmail.Email
+            ...userByEmail
           }
         }))
       } else {

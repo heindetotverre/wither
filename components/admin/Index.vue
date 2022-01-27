@@ -22,15 +22,24 @@
 
 <script setup lang="ts">
   import { getUrlPath } from '~~/utils'
+  import { pageStore } from '~~/store/pages'
   import { userStore } from '~~/store/user'
   import { AdminSearch } from '~~/types/enums'
 
+  const props = defineProps({
+    search: {
+      type: String,
+      required: true
+    }
+  })
+
   const isLoggedIn = computed(() => userStore.get.getTokenState())
+
+  await pageStore.get.fetchPages()
 
   if (isLoggedIn.value) {
     await userStore.get.fetchUser()
   }
 
   const user = userStore.get.getUser
-  const search = getUrlPath().last
 </script>

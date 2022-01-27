@@ -5,6 +5,7 @@ import { userStore } from "./user"
 
 // externals
 const initialState = {
+  currentPage: {} as Page,
   pages: []
 }
 
@@ -28,22 +29,38 @@ const deletePage = async (pageId) => {
 }
 
 const fetchPages = async () => {
-  // only fetch when neccessary
   if (!process.client || !state.pages.length) {
     const { data } = await useAsyncData('pages', () => $fetch('/api/pages/getPages', {
       method: 'POST'
     }))
-    if (typeof data.value === 'string') {
-      const pageData = JSON.parse(data.value)
-      state.pages = pageData.pages
-      return state.pages
-    }
+    const pageData = typeof data.value === 'string'
+      ? JSON.parse(data.value)
+      : data.value
+    state.pages = pageData.pages
+    return state.pages
   }
 }
 
-const getPages = computed(() => {
-  return state.pages
-})
+const fetchSinglePage = async (currentPageUrl : string) => {
+  // only fetch when neccessary
+  // if (!process.client || !state.pages.length) {
+    const { data } = await useAsyncData('page', () => $fetch('/api/pages/getSinglePage', {
+      method: 'POST',
+      body: {
+        data: currentPageUrl
+      }
+    }))
+    const pageData = typeof data.value === 'string'
+      ? JSON.parse(data.value)
+      : data.value
+    state.currentPage = pageData.page
+    return state.currentPage
+  // }
+}
+
+const getPages = computed(() => state.pages)
+
+const getCurrentPage = computed(() => state.currentPage)
 
 const setPage = async (formContent: Page) => {
   const pageToInsert = await formatPageToInsert(formContent)
@@ -68,6 +85,8 @@ export const pageStore = readonly({
   },
   get: {
     fetchPages,
+    fetchSinglePage,
+    getCurrentPage,
     getPages
   }
 })

@@ -1,8 +1,8 @@
 <template>
   <div>
-    <NuxtLink :to="urlPath === ''
+    <NuxtLink :to="!urlPath.includes('admin')
       ? '/admin'
-      : '/'">{{ urlPath === ''
+      : '/'">{{ !urlPath.includes('admin')
         ? 'Go to to admin'
         : 'Go to website' }}
     </NuxtLink>
