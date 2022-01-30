@@ -12,11 +12,5 @@ export default defineNuxtConfig({
   },
   publicRuntimeConfig: {
     DB_LOCATION: process.env.MONGO_URL
-  },
-  build: {
-    transpile: [
-      '@apollo/client',
-      'ts-invariant/process'
-    ]
   }
 })

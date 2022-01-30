@@ -14,20 +14,34 @@
   import { getUrlPath } from '~~/utils'
   import { userStore } from '~~/store/user'
   import { Render, Cookie } from '~~/types/enums'
+  import { useQuery } from '@urql/vue';
 
   const cookie = ref()
   const renderer = ref()
 
   const search = !getUrlPath().last
     ? ''
-    : getUrlPath().last
+    : getUrlPath().last as string
   const tokenId = useCookie<Record<string, any>>('witherLoginToken')
   
   await userStore.do.setTokenState(tokenId.value?.id)
 
-  renderer.value = getUrlPath().full[0] === 'admin'
+  renderer.value = getUrlPath().first === 'admin'
     ? Render.Admin
     : Render.Page
+
+  onMounted(() => {
+    const result = useQuery({
+      query: `
+        {
+          hello
+          test
+        }
+      `
+    })
+
+    console.log(result)
+  })
     
   cookie.value = Cookie.Accepted
 </script>

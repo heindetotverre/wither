@@ -55,6 +55,7 @@ const getUrlPath = () => {
 
   return {
     last: [...urlPath].pop(),
+    first: urlPath[0],
     full: urlPath
   }
 }

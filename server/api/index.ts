@@ -2,7 +2,7 @@ import { IncomingMessage, ServerResponse } from 'http'
 import { useBody } from 'h3'
 import mongoConnect from './db'
 import { deleteUser, loginUser, logoutUser, registerUser, returnUser, updateUser } from './db/controllers/users'
-import { deletePage, returnPages, returnSinglePage,  setPage } from './db/controllers/pages'
+import { deletePage, returnPages, returnSinglePage, setPage } from './db/controllers/pages'
 import { checkCollectionAndCreate } from './db/tools/checkCollectionAndCreate'
 
 export default async (req: IncomingMessage, res: ServerResponse) => {
