@@ -37,12 +37,12 @@
     { ...formFieldsIndex.find(field => field.class === 'Button'), label: 'Login', id: createId(loginFormName)}
   ] as Array<FormField>)
   const registerForm = ref([
-    { ...formFieldsIndex.find(field => field.class === 'TextInput'), label: 'firstname', key: 'FirstName', id: createId(registerFormName)},
-    { ...formFieldsIndex.find(field => field.class === 'TextInput'), label: 'lastname', key: 'LastLame', id: createId(registerFormName)},
+    { ...formFieldsIndex.find(field => field.class === 'TextInput'), label: 'firstname', key: 'firstName', id: createId(registerFormName)},
+    { ...formFieldsIndex.find(field => field.class === 'TextInput'), label: 'lastname', key: 'lastLame', id: createId(registerFormName)},
     { ...formFieldsIndex.find(field => field.class === 'EmailInput'), label: 'email', id: createId(registerFormName), autocomplete: 'username'},
     { ...formFieldsIndex.find(field => field.class === 'PasswordInput'), label: 'password', id: createId(registerFormName), autocomplete: 'current-password'},
-    { ...formFieldsIndex.find(field => field.class === 'PasswordInput'), label: 'password again', key: 'PasswordCheck', id: createId(registerFormName), autocomplete: 'current-password'},
-    { ...formFieldsIndex.find(field => field.class === 'Button'), label: 'Register', key: 'Button', id: createId(registerFormName)}
+    { ...formFieldsIndex.find(field => field.class === 'PasswordInput'), label: 'password again', key: 'passwordCheck', id: createId(registerFormName), autocomplete: 'current-password'},
+    { ...formFieldsIndex.find(field => field.class === 'Button'), label: 'Register', key: 'button', id: createId(registerFormName)}
   ] as Array<FormField>)
 
   const handleLogin = async (event: LoginForm) => {

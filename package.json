@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "gql": "node server/index.mjs",
+    "gql": "node server/graphql/server.mjs",
     "dev": "nuxi dev",
     "build": "nuxi build",
     "start": "node .output/server/index.mjs"

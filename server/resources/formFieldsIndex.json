@@ -9,7 +9,7 @@
   {
     "class": "EmailInput",
     "component": "UiInput",
-    "key": "Email",
+    "key": "email",
     "type": "email",
     "required": true,
     "validator": "email"
@@ -17,7 +17,7 @@
   {
     "class": "PasswordInput",
     "component": "UiInput",
-    "key": "Password",
+    "key": "password",
     "type": "password",
     "required": true,
     "validator": "notempty"
@@ -25,7 +25,7 @@
   {
     "class": "Button",
     "component": "UiButton",
-    "key": "Button"
+    "key": "button"
   },
   {
     "class": "SelectInput",

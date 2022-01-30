@@ -14,7 +14,7 @@
   import { getUrlPath } from '~~/utils'
   import { userStore } from '~~/store/user'
   import { Render, Cookie } from '~~/types/enums'
-  import { useQuery } from '@urql/vue';
+  // import { useQuery } from '@urql/vue';
 
   const cookie = ref()
   const renderer = ref()
@@ -30,18 +30,18 @@
     ? Render.Admin
     : Render.Page
 
-  onMounted(() => {
-    const result = useQuery({
-      query: `
-        {
-          hello
-          test
-        }
-      `
-    })
+  // onMounted(() => {
+  //   const result = useQuery({
+  //     query: `
+  //       {
+  //         hello
+  //         test
+  //       }
+  //     `
+  //   })
 
-    console.log(result)
-  })
+  //   console.log(result)
+  // })
     
   cookie.value = Cookie.Accepted
 </script>

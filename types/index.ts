@@ -3,30 +3,31 @@ interface Page {
   level: number,
   name: string,
   id: string,
+  author: string,
   children: Array<Page>,
   components: Array<String>,
   meta: Record<string, any>
 }
 
 interface User {
-  Group: string,
-  FirstName: string,
-  LastName: string,
-  Email: string,
-  Password: string
+  group: string,
+  firstName: string,
+  lastName: string,
+  email: string,
+  password: string
 }
 
 interface UserForm {
-  FirstName: User['FirstName'],
-  LastName: User['LastName'],
-  Email: User['Email'],
-  Password: User['Password'],
-  PasswordCheck?: User['Password']
+  firstName: User['firstName'],
+  lastName: User['lastName'],
+  email: User['email'],
+  password: User['password'],
+  passwordCheck?: User['password']
 }
 
 interface LoginForm {
-  Email: User['Email'],
-  Password: User['Password']
+  email: User['email'],
+  password: User['password']
 }
 
 interface FormField {

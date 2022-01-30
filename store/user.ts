@@ -65,20 +65,21 @@ const logout = async () => {
 }
 
 const register = async (formContent: UserForm) => {
-  if (formContent.Password === formContent.PasswordCheck) {
+  console.log(formContent)
+  if (formContent.password === formContent.passwordCheck) {
     const response = await useFetch<any>('/api/auth/registerUser', {
       method: 'POST',
       body: {
         data: {
-          Group: 'default',
+          group: 'default',
           ...formContent
         }
       }
     })
     if (response.data.value?.message === 'UserInserted') {
       const loginForm: LoginForm = {
-        Email: formContent.Email,
-        Password: formContent.Password
+        email: formContent.email,
+        password: formContent.password
       }
       await login(loginForm)
     }
@@ -111,8 +112,3 @@ export const userStore = readonly({
     getUser
   }
 })
-
-// internals
-const getUserByTokenId = async () => {
-
-}

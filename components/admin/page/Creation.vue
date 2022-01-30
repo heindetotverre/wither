@@ -14,7 +14,7 @@
   import pageComponents from '~~/server/resources/pageComponentIndex.json'
   import { pageStore } from '~~/store/pages'
   import { createId, flattenObject } from '~~/utils/index'
-  import { FormField } from '~~/types'
+  import { FormField, Page } from '~~/types'
   import { AdminSearch } from '~~/types/enums'
 
   const formName = 'createPage'
@@ -23,22 +23,32 @@
   const componentKeys = () => pageComponents.map(component => component.key)
 
   const response = ref()
-  const updatedForm = ref([])
+  const updatedForm = ref<Array<Page>>([])
   const createPageForm = ref([
-    { ...formFieldsIndex.find(field => field.class === 'TextInput'), label: 'name', key: 'Name', id: createId(formName)},
-    { ...formFieldsIndex.find(field => field.class === 'TextInput'), label: 'slug', key: 'Slug', id: createId(formName), validator: 'slug'},
-    { ...formFieldsIndex.find(field => field.class === 'SelectInput'), label: 'parent', key: 'ParentPage', options: pageNames(), id: createId(formName)},
-    { ...formFieldsIndex.find(field => field.class === 'SelectInput'), label: 'components', key: 'PageComponents', options: componentKeys(), id: createId(formName)},
-    { ...formFieldsIndex.find(field => field.class === 'Button'), label: 'Save', key: 'SavePage', id: createId(formName)}
+    { ...formFieldsIndex.find(field => field.class === 'TextInput'), label: 'name', key: 'name', id: createId(formName)},
+    { ...formFieldsIndex.find(field => field.class === 'TextInput'), label: 'slug', key: 'slug', id: createId(formName), validator: 'slug'},
+    { ...formFieldsIndex.find(field => field.class === 'SelectInput'), label: 'parent', key: 'parentPage', options: pageNames(), id: createId(formName)},
+    { ...formFieldsIndex.find(field => field.class === 'SelectInput'), label: 'components', key: 'pageComponents', options: componentKeys(), id: createId(formName)},
+    { ...formFieldsIndex.find(field => field.class === 'Button'), label: 'Save', key: 'savePage', id: createId(formName)}
   ] as Array<FormField>)
 
   onMounted(() => {
     if (!pages.length) {
-      updatedForm.value = [{ Name: 'home' },{ Slug: '/' }]
+      updatedForm.value = [{
+        name: 'home',
+        slug: '/',
+        children: [],
+        level: 0,
+        author: '',
+        components: [],
+        meta: {},
+        id: ''
+      }]
     }
   })
 
-  const createPage = async (formSubmitEvent) => {
+  const createPage = async (formSubmitEvent : Page) => {
+    console.log(formSubmitEvent)
     response.value = await pageStore.do.setPage(formSubmitEvent)
     if (response.value.data.message) {
       useRouter().push(`${AdminSearch.Admin}/${AdminSearch.PageManagement}`)

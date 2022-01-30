@@ -60,6 +60,7 @@ const getPages = computed(() => state.pages)
 const getCurrentPage = computed(() => state.currentPage)
 
 const setPage = async (formContent: Page) => {
+  console.log(formContent)
   const pageToInsert = await formatPageToInsert(formContent)
   const response = await useFetch<any>('/api/pages/setPage', {
     method: 'POST',
@@ -92,10 +93,10 @@ export const pageStore = readonly({
 const formatPageToInsert = async (unformattedPage): Promise<Page> => {
   const user: User = await userStore.get.getUser
   const page = {
-    author: user.Email,
-    slug: unformattedPage.Slug,
+    author: user.email,
+    slug: unformattedPage.slug,
     level: calculatePageLevel(unformattedPage),
-    name: unformattedPage.Name,
+    name: unformattedPage.name,
     id: createId('page'),
     children: calculateChildren(),
     components: unformattedPage.components,
