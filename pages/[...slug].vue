@@ -1,47 +1,29 @@
 <template>
   <div>
     <CookieWall v-if="cookie !== Cookie.Accepted" />
-    <Admin
-      v-if="renderer === Render.Admin"
-        :search="search"/>
-    <RendererPage
-      v-if="renderer === Render.Page"
-      :search="search"/>
+    <Admin v-if="renderer === Render.Admin" :search="search" />
+    <RendererPage v-if="renderer === Render.Page" :search="search" />
   </div>
 </template>
 <script setup lang="ts">
-  import { ref } from 'vue'
-  import { getUrlPath } from '~~/utils'
-  import { userStore } from '~~/store/user'
-  import { Render, Cookie } from '~~/types/enums'
-  // import { useQuery } from '@urql/vue';
+import { ref } from 'vue'
+import { getUrlPath } from '~~/utils'
+import { userStore } from '~~/store/user'
+import { Render, Cookie } from '~~/types/enums'
 
-  const cookie = ref()
-  const renderer = ref()
+const cookie = ref()
+const renderer = ref()
 
-  const search = !getUrlPath().last
-    ? ''
-    : getUrlPath().last as string
-  const tokenId = useCookie<Record<string, any>>('witherLoginToken')
-  
-  await userStore.do.setTokenState(tokenId.value?.id)
+const search = !getUrlPath().last
+  ? ''
+  : getUrlPath().last as string
+const tokenId = useCookie<Record<string, any>>('witherLoginToken')
 
-  renderer.value = getUrlPath().first === 'admin'
-    ? Render.Admin
-    : Render.Page
+await userStore.do.setTokenState(tokenId.value?.id)
 
-  // onMounted(() => {
-  //   const result = useQuery({
-  //     query: `
-  //       {
-  //         hello
-  //         test
-  //       }
-  //     `
-  //   })
+renderer.value = getUrlPath().first === 'admin'
+  ? Render.Admin
+  : Render.Page
 
-  //   console.log(result)
-  // })
-    
-  cookie.value = Cookie.Accepted
+cookie.value = Cookie.Accepted
 </script>

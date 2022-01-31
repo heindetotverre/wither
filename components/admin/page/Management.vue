@@ -2,8 +2,7 @@
   <div>
     <NuxtLink :to="`/${AdminSearch.Admin}/${AdminSearch.PageCreation}`">Create Page</NuxtLink>
     <ul>
-      <li v-for="(page) of flattenPages"
-        :key="page">
+      <li v-for="(page) of flattenPages" :key="page">
         <p>Page Name: {{ page.name }}</p>
         <p>Page Slug: {{ page.slug }}</p>
         <p>Page MetaData: {{ page.meta }}</p>
@@ -17,20 +16,20 @@
   <div v-if="response">{{ response }}</div>
 </template>
 <script setup lang="ts">
-  import { flattenObject } from '~~/utils/index'
-  import { pageStore } from '~~/store/pages'
-  import { AdminSearch } from '~~/types/enums'
+import { flattenObject } from '~~/utils/index'
+import { pageStore } from '~~/store/pages'
+import { AdminSearch } from '~~/types/enums'
 
-  const pages = computed(() => pageStore.get.getPages)
+const pages = computed(() => pageStore.get.getPages)
 
-  watch(() => pages.value, () => {
-    flattenPages.value = flattenObject(pages.value)
-  })
+watch(() => pages.value, () => {
+  flattenPages.value = flattenObject(pages.value)
+})
 
-  const flattenPages = ref(flattenObject(pages.value))
-  const response = ref()
+const flattenPages = ref(flattenObject(pages.value))
+const response = ref()
 
-  const deletePage = async (pageId) => {
-    response.value = await pageStore.do.deletePage(pageId)
-  }
+const deletePage = async (pageId: string) => {
+  response.value = await pageStore.do.deletePage(pageId)
+}
 </script>

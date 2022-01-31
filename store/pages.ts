@@ -2,18 +2,19 @@ import { reactive, readonly, } from "vue"
 import { Page, User } from '~~/types'
 import { createId } from "~~/utils"
 import { userStore } from "./user"
+import { useQuery } from "@urql/vue"
 
 // externals
 const initialState = {
   currentPage: {} as Page,
-  pages: []
+  pages: [] as Array<Page>
 }
 
 const state = reactive({
   ...initialState
 })
 
-const deletePage = async (pageId) => {
+const deletePage = async (pageId: string) => {
   const response = await useFetch<any>('/api/pages/deletePage', {
     method: 'POST',
     body: {
@@ -30,14 +31,21 @@ const deletePage = async (pageId) => {
 
 const fetchPages = async () => {
   if (!process.client || !state.pages.length) {
-    const { data } = await useAsyncData('pages', () => $fetch('/api/pages/getPages', {
-      method: 'POST'
+    const { data } = await useAsyncData('pages', async () => useQuery({
+      query: `{
+          getPages {
+            name
+            slug
+            components
+            children {
+              name
+            }
+          }
+       }`
     }))
-    const pageData = typeof data.value === 'string'
-      ? JSON.parse(data.value)
-      : data.value
-    state.pages = pageData.pages
-    return state.pages
+    const pages = (data.value.data as any).getPages
+    state.pages = pages
+    return pages
   }
 }
 
@@ -60,7 +68,6 @@ const getPages = computed(() => state.pages)
 const getCurrentPage = computed(() => state.currentPage)
 
 const setPage = async (formContent: Page) => {
-  console.log(formContent)
   const pageToInsert = await formatPageToInsert(formContent)
   const response = await useFetch<any>('/api/pages/setPage', {
     method: 'POST',
@@ -90,7 +97,7 @@ export const pageStore = readonly({
 })
 
 // internals
-const formatPageToInsert = async (unformattedPage): Promise<Page> => {
+const formatPageToInsert = async (unformattedPage: Page): Promise<Page> => {
   const user: User = await userStore.get.getUser
   const page = {
     author: user.email,
@@ -109,6 +116,6 @@ const calculateChildren = () => {
   return []
 }
 
-const calculatePageLevel = (page) => {
+const calculatePageLevel = (page: Page | void) => {
   return 0
 }
