@@ -1,82 +1,112 @@
 import { Pages, Users, Tokens } from '../mongooseConnect.mjs'
 
 export default {
-  Query: {
-    getPages: (root) => {
-      return new Promise((resolve, reject) => {
-        Pages.find((err, pages) => {
-          if (err) reject(err)
-          else resolve(pages)
-        })
-      })
-    },
-    getSinglePage: (root, { slug }) => {
-      return new Promise((resolve, reject) => {
-        Pages.findOne({ slug: slug }, (err, series) => {
-          if (err) reject(err)
-          else resolve(pages)
-        })
-      })
-    },
-    getSingleUser: (root, { email }) => {
-      return new Promise((resolve, reject) => {
-        Users.findOne({ email: email }, (err, series) => {
-          if (err) reject(err)
-          else resolve(pages)
-        })
-      })
-    },
-    getToken: (root, { id }) => {
-      return new Promise((resolve, reject) => {
-        Tokens.findOne({ id: id }, (err, series) => {
-          if (err) reject(err)
-          else resolve(pages)
-        })
-      })
+  getPages: async () => {
+    try {
+      const pages = await Pages.find({})
+      if (!pages) {
+        throw new Error(`No pages present`)
+      }
+      return pages
+    } catch (error) {
+      throw error
     }
   },
-  Mutation: {
-    createPage: (root, { PageInput }) => {
-      const newPage = new Pages({
-        ...PageInput
-      })
-
-      newPage.id = newPage._id
-
-      return new Promise((resolve, reject) => {
-        newPage.save((err) => {
-          if (err) reject(err)
-          else resolve(newPage)
-        })
-      })
-    },
-    createUser: (root, { UserInput }) => {
-      const newUser = new Users({
-        ...UserInput
-      })
-
-      newUser.id = newUser._id
-
-      return new Promise((resolve, reject) => {
-        newUser.save((err) => {
-          if (err) reject(err)
-          else resolve(newUser)
-        })
-      })
-    },
-    createToken: (root, { TokenInput }) => {
-      const newToken = new Tokens({
-        ...TokenInput
-      })
-
-      newToken.id = newToken._id
-
-      return new Promise((resolve, reject) => {
-        newToken.save((err) => {
-          if (err) reject(err)
-          else resolve(newToken)
-        })
-      })
+  getSinglePage: async ({ slug }) => {
+    try {
+      const page = await Pages.findOne({ slug: slug })
+      if (!page) {
+        throw new Error(`Page not found with: ${slug}`)
+      }
+      return page
+    } catch (error) {
+      throw error
+    }
+  },
+  getSingleUser: async ({ email }) => {
+    try {
+      const user = await Users.findOne({ email: email })
+      if (!user) {
+        throw new Error(`User not found with ${email}`)
+      }
+      return user
+    } catch (error) {
+      throw error
+    }
+  },
+  getToken: async ({ id }) => {
+    try {
+      const token = await Tokens.findOne({ id: id })
+      if (!token) {
+        throw new Error(`Token not found with ${id}`)
+      }
+      return token
+    } catch (error) {
+      throw error
+    }
+  },
+  createPage: async ({ input }) => {
+    const newPage = new Pages({
+      ...input
+    })
+    try {
+      const existingPage = await Pages.findOne({ slug: input.slug })
+      if (existingPage) {
+        throw new Error(`Page with ${input.slug} already exists`)
+      }
+      await newPage.save()
+      return newPage
+    } catch (error) {
+      throw error
+    }
+  },
+  createUser: async ({ input }) => {
+    const newUser = new Users({
+      ...input
+    })
+    try {
+      const existingUser = await Users.findOne({ email: input.email })
+      if (existingUser) {
+        throw new Error(`User with ${input.email} already exists`)
+      }
+      await newUser.save()
+      return newUser
+    } catch (error) {
+      throw error
+    }
+  },
+  createToken: async ({ input }) => {
+    const newToken = new Tokens({
+      ...input
+    })
+    try {
+      await newToken.save()
+      return newToken
+    } catch (error) {
+      throw error
+    }
+  },
+  deletePage: async ({ id }) => {
+    try {
+      const deletedPage = await Pages.deleteOne({ id: id })
+      if (!deletedPage) {
+        throw new Error(`Page with ${id} not found`)
+      }
+      return deletedPage
+    } catch (error) {
+      throw error
+    }
+  },
+  deleteToken: async ({ uuid }) => {
+    try {
+      const token = await Tokens.findOne({ uuid: uuid })
+      const deletedToken = await Tokens.deleteOne({ uuid: uuid })
+      if (!deletedToken) {
+        throw new Error(`Token with ${uuid} not found`)
+      }
+      return token
+    } catch (error) {
+      throw error
     }
   }
 }

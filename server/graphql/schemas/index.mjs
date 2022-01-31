@@ -72,5 +72,7 @@ export default buildSchema(`
     createPage(input: PageInput): Page
     createUser(input: UserInput): User
     createToken(input: TokenInput): Token
+    deletePage(id: String): Page
+    deleteToken(uuid: String): Token
   }
 `)
