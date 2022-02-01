@@ -4,7 +4,7 @@ interface Page {
   name: string,
   id: string,
   author: string,
-  children: Array<Page>,
+  parent: string,
   components: Array<String>,
   meta: Record<string, any>
 }

@@ -31,7 +31,7 @@ const flattenObject = (pages) => {
     const reduceObject = (pages) => {
       pages.reduce((acc, curr) => {
         flattenedArray.push(curr)
-        if (curr.children.length > 0) {
+        if (curr.children?.length > 0) {
           return reduceObject(curr.children)
         }
       }, [])

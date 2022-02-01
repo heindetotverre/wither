@@ -3,9 +3,11 @@ import { Page, User } from '~~/types'
 import { createId } from "~~/utils"
 import { authStore } from "./auth"
 import { useQuery } from "@urql/vue"
+import { useClientHandle } from '@urql/vue'
 
 // externals
 const initialState = {
+  clientHandle: {},
   currentPage: {} as Page,
   pages: [] as Array<Page>,
   user: {} as User
@@ -39,11 +41,9 @@ const fetchAdmin = async () => {
             getPages {
               name
               slug
+              id
               components
-              children {
-                name
-                slug
-              }
+              parent
             }
             getSingleUser(tokenId: "${tokenId}") {
               firstName
@@ -63,22 +63,48 @@ const fetchAdmin = async () => {
   }
 }
 
+const getClient = () => {
+  return state.clientHandle
+}
+
 const getPages = computed(() => state.pages)
 
 const getUser = computed(() => state.user)
 
+const setClient = () => {
+  state.clientHandle = useClientHandle()
+}
+
 const setPage = async (formContent: Page) => {
   const pageToInsert = await formatPageToInsert(formContent)
-  const response = await useFetch<any>('/api/pages/setPage', {
-    method: 'POST',
-    body: {
-      data: pageToInsert
+  try {
+    const mutationPrep = (state.clientHandle as any).useMutation(`
+      mutation {
+        createPage (input: { 
+          author: "${pageToInsert.author}"
+          id: "${pageToInsert.id}"
+          slug: "${pageToInsert.slug}"
+          level: ${pageToInsert.level}
+          name: "${pageToInsert.name}"
+          parent: "${pageToInsert.parent}"
+          components: "${pageToInsert.components}"
+         }) {
+          name
+          slug
+          id
+          components
+          parent
+        }
+      }`
+    )
+    const result = await mutationPrep.executeMutation(pageToInsert)
+    if (result.data.createPage) {
+      state.pages.push(result.data.createPage)
     }
-  })
-  if (response.data.value?.message === 'PageInserted') {
-    state.pages.push(response.data.value?.page)
+    return result.data
+  } catch (error) {
+    console.log(error)
   }
-  return response
 }
 
 const setUser = (user: User) => {
@@ -90,11 +116,13 @@ export const adminStore = readonly({
   state: state,
   do: {
     deletePage,
+    setClient,
     setPage,
     setUser
   },
   get: {
     fetchAdmin,
+    getClient,
     getPages,
     getUser
   }
@@ -109,15 +137,11 @@ const formatPageToInsert = async (unformattedPage: Page): Promise<Page> => {
     level: calculatePageLevel(unformattedPage),
     name: unformattedPage.name,
     id: createId('page'),
-    children: calculateChildren(),
+    parent: unformattedPage.parent,
     components: unformattedPage.components,
     meta: unformattedPage.meta
   }
   return page
-}
-
-const calculateChildren = () => {
-  return []
 }
 
 const calculatePageLevel = (page: Page | void) => {

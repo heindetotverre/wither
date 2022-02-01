@@ -34,7 +34,7 @@ const loginForm = ref([
 ] as Array<FormField>)
 const registerForm = ref([
   { ...formFieldsIndex.find(field => field.class === 'TextInput'), label: 'firstname', key: 'firstName', id: createId(registerFormName) },
-  { ...formFieldsIndex.find(field => field.class === 'TextInput'), label: 'lastname', key: 'lastLame', id: createId(registerFormName) },
+  { ...formFieldsIndex.find(field => field.class === 'TextInput'), label: 'lastname', key: 'lastName', id: createId(registerFormName) },
   { ...formFieldsIndex.find(field => field.class === 'EmailInput'), label: 'email', id: createId(registerFormName), autocomplete: 'username' },
   { ...formFieldsIndex.find(field => field.class === 'PasswordInput'), label: 'password', id: createId(registerFormName), autocomplete: 'current-password' },
   { ...formFieldsIndex.find(field => field.class === 'PasswordInput'), label: 'password again', key: 'passwordCheck', id: createId(registerFormName), autocomplete: 'current-password' },

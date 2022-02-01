@@ -4,6 +4,7 @@ import { createError, sendError, send } from 'h3'
 import { RequestObject } from '~~/types'
 
 const deletePage = async (res: ServerResponse, db: Db, requestBody: RequestObject) => {
+  console.log(requestBody)
   try {
     const pageId = requestBody.data
     const deletedPage = await db.collection('pages').deleteOne({ id: pageId })

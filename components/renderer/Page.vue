@@ -3,13 +3,13 @@
     <template v-if="is404" #404>This is a 404 layout template</template>
   </NuxtLayout>
 
-  <div v-if="!noHomePage">
+  <div v-if="!noHomePage && !is404">
     <p>Page with components: {{ page }}</p>
     <component v-for="component in page.components" :is="component">
       <slot></slot>
     </component>
   </div>
-  <div v-else>
+  <div v-if="noHomePage">
     <p>No Homepage yet, go and create one</p>
   </div>
 </template>
@@ -34,10 +34,10 @@ await frontStore.get.fetchSinglePage(`/${props.search ? props.search : ''}`)
 
 const page = frontStore.get.getCurrentPage
 
-is404.value = !!(page.name === '404' && props.search !== '')
-noHomePage.value = !!(page.name === '404' && props.search === '')
+is404.value = !!(!page && props.search !== '')
+noHomePage.value = (!page && props.search === '')
 
-if (props.search === '' && page.name === '404' && !isLoggedIn.value) {
+if (props.search === '' && !page && !isLoggedIn.value) {
   useRouter().push('/admin')
 }
 

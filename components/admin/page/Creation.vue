@@ -34,7 +34,7 @@ onMounted(() => {
     updatedForm.value = [{
       name: 'home',
       slug: '/',
-      children: [],
+      parent: '',
       level: 0,
       author: '',
       components: [],
@@ -46,7 +46,7 @@ onMounted(() => {
 
 const createPage = async (formSubmitEvent: Page) => {
   response.value = await adminStore.do.setPage(formSubmitEvent)
-  if (response.value.data.message) {
+  if (response.value.createPage) {
     useRouter().push(`${AdminSearch.Admin}/${AdminSearch.PageManagement}`)
   }
 }

@@ -1,7 +1,7 @@
 <template>
   <Html :lang="'en-GB'">
     <Head>
-      <Title>{{ page.name ? page.name : 'Oops' }}</Title>
+      <Title>{{ page ? page.name : 'Oops' }}</Title>
       <Meta name="description" :content="`My page's description`" />
     </Head>
   </Html>

@@ -43,8 +43,8 @@ const PageSchema = new schema({
   author: {
     type: String
   },
-  children: {
-    type: Array
+  parent: {
+    type: String
   },
   components: {
     type: Array

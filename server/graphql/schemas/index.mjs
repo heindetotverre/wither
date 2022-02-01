@@ -7,7 +7,7 @@ export default buildSchema(`
     level: Int
     name: String
     author: String
-    children: [Page]
+    parent: String
     components: [String]
   }
   
@@ -35,12 +35,12 @@ export default buildSchema(`
   }
 
   input PageInput {
-    id: ID
+    id: String
     slug: String
     level: Int
     name: String
     author: String
-    children: [PageInput]
+    parent: String
     components: [String]
   }
 
