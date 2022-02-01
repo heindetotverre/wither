@@ -32,7 +32,9 @@ const props = defineProps({
 
 const isLoggedIn = computed(() => authStore.get.getTokenState())
 
-await adminStore.get.fetchAdmin()
+if (isLoggedIn.value) {
+  await adminStore.get.fetchAdmin()
+}
 
 const user = adminStore.get.getUser
 </script>

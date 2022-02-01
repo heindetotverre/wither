@@ -3,11 +3,11 @@ import { Page, User } from '~~/types'
 import { createId } from "~~/utils"
 import { authStore } from "./auth"
 import { useQuery } from "@urql/vue"
-import { useClientHandle } from '@urql/vue'
+import { generalStore } from "./index"
 
 // externals
 const initialState = {
-  clientHandle: {},
+  clientHandle: {} as any,
   currentPage: {} as Page,
   pages: [] as Array<Page>,
   user: {} as User
@@ -63,22 +63,14 @@ const fetchAdmin = async () => {
   }
 }
 
-const getClient = () => {
-  return state.clientHandle
-}
-
 const getPages = computed(() => state.pages)
 
 const getUser = computed(() => state.user)
 
-const setClient = () => {
-  state.clientHandle = useClientHandle()
-}
-
 const setPage = async (formContent: Page) => {
   const pageToInsert = await formatPageToInsert(formContent)
   try {
-    const mutationPrep = (state.clientHandle as any).useMutation(`
+    const mutationPrep = generalStore.get.getClient().useMutation(`
       mutation {
         createPage (input: { 
           author: "${pageToInsert.author}"
@@ -116,13 +108,11 @@ export const adminStore = readonly({
   state: state,
   do: {
     deletePage,
-    setClient,
     setPage,
     setUser
   },
   get: {
     fetchAdmin,
-    getClient,
     getPages,
     getUser
   }

@@ -1,6 +1,5 @@
 import { reactive, readonly, } from "vue"
 import { UserForm, LoginForm } from '~~/types'
-import { adminStore } from './admin'
 
 // externals
 const initialState = {
@@ -26,7 +25,6 @@ const login = async (formContent: LoginForm) => {
   if (response.data.value) {
     state.hasToken = true
     state.tokenId = response.data.value.tokenId
-    adminStore.do.setUser(response.data.value.user)
   }
   return response
 }
