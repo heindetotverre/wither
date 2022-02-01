@@ -1,31 +1,44 @@
 <template>
   <NuxtLayout name="page" :page="page">
-    <template v-if="!Object.keys(page).length" #404>This is a 404 layout template</template>
+    <template v-if="is404" #404>This is a 404 layout template</template>
   </NuxtLayout>
 
-  <div>
-    <p>Page with components</p>
-    <p>{{ Object.keys(page).length ? page : '404' }}</p>
-    <component
-      v-for="component in page.components"
-      :is="component">
+  <div v-if="!noHomePage">
+    <p>Page with components: {{ page }}</p>
+    <component v-for="component in page.components" :is="component">
       <slot></slot>
     </component>
+  </div>
+  <div v-else>
+    <p>No Homepage yet, go and create one</p>
   </div>
 </template>
 
 <script setup lang="ts">
-  import { pageStore } from '~~/store/pages'
+import { frontStore } from '~~/store/front'
+import { authStore } from '~~/store/auth'
 
-  const props = defineProps({
-    search: {
-      type: String,
-      required: true
-    }
-  })
+const props = defineProps({
+  search: {
+    type: String,
+    required: true
+  }
+})
 
-  await pageStore.get.fetchSinglePage(`/${props.search ? props.search : ''}`)
+const isLoggedIn = computed(() => authStore.get.getTokenState())
 
-  const page = pageStore.get.getCurrentPage
+const is404 = ref(false)
+const noHomePage = ref(false)
+
+await frontStore.get.fetchSinglePage(`/${props.search ? props.search : ''}`)
+
+const page = frontStore.get.getCurrentPage
+
+is404.value = !!(page.name === '404' && props.search !== '')
+noHomePage.value = !!(page.name === '404' && props.search === '')
+
+if (props.search === '' && page.name === '404' && !isLoggedIn.value) {
+  useRouter().push('/admin')
+}
 
 </script>

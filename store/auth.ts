@@ -1,42 +1,20 @@
 import { reactive, readonly, } from "vue"
-import { User, UserForm, LoginForm } from '~~/types'
+import { UserForm, LoginForm } from '~~/types'
+import { adminStore } from './admin'
 
 // externals
 const initialState = {
   hasToken: false,
-  tokenId: '',
-  user: {} as User
+  tokenId: ''
 }
 
 const state = reactive({
   ...initialState
 })
 
-const fetchUser = async () => {
-  // only fetch when neccessary
-  if (!process.client || !Object.keys(state.user).length) {
-    const { data } = await useAsyncData('user', () => $fetch('/api/user/getUser', {
-      method: 'POST',
-      body: {
-        data: state.tokenId
-      }
-    }))
-    let userData
-    if (typeof data.value === 'string') {
-      userData = JSON.parse(data.value)
-    } else {
-      userData = data.value
-    }
-    state.user = userData.user
-    return state.user
-  }
-}
+const getTokenId = () => state.tokenId
 
 const getTokenState = () => state.hasToken
-
-const getUser = computed(() => {
-  return state.user
-})
 
 const login = async (formContent: LoginForm) => {
   const response = await useFetch<any>('/api/auth/loginUser', {
@@ -48,7 +26,7 @@ const login = async (formContent: LoginForm) => {
   if (response.data.value) {
     state.hasToken = true
     state.tokenId = response.data.value.tokenId
-    state.user = response.data.value.user
+    adminStore.do.setUser(response.data.value.user)
   }
   return response
 }
@@ -65,7 +43,6 @@ const logout = async () => {
 }
 
 const register = async (formContent: UserForm) => {
-  console.log(formContent)
   if (formContent.password === formContent.passwordCheck) {
     const response = await useFetch<any>('/api/auth/registerUser', {
       method: 'POST',
@@ -98,7 +75,7 @@ const setTokenState = (tokenId: string) => {
 }
 
 // exports
-export const userStore = readonly({
+export const authStore = readonly({
   state: state,
   do: {
     login,
@@ -107,8 +84,7 @@ export const userStore = readonly({
     setTokenState
   },
   get: {
-    fetchUser,
-    getTokenState,
-    getUser
+    getTokenId,
+    getTokenState
   }
 })

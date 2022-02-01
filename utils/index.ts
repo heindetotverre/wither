@@ -1,4 +1,5 @@
 import { useRoute } from 'vue-router'
+import { Page } from '~~/types'
 
 const createId = (idPrefix: string) => {
   return `${idPrefix ? idPrefix : ''}_${Math.random().toString(16).slice(2)}`
@@ -11,7 +12,7 @@ const createUUID = () => {
   })
 }
 
-const findPageBySlug = (pages, slug) => {
+const findPageBySlug = (pages: Array<any>, slug: String): Array<any> => {
   if (pages.length) {
     return pages.reduce((acc, curr) => curr.slug.replace('/', '') === slug
       ? acc.concat(curr)
