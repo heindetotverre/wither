@@ -159,8 +159,8 @@ const setToken = async (db: Db, user: User): Promise<Token> => {
   const now = new Date()
   const token: Token = {
     uuid: createUUID(),
-    user: user.Email,
-    group: user.Group,
+    user: user.email,
+    group: user.group,
     created: now.getTime()
   }
   const setToken = await db.collection('tokens').insertOne(token)

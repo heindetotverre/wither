@@ -23,11 +23,12 @@ export default {
       throw error
     }
   },
-  getSingleUser: async ({ email }) => {
+  getSingleUser: async ({ tokenId }) => {
     try {
-      const user = await Users.findOne({ email: email })
+      const token = await Tokens.findOne({ uuid: tokenId })
+      const user = await Users.findOne({ email: token.user })
       if (!user) {
-        throw new Error(`User not found with ${email}`)
+        throw new Error(`User not found with ${token.user}`)
       }
       return user
     } catch (error) {

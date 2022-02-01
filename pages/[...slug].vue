@@ -8,7 +8,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { getUrlPath } from '~~/utils'
-import { userStore } from '~~/store/user'
+import { authStore } from '~~/store/auth'
 import { Render, Cookie } from '~~/types/enums'
 
 const cookie = ref()
@@ -19,7 +19,7 @@ const search = !getUrlPath().last
   : getUrlPath().last as string
 const tokenId = useCookie<Record<string, any>>('witherLoginToken')
 
-await userStore.do.setTokenState(tokenId.value?.id)
+await authStore.do.setTokenState(tokenId.value?.id)
 
 renderer.value = getUrlPath().first === 'admin'
   ? Render.Admin

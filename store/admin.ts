@@ -1,13 +1,14 @@
 import { reactive, readonly, } from "vue"
 import { Page, User } from '~~/types'
 import { createId } from "~~/utils"
-import { userStore } from "./user"
+import { authStore } from "./auth"
 import { useQuery } from "@urql/vue"
 
 // externals
 const initialState = {
   currentPage: {} as Page,
-  pages: [] as Array<Page>
+  pages: [] as Array<Page>,
+  user: {} as User
 }
 
 const state = reactive({
@@ -29,43 +30,42 @@ const deletePage = async (pageId: string) => {
   return response
 }
 
-const fetchPages = async () => {
+const fetchAdmin = async () => {
+  const tokenId = authStore.get.getTokenId()
   if (!process.client || !state.pages.length) {
-    const { data } = await useAsyncData('pages', async () => useQuery({
-      query: `{
-          getPages {
-            name
-            slug
-            components
-            children {
+    try {
+      const { data } = await useAsyncData('pages', async () => useQuery({
+        query: `{
+            getPages {
               name
+              slug
+              components
+              children {
+                name
+                slug
+              }
             }
-          }
-       }`
-    }))
-    const pages = (data.value.data as any).getPages
-    state.pages = pages
-    return pages
-  }
-}
-
-const fetchSinglePage = async (currentPageUrl: string) => {
-  const { data } = await useAsyncData('page', () => $fetch('/api/pages/getSinglePage', {
-    method: 'POST',
-    body: {
-      data: currentPageUrl
+            getSingleUser(tokenId: "${tokenId}") {
+              firstName
+              lastName
+              email
+            }
+         }`
+      }))
+      const pageData = (data.value.data as any).getPages
+      const userData = (data.value.data as any).getSingleUser
+      state.pages = pageData
+      state.user = userData
+      return pageData
+    } catch (error) {
+      console.log(error)
     }
-  }))
-  const pageData = typeof data.value === 'string'
-    ? JSON.parse(data.value)
-    : data.value
-  state.currentPage = pageData.page
-  return state.currentPage
+  }
 }
 
 const getPages = computed(() => state.pages)
 
-const getCurrentPage = computed(() => state.currentPage)
+const getUser = computed(() => state.user)
 
 const setPage = async (formContent: Page) => {
   const pageToInsert = await formatPageToInsert(formContent)
@@ -81,24 +81,28 @@ const setPage = async (formContent: Page) => {
   return response
 }
 
+const setUser = (user: User) => {
+  state.user = user
+}
+
 // exports
-export const pageStore = readonly({
+export const adminStore = readonly({
   state: state,
   do: {
     deletePage,
-    setPage
+    setPage,
+    setUser
   },
   get: {
-    fetchPages,
-    fetchSinglePage,
-    getCurrentPage,
-    getPages
+    fetchAdmin,
+    getPages,
+    getUser
   }
 })
 
 // internals
 const formatPageToInsert = async (unformattedPage: Page): Promise<Page> => {
-  const user: User = await userStore.get.getUser
+  const user: User = getUser.value
   const page = {
     author: user.email,
     slug: unformattedPage.slug,

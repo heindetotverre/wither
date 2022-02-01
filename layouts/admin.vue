@@ -6,20 +6,19 @@
     </Head>
   </Html>
 
-  <AdminBar 
-    v-if="isLoggedIn"/>
+  <AdminBar v-if="isLoggedIn" />
 
   <slot />
 </template>
 <script setup lang="ts">
-  import { userStore } from '~~/store/user'
-  
-  const props = defineProps({
-    name: {
-      type: String,
-      default: ''
-    }
-  })
+import { authStore } from '~~/store/auth'
 
-  const isLoggedIn = computed(() => userStore.get.getTokenState())
+const props = defineProps({
+  name: {
+    type: String,
+    default: ''
+  }
+})
+
+const isLoggedIn = computed(() => authStore.get.getTokenState())
 </script>

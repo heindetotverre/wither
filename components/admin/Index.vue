@@ -19,8 +19,8 @@
 </template>
 
 <script setup lang="ts">
-import { pageStore } from '~~/store/pages'
-import { userStore } from '~~/store/user'
+import { adminStore } from '~~/store/admin'
+import { authStore } from '~~/store/auth'
 import { AdminSearch } from '~~/types/enums'
 
 const props = defineProps({
@@ -30,13 +30,9 @@ const props = defineProps({
   }
 })
 
-const isLoggedIn = computed(() => userStore.get.getTokenState())
+const isLoggedIn = computed(() => authStore.get.getTokenState())
 
-await pageStore.get.fetchPages()
+await adminStore.get.fetchAdmin()
 
-if (isLoggedIn.value) {
-  await userStore.get.fetchUser()
-}
-
-const user = userStore.get.getUser
+const user = adminStore.get.getUser
 </script>

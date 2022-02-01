@@ -15,8 +15,8 @@
 </template>
 
 <script setup lang="ts">
-import { pageStore } from '~~/store/pages'
-import { userStore } from '~~/store/user'
+import { frontStore } from '~~/store/front'
+import { authStore } from '~~/store/auth'
 
 const props = defineProps({
   search: {
@@ -25,14 +25,14 @@ const props = defineProps({
   }
 })
 
-const isLoggedIn = computed(() => userStore.get.getTokenState())
+const isLoggedIn = computed(() => authStore.get.getTokenState())
 
 const is404 = ref(false)
 const noHomePage = ref(false)
 
-await pageStore.get.fetchSinglePage(`/${props.search ? props.search : ''}`)
+await frontStore.get.fetchSinglePage(`/${props.search ? props.search : ''}`)
 
-const page = pageStore.get.getCurrentPage
+const page = frontStore.get.getCurrentPage
 
 is404.value = !!(page.name === '404' && props.search !== '')
 noHomePage.value = !!(page.name === '404' && props.search === '')

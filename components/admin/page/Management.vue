@@ -17,10 +17,10 @@
 </template>
 <script setup lang="ts">
 import { flattenObject } from '~~/utils/index'
-import { pageStore } from '~~/store/pages'
+import { adminStore } from '~~/store/admin'
 import { AdminSearch } from '~~/types/enums'
 
-const pages = computed(() => pageStore.get.getPages)
+const pages = computed(() => adminStore.get.getPages)
 
 watch(() => pages.value, () => {
   flattenPages.value = flattenObject(pages.value)
@@ -30,6 +30,6 @@ const flattenPages = ref(flattenObject(pages.value))
 const response = ref()
 
 const deletePage = async (pageId: string) => {
-  response.value = await pageStore.do.deletePage(pageId)
+  response.value = await adminStore.do.deletePage(pageId)
 }
 </script>

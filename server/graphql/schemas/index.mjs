@@ -64,7 +64,7 @@ export default buildSchema(`
   type Query {
     getPages: [Page]
     getSinglePage(slug: String): Page
-    getSingleUser(email: String): User
+    getSingleUser(tokenId: String): User
     getToken(id: ID): Token
   }
 
