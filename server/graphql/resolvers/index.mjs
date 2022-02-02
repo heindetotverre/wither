@@ -77,7 +77,18 @@ export default {
     }
   },
   createToken: async ({ input }) => {
+    const user = await Users.findOne({ email: input.user })
+    if (!user) {
+      throw new Error(`User not found with ${input.user}`)
+    }
+    if (user.password !== input.password) {
+      throw new Error(`Password not correct`)
+    }
+    delete user.password
+    const now = new Date()
     const newToken = new Tokens({
+      created: now.getTime(),
+      group: user.group,
       ...input
     })
     try {

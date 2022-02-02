@@ -54,11 +54,9 @@ export default buildSchema(`
   }
 
   input TokenInput {
-    id: ID
     user: String
-    group: Group
+    password: String
     uuid: String
-    created: Int
   }
 
   type Query {

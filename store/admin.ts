@@ -38,18 +38,18 @@ const fetchAdmin = async () => {
     try {
       const { data } = await useAsyncData('pages', async () => useQuery({
         query: `{
-            getPages {
-              name
-              slug
-              id
-              components
-              parent
-            }
-            getSingleUser(tokenId: "${tokenId}") {
-              firstName
-              lastName
-              email
-            }
+          getPages {
+            name
+            slug
+            id
+            components
+            parent
+          }
+          getSingleUser(tokenId: "${tokenId}") {
+            firstName
+            lastName
+            email
+          }
          }`
       }))
       const pageData = (data.value.data as any).getPages

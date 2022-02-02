@@ -44,7 +44,7 @@ const registerForm = ref([
 const handleLogin = async (event: LoginForm) => {
   response.value = await authStore.do.login(event)
   if (!response.value.error) {
-    if (response.value.data.message) {
+    if (response.value.data) {
       useRouter().push('/')
     }
   }
@@ -53,7 +53,7 @@ const handleLogin = async (event: LoginForm) => {
 const handleRegister = async (event: UserForm) => {
   response.value = await authStore.do.register(event)
   if (!response.value.error) {
-    if (response.value.data.message) {
+    if (response.value.data) {
       useRouter().push('/')
     }
   }

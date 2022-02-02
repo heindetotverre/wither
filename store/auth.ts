@@ -1,5 +1,7 @@
 import { reactive, readonly, } from "vue"
 import { UserForm, LoginForm } from '~~/types'
+import { createUUID } from "~~/utils"
+import { generalStore } from "./index"
 
 // externals
 const initialState = {
@@ -16,17 +18,40 @@ const getTokenId = () => state.tokenId
 const getTokenState = () => state.hasToken
 
 const login = async (formContent: LoginForm) => {
-  const response = await useFetch<any>('/api/auth/loginUser', {
-    method: 'POST',
-    body: {
-      data: formContent
+  try {
+    const loginPayload = {
+      uuid: createUUID(),
+      user: formContent.email,
+      password: formContent.password
     }
-  })
-  if (response.data.value) {
-    state.hasToken = true
-    state.tokenId = response.data.value.tokenId
+    const mutationPrep = generalStore.get.getClient().useMutation(`
+      mutation {
+        createToken (input: { 
+          user: "${loginPayload.user}"
+          password: "${loginPayload.password}"
+          uuid: "${loginPayload.uuid}"
+        }) {
+          uuid
+        }
+      }`
+    )
+    const result = await mutationPrep.executeMutation(loginPayload)
+    if (result.data.createToken) {
+      await useFetch<any>('/auth', {
+        method: 'POST',
+        body: {
+          secret: result.data.createToken.uuid,
+          set: true
+        }
+      })
+      state.hasToken = true
+      state.tokenId = result.data.createToken.uuid
+    }
+    return result
+  } catch (error) {
+    console.log(error)
+    return error
   }
-  return response
 }
 
 const logout = async () => {
