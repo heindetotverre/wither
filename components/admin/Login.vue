@@ -12,7 +12,7 @@
         <p>Already a member?</p>
         <button @click="formRenderer = 'login'">Go to login</button>
       </div>
-      <div v-if="response">{{ response }}</div>
+      <div v-if="response">{{ response.error ? response.error.message : response }}</div>
     </div>
   </div>
 </template>
@@ -43,19 +43,16 @@ const registerForm = ref([
 
 const handleLogin = async (event: LoginForm) => {
   response.value = await authStore.do.login(event)
+  console.log(response.value)
   if (!response.value.error) {
-    if (response.value.data) {
-      useRouter().push('/')
-    }
+    useRouter().push('/')
   }
 }
 
 const handleRegister = async (event: UserForm) => {
   response.value = await authStore.do.register(event)
   if (!response.value.error) {
-    if (response.value.data) {
-      useRouter().push('/')
-    }
+    useRouter().push('/')
   }
 }
 </script>

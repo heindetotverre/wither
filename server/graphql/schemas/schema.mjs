@@ -63,7 +63,7 @@ const TokenSchema = new schema({
     type: String,
     required: true
   },
-  uuid: {
+  id: {
     type: String,
     required: true
   },

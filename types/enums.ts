@@ -8,6 +8,12 @@ enum Cookie {
   Accepted
 }
 
+enum Group {
+  Default,
+  Admin,
+  User
+}
+
 enum Render {
   Admin,
   Page
@@ -16,5 +22,6 @@ enum Render {
 export {
   AdminSearch,
   Cookie,
+  Group,
   Render
 }

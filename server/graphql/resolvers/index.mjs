@@ -25,7 +25,7 @@ export default {
   },
   getSingleUser: async ({ tokenId }) => {
     try {
-      const token = await Tokens.findOne({ uuid: tokenId })
+      const token = await Tokens.findOne({ id: tokenId })
       const user = await Users.findOne({ email: token.user })
       if (!user) {
         throw new Error(`User not found with ${token.user}`)
@@ -62,6 +62,13 @@ export default {
     }
   },
   createUser: async ({ input }) => {
+    const now = new Date()
+    const newToken = new Tokens({
+      created: now.getTime(),
+      group: input.group,
+      user: input.email,
+      id: input.id
+    })
     const newUser = new Users({
       ...input
     })
@@ -71,6 +78,7 @@ export default {
         throw new Error(`User with ${input.email} already exists`)
       }
       await newUser.save()
+      await newToken.save()
       return newUser
     } catch (error) {
       throw error
@@ -100,7 +108,7 @@ export default {
   },
   deletePage: async ({ id }) => {
     try {
-      const deletedPage = await Pages.deleteOne({ id: id })
+      const deletedPage = await Pages.findOneAndDelete({ id: id })
       if (!deletedPage) {
         throw new Error(`Page with ${id} not found`)
       }
@@ -109,14 +117,13 @@ export default {
       throw error
     }
   },
-  deleteToken: async ({ uuid }) => {
+  deleteToken: async ({ id }) => {
     try {
-      const token = await Tokens.findOne({ uuid: uuid })
-      const deletedToken = await Tokens.deleteOne({ uuid: uuid })
+      const deletedToken = await Tokens.findOneAndDelete({ id: id })
       if (!deletedToken) {
-        throw new Error(`Token with ${uuid} not found`)
+        throw new Error(`Token with ${id} not found`)
       }
-      return token
+      return deletedToken
     } catch (error) {
       throw error
     }

@@ -46,7 +46,7 @@ interface RequestObject {
 }
 
 interface Token {
-  uuid: string,
+  id: string,
   user: string,
   group: string,
   created: number

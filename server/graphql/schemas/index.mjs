@@ -17,14 +17,13 @@ export default buildSchema(`
     lastName: String
     email: String
     password: String
-    group: String
+    group: Group
   }
 
   type Token {
     id: ID
     user: String
-    group: Group
-    uuid: String
+    group: Int
     created: Int
   }
 
@@ -50,13 +49,13 @@ export default buildSchema(`
     lastName: String
     email: String
     password: String
-    group: String
+    group: Int
   }
 
   input TokenInput {
     user: String
     password: String
-    uuid: String
+    id: String
   }
 
   type Query {
@@ -71,6 +70,6 @@ export default buildSchema(`
     createUser(input: UserInput): User
     createToken(input: TokenInput): Token
     deletePage(id: String): Page
-    deleteToken(uuid: String): Token
+    deleteToken(id: String): Token
   }
 `)

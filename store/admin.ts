@@ -18,18 +18,24 @@ const state = reactive({
 })
 
 const deletePage = async (pageId: string) => {
-  const response = await useFetch<any>('/api/pages/deletePage', {
-    method: 'POST',
-    body: {
-      data: pageId
+  try {
+    const mutationPrep = generalStore.get.getClient().useMutation(`
+      mutation ($id: String) {
+        deletePage (id: $id ) {
+          name
+        }
+      }`
+    )
+    const result = await mutationPrep.executeMutation({ id: pageId })
+    if (result.data.deletePage) {
+      state.pages = state.pages.filter(page => {
+        return page.id !== pageId
+      })
     }
-  })
-  if (response.data.value?.message === 'PageDeleted') {
-    state.pages = state.pages.filter(page => {
-      return page.id !== pageId
-    })
+    return result.data
+  } catch (error) {
+    console.log(error)
   }
-  return response
 }
 
 const fetchAdmin = async () => {
@@ -71,16 +77,8 @@ const setPage = async (formContent: Page) => {
   const pageToInsert = await formatPageToInsert(formContent)
   try {
     const mutationPrep = generalStore.get.getClient().useMutation(`
-      mutation {
-        createPage (input: { 
-          author: "${pageToInsert.author}"
-          id: "${pageToInsert.id}"
-          slug: "${pageToInsert.slug}"
-          level: ${pageToInsert.level}
-          name: "${pageToInsert.name}"
-          parent: "${pageToInsert.parent}"
-          components: "${pageToInsert.components}"
-         }) {
+      mutation ($input: PageInput) {
+        createPage (input: $input) {
           name
           slug
           id
@@ -89,7 +87,7 @@ const setPage = async (formContent: Page) => {
         }
       }`
     )
-    const result = await mutationPrep.executeMutation(pageToInsert)
+    const result = await mutationPrep.executeMutation({ input: pageToInsert })
     if (result.data.createPage) {
       state.pages.push(result.data.createPage)
     }

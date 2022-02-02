@@ -5,6 +5,10 @@ export default async (req: IncomingMessage, res: ServerResponse) => {
   const body = await useBody(req)
   const name = 'witherLoginToken'
   const value = JSON.stringify({ id: body.secret })
-  setCookie(res, name, value)
+  if (body.set) {
+    setCookie(res, name, value, { path: '/' })
+  } else {
+    setCookie(res, name, null, { path: '/' })
+  }
   return 'authenticated'
 }
