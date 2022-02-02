@@ -43,7 +43,6 @@ const registerForm = ref([
 
 const handleLogin = async (event: LoginForm) => {
   response.value = await authStore.do.login(event)
-  console.log(response.value)
   if (!response.value.error) {
     useRouter().push('/')
   }

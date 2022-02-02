@@ -8,7 +8,7 @@ export default async (req: IncomingMessage, res: ServerResponse) => {
   if (body.set) {
     setCookie(res, name, value, { path: '/' })
   } else {
-    setCookie(res, name, null, { path: '/' })
+    setCookie(res, name, '', { path: '/' })
   }
   return 'authenticated'
 }
