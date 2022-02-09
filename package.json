@@ -1,7 +1,8 @@
 {
-  "private": true,
+  "name": "witherapp",
+  "version": "1.0.0",
+  "description": "hybrid nuxt app for serving and creating pages",
   "scripts": {
-    "gql": "node server/graphql/server.mjs",
     "dev": "nuxi dev",
     "build": "nuxi build",
     "start": "node .output/server/index.mjs"

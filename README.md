@@ -2,7 +2,7 @@
 
 A basic page server and content builder built in Nuxt3
 
-Make sure you have mongo community server installed and you have mongod executable available
+Make sure you have the gql server and the mongo instances running
 
 ## Setup
 
@@ -12,7 +12,7 @@ npm install
 
 npm run dev
 
-mongod -dbpath ./db
+run gql server
 
 create a user
 

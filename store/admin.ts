@@ -39,33 +39,31 @@ const deletePage = async (pageId: string) => {
 }
 
 const fetchAdmin = async () => {
-  const tokenId = authStore.get.getTokenId()
-  if (!process.client || !state.pages.length) {
-    try {
-      const { data } = await useAsyncData('pages', async () => useQuery({
-        query: `{
-          getPages {
-            name
-            slug
-            id
-            components
-            parent
-          }
-          getSingleUser(tokenId: "${tokenId}") {
-            firstName
-            lastName
-            email
-          }
-         }`
-      }))
-      const pageData = (data.value.data as any).getPages
-      const userData = (data.value.data as any).getSingleUser
-      state.pages = pageData
-      state.user = userData
-      return pageData
-    } catch (error) {
-      console.log(error)
-    }
+  try {
+    const tokenId = authStore.get.getTokenId()
+    const { data } = await useAsyncData('pages', async () => useQuery({
+      query: `{
+        getPages {
+          name
+          slug
+          id
+          components
+          parent
+        }
+        getSingleUser(tokenId: "${tokenId}") {
+          firstName
+          lastName
+          email
+        }
+        }`
+    }))
+    const pageData = (data.value.data as any).getPages,
+      userData = (data.value.data as any).getSingleUser
+    state.pages = pageData
+    state.user = userData
+    return pageData
+  } catch (error) {
+    console.log(error)
   }
 }
 
