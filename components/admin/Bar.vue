@@ -5,8 +5,8 @@
     : '/'">
       {{
         !urlPath.includes('admin')
-        ? 'Go to to admin'
-        : 'Go to website'
+          ? 'Go to to admin'
+          : 'Go to website'
       }}
     </NuxtLink>
     <button @click="logout()">Log out</button>
@@ -17,7 +17,6 @@ import { authStore } from '~~/store/auth'
 
 const logout = async () => {
   await authStore.do.logout()
-  useRouter().push('/')
 }
 
 const urlPath = useRoute().params.slug
