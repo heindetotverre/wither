@@ -2,7 +2,9 @@
 
 A basic page server and content builder built in Nuxt3
 
-Make sure you have the gql server and the mongo instances running
+prereqisities
+
+- Needs the following repo running: https://github.com/heindetotverre/gqlserver
 
 ## Setup
 
@@ -10,9 +12,9 @@ npm install
 
 ## Development and usage
 
-npm run dev
+make sure you have the graphql server from the aformentioned repo running
 
-run gql server
+npm run dev
 
 create a user
 
