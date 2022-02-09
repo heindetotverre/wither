@@ -38,8 +38,8 @@ const props = defineProps({
   }
 })
 
-const formFields = props.form.filter(f => f.class !== 'Button')
-const buttons = props.form.filter(f => f.class === 'Button')
+const formFields = props.form.filter(f => f.class !== 'Button'),
+  buttons = props.form.filter(f => f.class === 'Button')
 
 const emits = defineEmits([
   'inputField',

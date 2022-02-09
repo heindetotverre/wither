@@ -13,9 +13,8 @@
 import { adminStore } from '~~/store/admin'
 import { AdminSearch } from '~~/types/enums'
 
-const pages = computed(() => adminStore.get.getPages)
-
-const response = ref()
+const pages = computed(() => adminStore.get.getPages),
+  response = ref()
 
 const deletePage = async (pageId: string) => {
   response.value = await adminStore.do.deletePage(pageId)

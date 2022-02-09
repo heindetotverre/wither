@@ -25,10 +25,9 @@ const props = defineProps({
   }
 })
 
-const isLoggedIn = computed(() => authStore.get.getTokenState())
-
-const is404 = ref(false)
-const noHomePage = ref(false)
+const isLoggedIn = computed(() => authStore.get.getTokenState()),
+  is404 = ref(false),
+  noHomePage = ref(false)
 
 await frontStore.get.fetchSinglePage(`/${props.search ? props.search : ''}`)
 
