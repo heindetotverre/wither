@@ -34,15 +34,38 @@ interface FormField {
   autocomplete?: string,
   class: string,
   component: string,
+  disabled?: boolean,
+  id: string,
   key: string,
-  type: string,
-  required: boolean,
   label: string,
-  id: string
+  options?: string[],
+  type: string,
+  required?: boolean,
+  validator: keyof Validators,
+  value: any
 }
 
-interface RequestObject {
-  data: any
+interface Validators {
+  email: Validator,
+  notempty: Validator,
+  slug: Validator
+}
+
+interface Validator {
+  (input: string): boolean
+}
+
+interface FormEvent {
+  name: keyof Forms,
+  key: string,
+  property: keyof FormField
+  value: any
+}
+
+interface Forms {
+  createPage: FormField[],
+  login: FormField[],
+  register: FormField[]
 }
 
 interface Token {
@@ -53,10 +76,11 @@ interface Token {
 }
 
 export {
+  Forms,
+  FormEvent,
   FormField,
   LoginForm,
   Page,
-  RequestObject,
   User,
   UserForm,
   Token

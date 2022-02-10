@@ -1,21 +1,21 @@
-[
+export const presetComponents = [
   {
-    "type":  "header",
+    "type": "header",
     "key": "PageComponentsHeader",
     "id": "1"
   },
   {
-    "type":  "text",
+    "type": "text",
     "key": "PageComponentsText",
     "id": "2"
   },
   {
-    "type":  "footer",
+    "type": "footer",
     "key": "PageComponentsFooter",
     "id": "3"
   },
   {
-    "type":  "navigation",
+    "type": "navigation",
     "key": "PageComponentsNavigation",
     "id": "4"
   }

@@ -11,7 +11,8 @@
       :name="field.key"
       :type="field.type"
       :options="field.options"
-      v-model="formValues[field.key]"
+      :value="field.value"
+      @input="setFormValues({ name: formName, key: field.key, property: 'value', value: $event })"
     >
       <slot></slot>
     </component>
@@ -25,57 +26,63 @@
   </form>
 </template>
 <script setup lang="ts">
-import { PropType, watch } from 'vue'
+import { PropType } from 'vue'
+import { formStore } from '~~/store/forms'
 import validators from '~~/utils/validators'
+import { Forms, FormEvent, FormField } from '~~/types'
 
 const props = defineProps({
-  form: {
-    type: Array as PropType<Array<any>>,
+  formName: {
+    type: String as PropType<keyof Forms>,
     required: true
   },
-  updatedForm: {
-    type: Array as PropType<Array<any>>
+  formFields: {
+    type: Array as PropType<Array<FormField>>,
+    required: true
   }
 })
 
-const formFields = props.form.filter(f => f.class !== 'Button'),
-  buttons = props.form.filter(f => f.class === 'Button')
+const formFields = props.formFields.filter(f => f.class !== 'Button'),
+  buttons = props.formFields.filter(f => f.class === 'Button')
 
 const emits = defineEmits([
   'inputField',
   'submit'
 ])
 
-watch(() => props.updatedForm, () => {
-  formValues.value = props.updatedForm
-})
+const formValues = computed(() => formStore.get.getFormValues(props.formName))
 
-const formValues = ref<Record<string, any>>({})
 
-const isDisabled = (field: any) => {
+const setFormValues = (formInputEvent: FormEvent) => {
+  formStore.do.updateSpecificFormValues(formInputEvent)
+}
+
+const isDisabled = (field: FormField) => {
   return field.disabled
     ? field.disabled
     : field.class === 'Button' && validation()
 }
 
 const validation = () => {
-  const fieldsToValidate = props.form.filter(field => field.validator),
-    notValidated = []
-  for (const singleFieldToValidate of fieldsToValidate) {
-    const fieldKey = singleFieldToValidate.key,
-      fieldValidator = validators[singleFieldToValidate.validator],
-      fieldValue = formValues.value[fieldKey]
-    if (fieldValidator) {
-      !fieldValidator(fieldValue)
-        ? notValidated.push(singleFieldToValidate)
-        : notValidated.filter(field => field.key !== fieldKey)
-    }
-  }
-  return notValidated.length !== 0
+  // const fieldsToValidate = props.formFields.filter(field => field.validator),
+  //   notValidated = []
+
+  // console.log(fieldsToValidate)
+  // for (const singleFieldToValidate of fieldsToValidate) {
+  //   const fieldKey = singleFieldToValidate.key,
+  //     fieldValidator = validators[singleFieldToValidate.validator],
+  //     fieldValue = formValues.value[fieldKey]
+
+  //   if (fieldValidator) {
+  //     !fieldValidator(fieldValue)
+  //       ? notValidated.push(singleFieldToValidate)
+  //       : notValidated.filter(field => field.key !== fieldKey)
+  //   }
+  // }
+  // return notValidated.length !== 0
 }
 
 const submit = () => {
   emits('submit', formValues.value)
-  formValues.value = {}
 }
 </script>

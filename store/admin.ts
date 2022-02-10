@@ -59,6 +59,7 @@ const fetchAdmin = async () => {
     }))
     const pageData = (data.value.data as any).getPages,
       userData = (data.value.data as any).getSingleUser
+
     state.pages = pageData
     state.user = userData
     return pageData

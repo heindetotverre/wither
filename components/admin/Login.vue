@@ -3,12 +3,20 @@
     <div>
       <p>Login section</p>
       <div v-if="formRenderer === 'login'">
-        <RendererForm :form="loginForm" @submit="handleLogin($event)" />
+        <RendererForm
+          :formName="formRenderer"
+          :formFields="loginForm"
+          @submit="handleLogin($event)"
+        />
         <p>Not a member yet?</p>
         <button @click="formRenderer = 'register'">Register yourself</button>
       </div>
       <div v-if="formRenderer === 'register'">
-        <RendererForm :form="registerForm" @submit="handleRegister($event)" />
+        <RendererForm
+          :formName="formRenderer"
+          :formFields="registerForm"
+          @submit="handleRegister($event)"
+        />
         <p>Already a member?</p>
         <button @click="formRenderer = 'login'">Go to login</button>
       </div>
