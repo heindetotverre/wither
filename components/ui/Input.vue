@@ -11,6 +11,7 @@
       @focus="emits('focus')"
       @input="input($event)"
     />
+    <div v-if="!validation.validated">{{ validation.validationMessage }}</div>
   </div>
 </template>
 <script setup lang="ts">
@@ -49,6 +50,10 @@ const props = defineProps({
   domclass: {
     type: String,
     default: ''
+  },
+  validation: {
+    type: Object,
+    required: true
   }
 })
 

@@ -11,6 +11,9 @@ const validators = {
     } else {
       return false
     }
+  },
+  novalidator: (input: string) => {
+    return false
   }
 }
 

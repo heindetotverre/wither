@@ -22,3 +22,6 @@ const props = defineProps({
 
 const isLoggedIn = computed(() => authStore.get.getTokenState())
 </script>
+<style lang="less">
+@import "~~/assets/less/admin.less";
+</style>

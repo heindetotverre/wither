@@ -80,11 +80,23 @@ const updateSpecificFormValues = (input: FormEvent) => {
 }
 
 const validateSingleField = (input: FormEvent, reset: State | void) => {
-  const field = state.forms[input.name].find(f => f.key === input.key)
+  let domclass = '',
+    field = state.forms[input.name].find(f => f.key === input.key)
+
   if (field) {
-    field[input.property] = reset !== State.Reset
-      ? 'error'
-      : ''
+    if (reset !== State.Reset) {
+      if (field.value.length && !validators[field.validation.validator](field.value)) {
+        domclass = 'error'
+        field.validation.validated = false
+      } else {
+        domclass = ''
+        field.validation.validated = true
+      }
+    } else {
+      domclass = ''
+      field.validation.validated = true
+    }
+    field[input.property] = domclass
   }
 }
 

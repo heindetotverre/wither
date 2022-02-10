@@ -53,7 +53,8 @@ interface FormField {
 interface Validators {
   email: Validator,
   notempty: Validator,
-  slug: Validator
+  slug: Validator,
+  novalidator: Validator
 }
 
 interface Validator {

@@ -24,7 +24,7 @@ export const presetForms = {
       validation: {
         validator: "email",
         validated: true,
-        validationMessage: ''
+        validationMessage: 'is not an email'
       }
     },
     {
@@ -38,7 +38,7 @@ export const presetForms = {
       validation: {
         validator: "notempty",
         validated: true,
-        validationMessage: ''
+        validationMessage: 'password not compliant with password rules'
       }
     },
     {
@@ -61,7 +61,7 @@ export const presetForms = {
       validation: {
         validator: "notempty",
         validated: true,
-        validationMessage: ''
+        validationMessage: 'no numbers allowed'
       }
     },
     {
@@ -75,7 +75,7 @@ export const presetForms = {
       validation: {
         validator: "notempty",
         validated: true,
-        validationMessage: ''
+        validationMessage: 'no numbers allowed'
       }
     },
     {
@@ -90,7 +90,7 @@ export const presetForms = {
       validation: {
         validator: "email",
         validated: true,
-        validationMessage: ''
+        validationMessage: 'is not an email'
       }
     },
     {
@@ -104,7 +104,7 @@ export const presetForms = {
       validation: {
         validator: "password",
         validated: true,
-        validationMessage: ''
+        validationMessage: 'password not compliant with password rules'
       }
     },
     {
@@ -119,7 +119,7 @@ export const presetForms = {
       validation: {
         validator: "notempty",
         validated: true,
-        validationMessage: ''
+        validationMessage: 'password not compliant with password rules'
       }
     },
     {
@@ -142,7 +142,7 @@ export const presetForms = {
       validation: {
         validator: "notempty",
         validated: true,
-        validationMessage: ''
+        validationMessage: 'no special characters allowed'
       }
     },
     {
@@ -156,7 +156,7 @@ export const presetForms = {
       validation: {
         validator: "slug",
         validated: true,
-        validationMessage: ''
+        validationMessage: 'slug must start with "/"'
       }
     },
     {
@@ -168,7 +168,7 @@ export const presetForms = {
       options: pageNames(),
       id: createId(formName),
       validation: {
-        validator: "notempty",
+        validator: "novalidator",
         validated: true,
         validationMessage: ''
       }
@@ -184,7 +184,7 @@ export const presetForms = {
       validation: {
         validator: "notempty",
         validated: true,
-        validationMessage: ''
+        validationMessage: 'no components selected'
       }
     },
     {

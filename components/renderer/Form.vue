@@ -13,13 +13,16 @@
       :type="field.type"
       :options="field.options"
       :value="field.value"
+      :validation="field.validation"
       @blur="onBlur(field)"
       @focus="onFocus(field)"
       @input="onInput(field, $event)"
     >
       <slot></slot>
     </component>
-    <div v-if="showValidationError">{{ collectValidationMessages() }}</div>
+    <div class="error" v-if="showValidationError">
+      <span>{{ collectValidationMessages() }}</span>
+    </div>
     <component
       v-for="(button, index) in buttons"
       :key="index"
