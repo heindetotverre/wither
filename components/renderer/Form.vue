@@ -1,7 +1,8 @@
 <template>
-  <form>
+  <form @keypress.enter="onSubmit()">
     <component
       v-for="field in formFields"
+      :domclass="field.domclass"
       :is="field.component"
       :autocomplete="field.autocomplete"
       :disabled="isDisabled(field)"
@@ -12,24 +13,28 @@
       :type="field.type"
       :options="field.options"
       :value="field.value"
-      @input="setFormValues({ name: formName, key: field.key, property: 'value', value: $event })"
+      @blur="onBlur(field)"
+      @focus="onFocus(field)"
+      @input="onInput(field, $event)"
     >
       <slot></slot>
     </component>
+    <div v-if="showValidationError">{{ collectValidationMessages() }}</div>
     <component
-      v-for="button in buttons"
+      v-for="(button, index) in buttons"
+      :key="index"
       :is="button.component"
       :disabled="isDisabled(button)"
       :label="button.label"
-      @click="submit()"
+      @click="onSubmit()"
     ></component>
   </form>
 </template>
 <script setup lang="ts">
 import { PropType } from 'vue'
 import { formStore } from '~~/store/forms'
-import validators from '~~/utils/validators'
-import { Forms, FormEvent, FormField } from '~~/types'
+import { Forms, FormField } from '~~/types'
+import { State } from '~~/types/enums'
 
 const props = defineProps({
   formName: {
@@ -43,7 +48,8 @@ const props = defineProps({
 })
 
 const formFields = props.formFields.filter(f => f.class !== 'Button'),
-  buttons = props.formFields.filter(f => f.class === 'Button')
+  buttons = props.formFields.filter(f => f.class === 'Button'),
+  showValidationError = ref()
 
 const emits = defineEmits([
   'inputField',
@@ -52,37 +58,38 @@ const emits = defineEmits([
 
 const formValues = computed(() => formStore.get.getFormValues(props.formName))
 
-
-const setFormValues = (formInputEvent: FormEvent) => {
-  formStore.do.updateSpecificFormValues(formInputEvent)
+const collectValidationMessages = () => {
+  return 'Oops, error!'
 }
 
 const isDisabled = (field: FormField) => {
   return field.disabled
     ? field.disabled
-    : field.class === 'Button' && validation()
+    : field.class === 'Button' && fullFormValidation()
 }
 
-const validation = () => {
-  // const fieldsToValidate = props.formFields.filter(field => field.validator),
-  //   notValidated = []
-
-  // console.log(fieldsToValidate)
-  // for (const singleFieldToValidate of fieldsToValidate) {
-  //   const fieldKey = singleFieldToValidate.key,
-  //     fieldValidator = validators[singleFieldToValidate.validator],
-  //     fieldValue = formValues.value[fieldKey]
-
-  //   if (fieldValidator) {
-  //     !fieldValidator(fieldValue)
-  //       ? notValidated.push(singleFieldToValidate)
-  //       : notValidated.filter(field => field.key !== fieldKey)
-  //   }
-  // }
-  // return notValidated.length !== 0
+const onBlur = (field: FormField) => {
+  formStore.do.validateSingleField({ name: props.formName, key: field.key, property: 'domclass' })
 }
 
-const submit = () => {
-  emits('submit', formValues.value)
+const onFocus = (field: FormField) => {
+  formStore.do.validateSingleField({ name: props.formName, key: field.key, property: 'domclass' }, State.Reset)
+  showValidationError.value = false
+}
+
+const onInput = (field: FormField, event: Event) => {
+  formStore.do.updateSpecificFormValues({ name: props.formName, key: field.key, property: 'value', value: event })
+}
+
+const onSubmit = () => {
+  if (fullFormValidation()) {
+    showValidationError.value = true
+  } else {
+    emits('submit', formValues.value)
+  }
+}
+
+const fullFormValidation = () => {
+  return formStore.get.getFullFormValidationState(props.formName)
 }
 </script>

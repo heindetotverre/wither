@@ -35,13 +35,18 @@ interface FormField {
   class: string,
   component: string,
   disabled?: boolean,
+  domclass?: string,
   id: string,
   key: string,
   label: string,
   options?: string[],
   type: string,
   required?: boolean,
-  validator: keyof Validators,
+  validation: {
+    validator: keyof Validators,
+    validated: boolean,
+    validationMessage: string,
+  }
   value: any
 }
 
@@ -59,7 +64,7 @@ interface FormEvent {
   name: keyof Forms,
   key: string,
   property: keyof FormField
-  value: any
+  value?: any
 }
 
 interface Forms {

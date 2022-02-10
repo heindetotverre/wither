@@ -19,9 +19,14 @@ enum Render {
   Page
 }
 
+enum State {
+  Reset
+}
+
 export {
   AdminSearch,
   Cookie,
   Group,
-  Render
+  Render,
+  State
 }

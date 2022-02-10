@@ -1,7 +1,9 @@
 import { reactive, readonly, } from 'vue'
 import { Forms, FormEvent } from '~~/types'
+import { State } from '~~/types/enums'
 import { adminStore } from '~~/store/admin'
 import { presetForms } from '~~/assets/resources/forms'
+import validators from '~~/utils/validators'
 
 // externals
 const initialState = {
@@ -47,6 +49,25 @@ const getFormValues = (formName: keyof Forms) => {
   }, {})
 }
 
+const getFullFormValidationState = (formName: keyof Forms) => {
+  const formFields = state.forms[formName]
+  const fieldsToValidate = formFields.filter(field => field.required),
+    notValidated = []
+
+  for (const singleFieldToValidate of fieldsToValidate) {
+    const fieldKey = singleFieldToValidate.key,
+      fieldValidator = validators[singleFieldToValidate.validation.validator],
+      fieldValue = getFormValues(formName)[fieldKey]
+
+    if (fieldValidator) {
+      !fieldValidator(fieldValue)
+        ? notValidated.push(singleFieldToValidate)
+        : notValidated.filter(field => field.key !== fieldKey)
+    }
+  }
+  return notValidated.length !== 0
+}
+
 const updateAllFormValues = () => {
 
 }
@@ -58,15 +79,26 @@ const updateSpecificFormValues = (input: FormEvent) => {
   }
 }
 
+const validateSingleField = (input: FormEvent, reset: State | void) => {
+  const field = state.forms[input.name].find(f => f.key === input.key)
+  if (field) {
+    field[input.property] = reset !== State.Reset
+      ? 'error'
+      : ''
+  }
+}
+
 // exports
 export const formStore = readonly({
   state: state,
   do: {
     updateAllFormValues,
-    updateSpecificFormValues
+    updateSpecificFormValues,
+    validateSingleField
   },
   get: {
     getCreatePageForm,
-    getFormValues
+    getFormValues,
+    getFullFormValidationState
   }
 })

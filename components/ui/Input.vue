@@ -1,13 +1,17 @@
 <template>
-  <label :for="id">{{ label }}</label>
-  <input
-    :id="id"
-    :autocomplete="autocomplete"
-    :value="currentValue"
-    :type="type"
-    :disabled="disabled"
-    @input="input($event)"
-  />
+  <div :class="domclass">
+    <label :for="id">{{ label }}</label>
+    <input
+      :id="id"
+      :autocomplete="autocomplete"
+      :value="currentValue"
+      :type="type"
+      :disabled="disabled"
+      @blur="emits('blur')"
+      @focus="emits('focus')"
+      @input="input($event)"
+    />
+  </div>
 </template>
 <script setup lang="ts">
 const props = defineProps({
@@ -41,10 +45,16 @@ const props = defineProps({
   value: {
     type: String,
     default: ''
+  },
+  domclass: {
+    type: String,
+    default: ''
   }
 })
 
 const emits = defineEmits([
+  'blur',
+  'focus',
   'submit',
   'input'
 ])

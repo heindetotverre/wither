@@ -19,9 +19,13 @@ export const presetForms = {
       key: 'email',
       type: 'email',
       required: true,
-      validator: "email",
       label: 'email', id: createId(loginFormName),
-      autocomplete: 'username'
+      autocomplete: 'username',
+      validation: {
+        validator: "email",
+        validated: true,
+        validationMessage: ''
+      }
     },
     {
       class: 'PasswordInput',
@@ -29,9 +33,13 @@ export const presetForms = {
       key: 'password',
       type: 'password',
       required: true,
-      validator: 'notempty',
       label: 'password', id: createId(loginFormName),
-      autocomplete: 'current-password'
+      autocomplete: 'current-password',
+      validation: {
+        validator: "notempty",
+        validated: true,
+        validationMessage: ''
+      }
     },
     {
       class: 'Button',
@@ -47,20 +55,28 @@ export const presetForms = {
       component: 'UiInput',
       type: 'text',
       required: true,
-      validator: 'notempty',
       label: 'firstname',
       key: 'firstName',
-      id: createId(registerFormName)
+      id: createId(registerFormName),
+      validation: {
+        validator: "notempty",
+        validated: true,
+        validationMessage: ''
+      }
     },
     {
       class: 'TextInput',
       component: 'UiInput',
       type: 'text',
       required: true,
-      validator: 'notempty',
       label: 'lastname',
       key: 'lastName',
-      id: createId(registerFormName)
+      id: createId(registerFormName),
+      validation: {
+        validator: "notempty",
+        validated: true,
+        validationMessage: ''
+      }
     },
     {
       class: 'emailInput',
@@ -68,10 +84,14 @@ export const presetForms = {
       key: 'email',
       type: 'email',
       required: true,
-      validator: "email",
       label: 'email',
       id: createId(registerFormName),
-      autocomplete: 'username'
+      autocomplete: 'username',
+      validation: {
+        validator: "email",
+        validated: true,
+        validationMessage: ''
+      }
     },
     {
       class: 'PasswordInput',
@@ -79,20 +99,28 @@ export const presetForms = {
       key: 'password',
       type: 'password',
       required: true,
-      validator: 'notempty',
       label: 'password', id: createId(registerFormName),
-      autocomplete: 'current-password'
+      autocomplete: 'current-password',
+      validation: {
+        validator: "password",
+        validated: true,
+        validationMessage: ''
+      }
     },
     {
       class: 'PasswordInput',
       component: 'UiInput',
       type: 'password',
       required: true,
-      validator: 'notempty',
       label: 'password again',
       key: 'passwordCheck',
       id: createId(registerFormName),
-      autocomplete: 'current-password'
+      autocomplete: 'current-password',
+      validation: {
+        validator: "notempty",
+        validated: true,
+        validationMessage: ''
+      }
     },
     {
       class: 'Button',
@@ -108,10 +136,14 @@ export const presetForms = {
       component: 'UiInput',
       type: 'text',
       required: true,
-      validator: 'notempty',
       label: 'name',
       key: 'name',
-      id: createId(formName)
+      id: createId(formName),
+      validation: {
+        validator: "notempty",
+        validated: true,
+        validationMessage: ''
+      }
     },
     {
       class: 'TextInput',
@@ -121,7 +153,11 @@ export const presetForms = {
       label: 'slug',
       key: 'slug',
       id: createId(formName),
-      validator: 'slug'
+      validation: {
+        validator: "slug",
+        validated: true,
+        validationMessage: ''
+      }
     },
     {
       class: 'SelectInput',
@@ -130,7 +166,12 @@ export const presetForms = {
       label: 'parent',
       key: 'parentPage',
       options: pageNames(),
-      id: createId(formName)
+      id: createId(formName),
+      validation: {
+        validator: "notempty",
+        validated: true,
+        validationMessage: ''
+      }
     },
     {
       class: 'SelectInput',
@@ -139,7 +180,12 @@ export const presetForms = {
       label: 'components',
       key: 'pageComponents',
       options: componentKeys(),
-      id: createId(formName)
+      id: createId(formName),
+      validation: {
+        validator: "notempty",
+        validated: true,
+        validationMessage: ''
+      }
     },
     {
       class: 'Button',
