@@ -4,6 +4,7 @@
     <div v-for="(page, index) of pages" :key="index">
       <div v-for="(entry, index) of Object.entries(page)" :key="index">{{ entry }}</div>
       <button @click="deletePage(page.id)">Delete page</button>
+      <button @click="editPage(page.id)">Edit page</button>
     </div>
     <div v-if="!pages.length">You haven't made any pages, please make one</div>
   </div>
@@ -18,5 +19,9 @@ const pages = computed(() => adminStore.get.getPages),
 
 const deletePage = async (pageId: string) => {
   response.value = await adminStore.do.deletePage(pageId)
+}
+
+const editPage = (pageId: string) => {
+  useRouter().push(`/${AdminSearch.Admin}/${AdminSearch.PageCreation}?pageid=${pageId}`)
 }
 </script>

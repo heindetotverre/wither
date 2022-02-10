@@ -27,6 +27,7 @@ const getCreatePageForm = () => {
       }
     })
   } else {
+    updateSpecificFormValues({ name: 'createPage', key: 'parentPage', property: 'options', value: adminStore.get.getPages.map(p => p.name) })
     state.forms.createPage.map(f => {
       if (f.key === 'name') {
         updateSpecificFormValues({ name: 'createPage', key: f.key, property: 'value', value: '' })
@@ -68,6 +69,19 @@ const getFullFormValidationState = (formName: keyof Forms) => {
   return notValidated.length !== 0
 }
 
+const setFormValuesBasedOnPage = (formName: keyof Forms, pageid: string) => {
+  const page = adminStore.get.getPages.find(p => p.id === pageid)
+  if (page) {
+    const keys = Object.keys(page)
+    const values = Object.values(page)
+    keys.forEach((k, i) => {
+      if (state.forms[formName]) {
+        updateSpecificFormValues({ name: formName, key: k, property: 'value', value: values[i] })
+      }
+    })
+  }
+}
+
 const updateAllFormValues = () => {
 
 }
@@ -85,7 +99,7 @@ const validateSingleField = (input: FormEvent, reset: State | void) => {
 
   if (field) {
     if (reset !== State.Reset) {
-      if (field.value.length && !validators[field.validation.validator](field.value)) {
+      if (field.value && field.value.length && !validators[field.validation.validator](field.value)) {
         domclass = 'error'
         field.validation.validated = false
       } else {
@@ -104,6 +118,7 @@ const validateSingleField = (input: FormEvent, reset: State | void) => {
 export const formStore = readonly({
   state: state,
   do: {
+    setFormValuesBasedOnPage,
     updateAllFormValues,
     updateSpecificFormValues,
     validateSingleField

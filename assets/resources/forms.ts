@@ -1,5 +1,4 @@
 import { createId } from '~~/utils'
-import { flattenObject } from '~~/utils'
 import { adminStore } from '~~/store/admin'
 import { FormField } from '~~/types'
 import { presetComponents } from '~~/assets/resources/components'
@@ -8,8 +7,7 @@ const loginFormName = 'loginUser'
 const registerFormName = 'registerUser'
 const formName = 'createPage'
 
-const pageNames = () => flattenObject(adminStore.get.getPages).map(page => page.name)
-const componentKeys = () => presetComponents.map(component => component.key)
+const componentKeys = presetComponents.map(component => component.key)
 
 export const presetForms = {
   login: [
@@ -165,7 +163,7 @@ export const presetForms = {
       type: 'select',
       label: 'parent',
       key: 'parentPage',
-      options: pageNames(),
+      options: [],
       id: createId(formName),
       validation: {
         validator: "novalidator",
@@ -179,7 +177,7 @@ export const presetForms = {
       type: 'select',
       label: 'components',
       key: 'pageComponents',
-      options: componentKeys(),
+      options: componentKeys,
       id: createId(formName),
       validation: {
         validator: "notempty",

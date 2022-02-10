@@ -10,7 +10,7 @@
       @blur="emits('blur')"
       @focus="emits('focus')"
     />
-    <span v-for="(option, index) of options" :key="index">{{ option }},</span>
+    <span v-for="(option, index) of options" :key="index">| {{ option }} |</span>
   </div>
 </template>
 <script setup lang="ts">
@@ -63,5 +63,13 @@ const emits = defineEmits([
   'input'
 ])
 
-const currentValue = ref<String>('')
+const currentValue = ref('')
+
+onMounted(() => {
+  currentValue.value = props.value
+})
+
+watch(() => props.value, () => {
+  currentValue.value = props.value
+})
 </script>

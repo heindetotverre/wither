@@ -26,4 +26,15 @@ const createPage = async (formSubmitEvent: Page) => {
   }
 }
 
+onBeforeMount(() => {
+  parseUrl()
+})
+
+const parseUrl = () => {
+  const query = useRoute().query
+  if (query) {
+    formStore.do.setFormValuesBasedOnPage('createPage', query.pageid as string)
+  }
+}
+
 </script>
