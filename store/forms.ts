@@ -1,5 +1,5 @@
 import { reactive, readonly, } from 'vue'
-import { Forms, FormEvent } from '~~/types'
+import { Forms, FormEvent, User } from '~~/types'
 import { State } from '~~/types/enums'
 import { adminStore } from '~~/store/admin'
 import { presetForms } from '~~/assets/resources/forms'
@@ -69,17 +69,14 @@ const getFullFormValidationState = (formName: keyof Forms) => {
   return notValidated.length !== 0
 }
 
-const setFormValuesBasedOnPage = (formName: keyof Forms, pageid: string) => {
-  const page = adminStore.get.getPages.find(p => p.id === pageid)
-  if (page) {
-    const keys = Object.keys(page)
-    const values = Object.values(page)
-    keys.forEach((k, i) => {
-      if (state.forms[formName]) {
-        updateSpecificFormValues({ name: formName, key: k, property: 'value', value: values[i] })
-      }
-    })
-  }
+const setFormValuesBasedOnQuery = (formName: keyof Forms, queriedObject: Record<string, any>) => {
+  const keys = Object.keys(queriedObject)
+  const values = Object.values(queriedObject)
+  keys.forEach((k, i) => {
+    if (state.forms[formName]) {
+      updateSpecificFormValues({ name: formName, key: k, property: 'value', value: values[i] })
+    }
+  })
 }
 
 const updateAllFormValues = () => {
@@ -97,7 +94,7 @@ const validateSingleField = (input: FormEvent, reset: State | void) => {
   let domclass = '',
     field = state.forms[input.name].find(f => f.key === input.key)
 
-  if (field) {
+  if (field && validators[field.validation.validator]) {
     if (reset !== State.Reset) {
       if (field.value && field.value.length && !validators[field.validation.validator](field.value)) {
         domclass = 'error'
@@ -118,7 +115,7 @@ const validateSingleField = (input: FormEvent, reset: State | void) => {
 export const formStore = readonly({
   state: state,
   do: {
-    setFormValuesBasedOnPage,
+    setFormValuesBasedOnQuery,
     updateAllFormValues,
     updateSpecificFormValues,
     validateSingleField

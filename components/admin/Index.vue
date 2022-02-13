@@ -1,18 +1,17 @@
 <template>
   <NuxtLayout name="admin"></NuxtLayout>
-  <div v-if="isLoggedIn">
+  <AdminLogin v-if="!isLoggedIn" />
+  <div v-else>
     <NuxtLink :to="`/${AdminSearch.Admin}`">Go to your dashboard</NuxtLink>
     <NuxtLink :to="`/${AdminSearch.Admin}/${AdminSearch.PageManagement}`">Manage your pages</NuxtLink>
-  </div>
-  <AdminLogin v-if="!isLoggedIn" />
-  <div v-if="isLoggedIn">
     <div v-if="!search">
       <p>
         You havent made a home page yet,
         <NuxtLink :to="`/${AdminSearch.Admin}/${AdminSearch.PageCreation}`">go and make one</NuxtLink>
       </p>
     </div>
-    <AdminUserManagement v-if="search === AdminSearch.Admin" :user="user" />
+    <AdminUserManagement v-if="search === AdminSearch.Admin" />
+    <AdminUserEdit v-if="search === AdminSearch.UserEdit" />
     <AdminPageManagement v-if="search === AdminSearch.PageManagement" />
     <AdminPageCreation v-if="search === AdminSearch.PageCreation" />
   </div>
@@ -35,6 +34,4 @@ const isLoggedIn = computed(() => authStore.get.getTokenState())
 if (isLoggedIn.value) {
   await adminStore.get.fetchAdmin()
 }
-
-const user = adminStore.get.getUser
 </script>

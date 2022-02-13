@@ -1,7 +1,7 @@
 <template>
   <div>
     <NuxtLink :to="`/${AdminSearch.Admin}/${AdminSearch.PageCreation}`">Create Page</NuxtLink>
-    <div v-for="(page, index) of pages" :key="index">
+    <div v-for="(page) of pages" :key="page.name">
       <div v-for="(entry, index) of Object.entries(page)" :key="index">{{ entry }}</div>
       <button @click="deletePage(page.id)">Delete page</button>
       <button @click="editPage(page.id)">Edit page</button>

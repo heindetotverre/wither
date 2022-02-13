@@ -14,7 +14,8 @@ interface User {
   firstName: string,
   lastName: string,
   email: string,
-  password: string
+  password: string,
+  id: string
 }
 
 interface UserForm {
@@ -71,7 +72,9 @@ interface FormEvent {
 interface Forms {
   createPage: FormField[],
   login: FormField[],
-  register: FormField[]
+  register: FormField[],
+  updateUserInfo: FormField[],
+  updateUserCredentials: FormField[]
 }
 
 interface Token {

@@ -3,22 +3,47 @@ import { adminStore } from '~~/store/admin'
 import { FormField } from '~~/types'
 import { presetComponents } from '~~/assets/resources/components'
 
-const loginFormName = 'loginUser'
-const registerFormName = 'registerUser'
-const formName = 'createPage'
+const loginFormName = 'loginUser',
+  registerFormName = 'registerUser',
+  createPageFormName = 'createPage',
+  updateUserInfoFormName = 'updateUserInfo',
+  updateUserCredentials = 'updateUserCredentials',
+  textInputField = {
+    class: 'TextInput',
+    component: 'UiInput',
+    type: 'text',
+    required: true,
+  },
+  emailInputField = {
+    class: 'emailInput',
+    component: 'UiInput',
+    type: 'email',
+    required: true,
+    autocomplete: 'username',
+  },
+  passwordInputField = {
+    class: 'PasswordInput',
+    component: 'UiInput',
+    type: 'password',
+    required: true,
+    autocomplete: 'current-password',
+  },
+  selectInputField = {
+    class: 'SelectInput',
+    component: 'UiSelect',
+    type: 'select',
+    options: [],
+  }
 
 const componentKeys = presetComponents.map(component => component.key)
 
 export const presetForms = {
   login: [
     {
-      class: 'emailInput',
-      component: 'UiInput',
+      ...emailInputField,
       key: 'email',
-      type: 'email',
-      required: true,
-      label: 'email', id: createId(loginFormName),
-      autocomplete: 'username',
+      label: 'email', id:
+        createId(loginFormName),
       validation: {
         validator: "email",
         validated: true,
@@ -26,13 +51,10 @@ export const presetForms = {
       }
     },
     {
-      class: 'PasswordInput',
-      component: 'UiInput',
+      ...passwordInputField,
       key: 'password',
-      type: 'password',
-      required: true,
-      label: 'password', id: createId(loginFormName),
-      autocomplete: 'current-password',
+      label: 'password',
+      id: createId(loginFormName),
       validation: {
         validator: "notempty",
         validated: true,
@@ -49,10 +71,7 @@ export const presetForms = {
   ] as FormField[],
   register: [
     {
-      class: 'TextInput',
-      component: 'UiInput',
-      type: 'text',
-      required: true,
+      ...textInputField,
       label: 'firstname',
       key: 'firstName',
       id: createId(registerFormName),
@@ -63,10 +82,7 @@ export const presetForms = {
       }
     },
     {
-      class: 'TextInput',
-      component: 'UiInput',
-      type: 'text',
-      required: true,
+      ...textInputField,
       label: 'lastname',
       key: 'lastName',
       id: createId(registerFormName),
@@ -77,14 +93,10 @@ export const presetForms = {
       }
     },
     {
-      class: 'emailInput',
-      component: 'UiInput',
+      ...emailInputField,
       key: 'email',
-      type: 'email',
-      required: true,
-      label: 'email',
-      id: createId(registerFormName),
-      autocomplete: 'username',
+      label: 'email', id:
+        createId(registerFormName),
       validation: {
         validator: "email",
         validated: true,
@@ -92,28 +104,21 @@ export const presetForms = {
       }
     },
     {
-      class: 'PasswordInput',
-      component: 'UiInput',
+      ...passwordInputField,
       key: 'password',
-      type: 'password',
-      required: true,
-      label: 'password', id: createId(registerFormName),
-      autocomplete: 'current-password',
+      label: 'password',
+      id: createId(registerFormName),
       validation: {
-        validator: "password",
+        validator: "notempty",
         validated: true,
         validationMessage: 'password not compliant with password rules'
       }
     },
     {
-      class: 'PasswordInput',
-      component: 'UiInput',
-      type: 'password',
-      required: true,
+      ...passwordInputField,
       label: 'password again',
       key: 'passwordCheck',
       id: createId(registerFormName),
-      autocomplete: 'current-password',
       validation: {
         validator: "notempty",
         validated: true,
@@ -130,13 +135,10 @@ export const presetForms = {
   ] as FormField[],
   createPage: [
     {
-      class: 'TextInput',
-      component: 'UiInput',
-      type: 'text',
-      required: true,
+      ...textInputField,
       label: 'name',
       key: 'name',
-      id: createId(formName),
+      id: createId(createPageFormName),
       validation: {
         validator: "notempty",
         validated: true,
@@ -144,13 +146,10 @@ export const presetForms = {
       }
     },
     {
-      class: 'TextInput',
-      component: 'UiInput',
-      type: 'text',
-      required: true,
+      ...textInputField,
       label: 'slug',
       key: 'slug',
-      id: createId(formName),
+      id: createId(createPageFormName),
       validation: {
         validator: "slug",
         validated: true,
@@ -158,13 +157,11 @@ export const presetForms = {
       }
     },
     {
-      class: 'SelectInput',
-      component: 'UiSelect',
-      type: 'select',
+      ...selectInputField,
       label: 'parent',
       key: 'parentPage',
       options: [],
-      id: createId(formName),
+      id: createId(createPageFormName),
       validation: {
         validator: "novalidator",
         validated: true,
@@ -172,13 +169,11 @@ export const presetForms = {
       }
     },
     {
-      class: 'SelectInput',
-      component: 'UiSelect',
-      type: 'select',
+      ...selectInputField,
       label: 'components',
       key: 'pageComponents',
       options: componentKeys,
-      id: createId(formName),
+      id: createId(createPageFormName),
       validation: {
         validator: "notempty",
         validated: true,
@@ -190,7 +185,91 @@ export const presetForms = {
       component: 'UiButton',
       label: 'Save',
       key: 'savePage',
-      id: createId(formName)
+      id: createId(createPageFormName)
+    }
+  ] as FormField[],
+  updateUserInfo: [
+    {
+      ...textInputField,
+      label: 'firstname',
+      key: 'firstName',
+      id: createId(updateUserInfoFormName),
+      validation: {
+        validator: "notempty",
+        validated: true,
+        validationMessage: 'no numbers allowed'
+      }
+    },
+    {
+      ...textInputField,
+      label: 'lastname',
+      key: 'lastName',
+      id: createId(updateUserInfoFormName),
+      validation: {
+        validator: "notempty",
+        validated: true,
+        validationMessage: 'no numbers allowed'
+      }
+    },
+    {
+      ...emailInputField,
+      key: 'email',
+      label: 'email', id:
+        createId(updateUserInfoFormName),
+      validation: {
+        validator: "email",
+        validated: true,
+        validationMessage: 'is not an email'
+      }
+    },
+    {
+      class: 'Button',
+      component: 'UiButton',
+      label: 'Save',
+      key: 'savePage',
+      id: createId(updateUserInfoFormName)
+    }
+  ] as FormField[],
+  updateUserCredentials: [
+    {
+      ...passwordInputField,
+      key: 'oldPassword',
+      label: 'old password',
+      id: createId(registerFormName),
+      validation: {
+        validator: "notempty",
+        validated: true,
+        validationMessage: 'password not compliant with password rules'
+      }
+    },
+    {
+      ...passwordInputField,
+      key: 'passwordCheck',
+      label: 'password',
+      id: createId(updateUserCredentials),
+      validation: {
+        validator: "notempty",
+        validated: true,
+        validationMessage: 'password not compliant with password rules'
+      }
+    },
+    {
+      ...passwordInputField,
+      key: 'passwordAgain',
+      label: 'password again',
+      id: createId(updateUserCredentials),
+      validation: {
+        validator: "notempty",
+        validated: true,
+        validationMessage: 'password not compliant with password rules'
+      }
+    },
+    {
+      class: 'Button',
+      component: 'UiButton',
+      label: 'Save',
+      key: 'savePage',
+      id: createId(updateUserCredentials)
     }
   ] as FormField[]
 }

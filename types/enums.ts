@@ -1,7 +1,8 @@
 enum AdminSearch {
   Admin = 'admin',
   PageManagement = 'page-management',
-  PageCreation = 'page-creation'
+  PageCreation = 'page-creation',
+  UserEdit = 'user-edit'
 }
 
 enum Cookie {

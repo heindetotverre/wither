@@ -1,15 +1,20 @@
 <template>
-  <div v-for="(user, index) of userInfo" :key="index">{{ user }}</div>
+  <div v-for="(entry, index) of Object.entries(user)" :key="index">{{ entry }}</div>
+  <button @click="deleteUser(user.id)">Delete user</button>
+  <button @click="editUser(user.id)">Edit user</button>
+  <div v-if="response">{{ response }}</div>
 </template>
 <script setup lang="ts">
-const props = defineProps({
-  user: {
-    type: Object,
-    required: true
-  }
-})
+import { adminStore } from '~~/store/admin'
+import { AdminSearch } from '~~/types/enums'
 
-const userInfo = ref(
-  Object.entries(props.user)
-)
+const user = computed(() => adminStore.get.getUser),
+  response = ref()
+
+const deleteUser = async (userId: string) => {
+  response.value = await adminStore.do.deleteUser(userId)
+}
+const editUser = (userId: string) => {
+  useRouter().push(`/${AdminSearch.Admin}/${AdminSearch.UserEdit}?userid=${userId}`)
+}
 </script>
