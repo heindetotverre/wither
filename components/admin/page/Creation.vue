@@ -33,7 +33,7 @@ onBeforeMount(() => {
 const parseUrl = () => {
   const query = useRoute().query
   if (query) {
-    const page = adminStore.get.getPages.find(p => p.id === query.pageid)
+    const page = adminStore.get.getPages().find(p => p.id === query.pageid)
     if (page) {
       formStore.do.setFormValuesBasedOnQuery('createPage', page)
     }

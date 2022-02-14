@@ -244,7 +244,7 @@ export const presetForms = {
     },
     {
       ...passwordInputField,
-      key: 'passwordCheck',
+      key: 'password',
       label: 'password',
       id: createId(updateUserCredentials),
       validation: {
@@ -255,7 +255,7 @@ export const presetForms = {
     },
     {
       ...passwordInputField,
-      key: 'passwordAgain',
+      key: 'passwordCheck',
       label: 'password again',
       id: createId(updateUserCredentials),
       validation: {

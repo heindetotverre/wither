@@ -15,7 +15,7 @@ const state = reactive({
 })
 
 const getCreatePageForm = () => {
-  if (!adminStore.get.getPages.length) {
+  if (!adminStore.get.getPages().length) {
     state.forms.createPage.map(f => {
       if (f.key === 'name') {
         updateSpecificFormValues({ name: 'createPage', key: f.key, property: 'value', value: 'home' })
@@ -27,7 +27,7 @@ const getCreatePageForm = () => {
       }
     })
   } else {
-    updateSpecificFormValues({ name: 'createPage', key: 'parentPage', property: 'options', value: adminStore.get.getPages.map(p => p.name) })
+    updateSpecificFormValues({ name: 'createPage', key: 'parentPage', property: 'options', value: adminStore.get.getPages().map(p => p.name) })
     state.forms.createPage.map(f => {
       if (f.key === 'name') {
         updateSpecificFormValues({ name: 'createPage', key: f.key, property: 'value', value: '' })

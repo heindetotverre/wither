@@ -15,7 +15,9 @@ interface User {
   lastName: string,
   email: string,
   password: string,
-  id: string
+  passwordCheck?: string,
+  id: string,
+  __typename?: string
 }
 
 interface UserForm {

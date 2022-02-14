@@ -8,7 +8,7 @@
 import { adminStore } from '~~/store/admin'
 import { AdminSearch } from '~~/types/enums'
 
-const user = computed(() => adminStore.get.getUser),
+const user = computed(() => adminStore.get.getUser()),
   response = ref()
 
 const deleteUser = async (userId: string) => {

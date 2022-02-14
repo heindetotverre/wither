@@ -26,9 +26,7 @@ const response = ref(),
   updateUserCredentials = ref(formStore.state.forms.updateUserCredentials as FormField[])
 
 const editUser = async (formSubmitEvent: User, method: string) => {
-  response.value = method === 'info'
-    ? await adminStore.do.updateUserInfo(formSubmitEvent)
-    : await adminStore.do.updateUserCredentials(formSubmitEvent)
+  response.value = await adminStore.do.updateUserInfo(formSubmitEvent, method)
   if (!response.value.errors) {
     useRouter().push(`${AdminSearch.Admin}`)
   }
@@ -41,7 +39,7 @@ onBeforeMount(() => {
 const parseUrl = () => {
   const query = useRoute().query
   if (query) {
-    const user = adminStore.get.getUser
+    const user = adminStore.get.getUser()
     formStore.do.setFormValuesBasedOnQuery('updateUserInfo', user)
   }
 }

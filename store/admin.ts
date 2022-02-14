@@ -89,9 +89,9 @@ const fetchAdmin = async () => {
   }
 }
 
-const getPages = computed(() => state.pages)
+const getPages = () => state.pages
 
-const getUser = computed(() => state.user)
+const getUser = () => state.user
 
 const setPage = async (formContent: Page) => {
   const pageToInsert = await formatPageToInsert(formContent)
@@ -107,74 +107,49 @@ const setPage = async (formContent: Page) => {
         }
       }`
     )
-    const result = await mutationPrep.executeMutation({ input: pageToInsert })
-    if (result.data.createPage) {
-      let existingPage = state.pages.filter(p => p.id === result.data.createPage.id)
+    const { data } = await mutationPrep.executeMutation({ input: pageToInsert })
+    if (data.createPage) {
+      let existingPage = state.pages.find(p => p.id === data.createPage.id)
       if (existingPage) {
-        existingPage = result.data.createPage
+        Object.assign(existingPage, data.createPage)
       } else {
-        state.pages.push(result.data.createPage)
+        state.pages.push(data.createPage)
       }
     }
-    return result.data
+    return data
   } catch (error) {
     console.log(error)
   }
 }
 
-const updateUserInfo = async (formContent: User) => {
+const updateUserInfo = async (formContent: User, method: string) => {
+  if (formContent.password && formContent.password !== formContent.passwordCheck) {
+    return {
+      error: {
+        message: "Passwords do not match"
+      }
+    }
+  }
+  delete formContent.passwordCheck
   try {
     const user = {
-      ...formContent,
-      group: getUser.value.group,
-      password: getUser.value.password
+      ...getUser(),
+      ...formContent
     }
+    delete user.__typename
     const mutationPrep = generalStore.get.getClient().useMutation(`
       mutation ($input: UserInput) {
         editUser (input: $input ) {
           firstName
           lastName
           email
+          id
         }
       }`
     )
-    const result = await mutationPrep.executeMutation({ input: user })
-    if (result.data.editUser) {
-      state.user = {
-        ...state.user,
-        ...result.data.editUser
-      }
-    }
-    return result.data
-  } catch (error) {
-    console.log(error)
-  }
-}
-
-const updateUserCredentials = async (formContent: User) => {
-  try {
-    const user = {
-      ...formContent,
-      group: getUser.value.group,
-      firstName: getUser.value.firstName,
-      lastName: getUser.value.lastName,
-      email: getUser.value.email
-    }
-    const mutationPrep = generalStore.get.getClient().useMutation(`
-      mutation ($input: UserInput) {
-        editUser (input: $input ) {
-          password
-        }
-      }`
-    )
-    const result = await mutationPrep.executeMutation({ input: user })
-    if (result.data.editUser) {
-      state.user = {
-        ...state.user,
-        ...result.data.editUser
-      }
-    }
-    return result.data
+    const { data } = await mutationPrep.executeMutation({ input: user })
+    Object.assign(state.user, data.editUser)
+    return data
   } catch (error) {
     console.log(error)
   }
@@ -187,8 +162,7 @@ export const adminStore = readonly({
     deletePage,
     deleteUser,
     setPage,
-    updateUserInfo,
-    updateUserCredentials
+    updateUserInfo
   },
   get: {
     fetchAdmin,
@@ -199,7 +173,7 @@ export const adminStore = readonly({
 
 // internals
 const formatPageToInsert = async (unformattedPage: Page): Promise<Page> => {
-  const user: User = getUser.value
+  const user: User = getUser()
   const page = {
     author: user.email,
     slug: unformattedPage.slug,
