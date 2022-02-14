@@ -36,7 +36,8 @@ Once Nuxt3 supports generating static pages the project will be updated for even
 
 - DONE: User creation and token hydration
 - DONE: Page creation and deletion
-- CURRENT: GraphQL implementation
-- Form from state management implementation
+- DONE: GraphQL implementation
+- DONE: Form from state management implementation
+- CURRENT: Multi part forms
 - Page nesting
 - Page component rendering

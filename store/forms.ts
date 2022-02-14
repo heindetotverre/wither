@@ -79,8 +79,12 @@ const setFormValuesBasedOnQuery = (formName: keyof Forms, queriedObject: Record<
   })
 }
 
-const updateAllFormValues = () => {
-
+const updateAllFormValues = (formName: keyof Forms, method: string | void) => {
+  if (method === 'clear') {
+    state.forms[formName].forEach(field => {
+      updateSpecificFormValues({ name: formName, key: field.key, property: 'value', value: '' })
+    })
+  }
 }
 
 const updateSpecificFormValues = (input: FormEvent) => {

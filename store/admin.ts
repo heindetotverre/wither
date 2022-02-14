@@ -122,10 +122,10 @@ const setPage = async (formContent: Page) => {
   }
 }
 
-const updateUserInfo = async (formContent: User, method: string) => {
+const updateUserInfo = async (formContent: User) => {
   if (formContent.password && formContent.password !== formContent.passwordCheck) {
     return {
-      error: {
+      errors: {
         message: "Passwords do not match"
       }
     }
