@@ -1,5 +1,5 @@
 import { reactive, readonly, } from "vue"
-import { UserForm, LoginForm } from '~~/types'
+import { User } from '~~/types'
 import { Group } from "~~/types/enums"
 import { createUUID } from "~~/utils"
 import { generalStore } from "./index"
@@ -18,7 +18,7 @@ const getTokenId = () => state.tokenId
 
 const getTokenState = () => state.hasToken
 
-const login = async (formContent: LoginForm) => {
+const login = async (formContent: User) => {
   try {
     const loginPayload = {
       id: createUUID(),
@@ -61,7 +61,7 @@ const logout = async () => {
   }
 }
 
-const register = async (formContent: UserForm) => {
+const register = async (formContent: User) => {
   if (formContent.password !== formContent.passwordCheck) {
     return {
       error: {
@@ -72,9 +72,9 @@ const register = async (formContent: UserForm) => {
   delete formContent.passwordCheck
   try {
     const userPayload = {
+      ...formContent,
       group: Group.Default,
-      id: createUUID(),
-      ...formContent
+      id: createUUID()
     }
     const mutationPrep = generalStore.get.getClient().useMutation(`
       mutation ($input: UserInput) {

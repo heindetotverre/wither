@@ -1,5 +1,5 @@
 import { reactive, readonly, } from 'vue'
-import { Forms, FormEvent, User } from '~~/types'
+import { Forms, FormEvent, FormField, Form } from '~~/types'
 import { State } from '~~/types/enums'
 import { adminStore } from '~~/store/admin'
 import { presetForms } from '~~/assets/resources/forms'
@@ -14,9 +14,13 @@ const state = reactive({
   ...initialState
 })
 
+const createMultiPartForm = (formName: keyof Forms) => {
+
+}
+
 const getCreatePageForm = () => {
   if (!adminStore.get.getPages().length) {
-    state.forms.createPage.map(f => {
+    state.forms.createPage.form.map(f => {
       if (f.key === 'name') {
         updateSpecificFormValues({ name: 'createPage', key: f.key, property: 'value', value: 'home' })
         updateSpecificFormValues({ name: 'createPage', key: f.key, property: 'disabled', value: true })
@@ -28,7 +32,7 @@ const getCreatePageForm = () => {
     })
   } else {
     updateSpecificFormValues({ name: 'createPage', key: 'parentPage', property: 'options', value: adminStore.get.getPages().map(p => p.name) })
-    state.forms.createPage.map(f => {
+    state.forms.createPage.form.map(f => {
       if (f.key === 'name') {
         updateSpecificFormValues({ name: 'createPage', key: f.key, property: 'value', value: '' })
         updateSpecificFormValues({ name: 'createPage', key: f.key, property: 'disabled', value: false })
@@ -43,7 +47,7 @@ const getCreatePageForm = () => {
 }
 
 const getFormValues = (formName: keyof Forms) => {
-  return state.forms[formName].reduce((acc: any, curr) => {
+  return state.forms[formName].form.reduce((acc: any, curr) => {
     return curr.class !== 'Button'
       ? { ...acc, [curr.key]: curr.value }
       : acc
@@ -52,7 +56,7 @@ const getFormValues = (formName: keyof Forms) => {
 
 const getFullFormValidationState = (formName: keyof Forms) => {
   const formFields = state.forms[formName]
-  const fieldsToValidate = formFields.filter(field => field.required),
+  const fieldsToValidate = formFields.form.filter(field => field.required),
     notValidated = []
 
   for (const singleFieldToValidate of fieldsToValidate) {
@@ -69,6 +73,22 @@ const getFullFormValidationState = (formName: keyof Forms) => {
   return notValidated.length !== 0
 }
 
+const getLoginForm = () => {
+  return state.forms.login.form
+}
+
+const getRegisterForm = () => {
+  return state.forms.register.form
+}
+
+const getUpdateUserInfoForm = () => {
+  return state.forms.updateUserInfo.form
+}
+
+const getUpdateUserCredentialsForm = () => {
+  return state.forms.updateUserCredentials.form
+}
+
 const setFormValuesBasedOnQuery = (formName: keyof Forms, queriedObject: Record<string, any>) => {
   const keys = Object.keys(queriedObject)
   const values = Object.values(queriedObject)
@@ -81,14 +101,14 @@ const setFormValuesBasedOnQuery = (formName: keyof Forms, queriedObject: Record<
 
 const updateAllFormValues = (formName: keyof Forms, method: string | void) => {
   if (method === 'clear') {
-    state.forms[formName].forEach(field => {
+    state.forms[formName].form.forEach(field => {
       updateSpecificFormValues({ name: formName, key: field.key, property: 'value', value: '' })
     })
   }
 }
 
 const updateSpecificFormValues = (input: FormEvent) => {
-  const field = state.forms[input.name].find(f => f.key === input.key)
+  const field = state.forms[input.name].form.find(f => f.key === input.key)
   if (field) {
     field[input.property] = input.value
   }
@@ -96,7 +116,7 @@ const updateSpecificFormValues = (input: FormEvent) => {
 
 const validateSingleField = (input: FormEvent, reset: State | void) => {
   let domclass = '',
-    field = state.forms[input.name].find(f => f.key === input.key)
+    field = state.forms[input.name].form.find(f => f.key === input.key)
 
   if (field && validators[field.validation.validator]) {
     if (reset !== State.Reset) {
@@ -119,6 +139,7 @@ const validateSingleField = (input: FormEvent, reset: State | void) => {
 export const formStore = readonly({
   state: state,
   do: {
+    createMultiPartForm,
     setFormValuesBasedOnQuery,
     updateAllFormValues,
     updateSpecificFormValues,
@@ -127,6 +148,10 @@ export const formStore = readonly({
   get: {
     getCreatePageForm,
     getFormValues,
-    getFullFormValidationState
+    getFullFormValidationState,
+    getLoginForm,
+    getRegisterForm,
+    getUpdateUserInfoForm,
+    getUpdateUserCredentialsForm
   }
 })

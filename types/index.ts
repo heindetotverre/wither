@@ -5,7 +5,7 @@ interface Page {
   id: string,
   author: string,
   parent: string,
-  components: Array<String>,
+  components: string[],
   meta: Record<string, any>
 }
 
@@ -20,25 +20,13 @@ interface User {
   __typename?: string
 }
 
-interface UserForm {
-  firstName: User['firstName'],
-  lastName: User['lastName'],
-  email: User['email'],
-  password: User['password'],
-  passwordCheck?: User['password']
-}
-
-interface LoginForm {
-  email: User['email'],
-  password: User['password']
-}
-
 interface FormField {
   autocomplete?: string,
   class: string,
   component: string,
   disabled?: boolean,
   domclass?: string,
+  formPart?: string,
   id: string,
   key: string,
   label: string,
@@ -72,11 +60,20 @@ interface FormEvent {
 }
 
 interface Forms {
-  createPage: FormField[],
-  login: FormField[],
-  register: FormField[],
-  updateUserInfo: FormField[],
-  updateUserCredentials: FormField[]
+  createPage: Form,
+  login: Form,
+  register: Form,
+  updateUserInfo: Form,
+  updateUserCredentials: Form
+}
+
+interface Form {
+  formInfo: {
+    name: keyof Forms,
+    multipart: boolean,
+    parts: string[]
+  },
+  form: FormField[]
 }
 
 interface Token {
@@ -88,11 +85,10 @@ interface Token {
 
 export {
   Forms,
+  Form,
   FormEvent,
   FormField,
-  LoginForm,
   Page,
   User,
-  UserForm,
   Token
 }

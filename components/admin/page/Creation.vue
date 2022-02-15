@@ -2,22 +2,27 @@
   <div>
     <p>Create a page</p>
     <RendererForm
-      :formName="'createPage'"
+      :formName="formStore.state.forms.createPage.formInfo.name"
       :formFields="createPageForm"
       @submit="createPage($event)"
     />
-    <NuxtLink :to="`/${AdminSearch.Admin}/${AdminSearch.PageManagement}`">Cancel</NuxtLink>
-    <div v-if="response">{{ response }}</div>
   </div>
+  <NuxtLink :to="`/${AdminSearch.Admin}/${AdminSearch.PageManagement}`">Cancel</NuxtLink>
+  <div v-if="response">{{ response }}</div>
 </template>
 <script setup lang="ts">
 import { formStore } from '~~/store/forms'
 import { adminStore } from '~~/store/admin'
-import { FormField, Page } from '~~/types'
+import { Page } from '~~/types'
 import { AdminSearch } from '~~/types/enums'
 
 const response = ref(),
-  createPageForm = ref(formStore.get.getCreatePageForm() as FormField[])
+  createPageForm = ref(formStore.get.getCreatePageForm().form),
+  activeTab = ref()
+
+onBeforeMount(() => {
+  parseUrl()
+})
 
 const createPage = async (formSubmitEvent: Page) => {
   response.value = await adminStore.do.setPage(formSubmitEvent)
@@ -26,9 +31,9 @@ const createPage = async (formSubmitEvent: Page) => {
   }
 }
 
-onBeforeMount(() => {
-  parseUrl()
-})
+const handleTab = (formName: string) => {
+  activeTab.value = formName
+}
 
 const parseUrl = () => {
   const query = useRoute().query

@@ -2,15 +2,15 @@
   <div>
     <p>Edit user info</p>
     <RendererForm
-      :formName="updateUserInfoFormName"
+      :formName="formStore.state.forms.updateUserInfo.formInfo.name"
       :formFields="updateUserInfoForm"
-      @submit="editUser($event, updateUserInfoFormName)"
+      @submit="editUser($event, formStore.state.forms.updateUserInfo.formInfo.name)"
     />
     <p>Edit credentials</p>
     <RendererForm
-      :formName="updateUserCredentialsName"
+      :formName="formStore.state.forms.updateUserCredentials.formInfo.name"
       :formFields="updateUserCredentials"
-      @submit="editUser($event, updateUserCredentialsName)"
+      @submit="editUser($event, formStore.state.forms.updateUserCredentials.formInfo.name)"
     />
     <NuxtLink :to="`/${AdminSearch.Admin}`">Cancel</NuxtLink>
     <div v-if="response">{{ response }}</div>
@@ -19,14 +19,12 @@
 <script lang="ts" setup>
 import { adminStore } from '~~/store/admin'
 import { formStore } from '~~/store/forms'
-import { FormField, Forms, User } from '~~/types'
+import { Forms, User } from '~~/types'
 import { AdminSearch } from '~~/types/enums'
 
 const response = ref(),
-  updateUserInfoForm = ref(formStore.state.forms.updateUserInfo as FormField[]),
-  updateUserCredentials = ref(formStore.state.forms.updateUserCredentials as FormField[]),
-  updateUserInfoFormName: keyof Forms = 'updateUserInfo',
-  updateUserCredentialsName: keyof Forms = 'updateUserCredentials'
+  updateUserInfoForm = ref(formStore.get.getUpdateUserInfoForm()),
+  updateUserCredentials = ref(formStore.get.getUpdateUserCredentialsForm())
 
 const editUser = async (formSubmitEvent: User, formName: keyof Forms) => {
   response.value = await adminStore.do.updateUserInfo(formSubmitEvent)
@@ -44,7 +42,7 @@ const parseUrl = () => {
   const query = useRoute().query
   if (query) {
     const user = adminStore.get.getUser()
-    formStore.do.setFormValuesBasedOnQuery(updateUserInfoFormName, user)
+    formStore.do.setFormValuesBasedOnQuery(formStore.state.forms.updateUserInfo.formInfo.name, user)
   }
 }
 

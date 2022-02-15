@@ -4,7 +4,7 @@
       <p>Login section</p>
       <div v-if="formRenderer === 'login'">
         <RendererForm
-          :formName="formRenderer"
+          :formName="formStore.state.forms.login.formInfo.name"
           :formFields="loginForm"
           @submit="handleLogin($event)"
         />
@@ -13,7 +13,7 @@
       </div>
       <div v-if="formRenderer === 'register'">
         <RendererForm
-          :formName="formRenderer"
+          :formName="formStore.state.forms.register.formInfo.name"
           :formFields="registerForm"
           @submit="handleRegister($event)"
         />
@@ -27,21 +27,21 @@
 <script setup lang="ts">
 import { authStore } from '~~/store/auth'
 import { formStore } from '~~/store/forms'
-import { UserForm, FormField, LoginForm } from '~~/types'
+import { User } from '~~/types'
 
 const response = ref(),
   formRenderer = ref('login'),
-  loginForm = ref(formStore.state.forms.login as Array<FormField>),
-  registerForm = ref(formStore.state.forms.register as Array<FormField>)
+  loginForm = ref(formStore.get.getLoginForm()),
+  registerForm = ref(formStore.get.getRegisterForm())
 
-const handleLogin = async (event: LoginForm) => {
+const handleLogin = async (event: User) => {
   response.value = await authStore.do.login(event)
   if (!response.value.error) {
     useRouter().push('/')
   }
 }
 
-const handleRegister = async (event: UserForm) => {
+const handleRegister = async (event: User) => {
   response.value = await authStore.do.register(event)
   if (!response.value.error) {
     useRouter().push('/')
