@@ -47,7 +47,7 @@ const props = defineProps({
     default: []
   },
   value: {
-    type: String,
+    type: [String, Number],
     default: ''
   },
   domclass: {
@@ -63,7 +63,7 @@ const emits = defineEmits([
   'input'
 ])
 
-const currentValue = ref('')
+const currentValue = ref()
 
 onMounted(() => {
   currentValue.value = props.value

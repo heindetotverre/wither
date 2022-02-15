@@ -100,7 +100,6 @@ const getUser = () => state.user
 
 const setPage = async (formContent: Page) => {
   const pageToInsert = await formatPageToInsert(formContent)
-  console.log(pageToInsert)
   try {
     const mutationPrep = generalStore.get.getClient().useMutation(`
       mutation ($input: PageInput) {
@@ -120,7 +119,7 @@ const setPage = async (formContent: Page) => {
     )
     const { data } = await mutationPrep.executeMutation({ input: pageToInsert })
     if (data.createPage) {
-      let existingPage = state.pages.find(p => p.id === data.createPage.id)
+      const existingPage = state.pages.find(p => p.id === data.createPage.id)
       if (existingPage) {
         Object.assign(existingPage, data.createPage)
       } else {
