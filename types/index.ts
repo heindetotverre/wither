@@ -1,12 +1,15 @@
 interface Page {
-  slug: string
-  level: number,
   name: string,
-  id: string,
-  author: string,
+  slug: string,
+  isInMenu: boolean,
   parent: string,
+  order: number,
+  title: string,
+  description: string,
+  keywords: string,
   components: string[],
-  meta: Record<string, any>
+  id: string,
+  author: string
 }
 
 interface User {

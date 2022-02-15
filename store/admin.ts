@@ -66,9 +66,14 @@ const fetchAdmin = async () => {
         getPages {
           name
           slug
-          id
-          components
+          isInMenu
           parent
+          order
+          title
+          description
+          keywords
+          id
+          author
         }
         getSingleUser(tokenId: "${tokenId}") {
           firstName
@@ -95,15 +100,21 @@ const getUser = () => state.user
 
 const setPage = async (formContent: Page) => {
   const pageToInsert = await formatPageToInsert(formContent)
+  console.log(pageToInsert)
   try {
     const mutationPrep = generalStore.get.getClient().useMutation(`
       mutation ($input: PageInput) {
         createPage (input: $input) {
           name
           slug
-          id
-          components
+          isInMenu
           parent
+          order
+          title
+          description
+          keywords
+          id
+          author
         }
       }`
     )
@@ -175,18 +186,21 @@ export const adminStore = readonly({
 const formatPageToInsert = async (unformattedPage: Page): Promise<Page> => {
   const user: User = getUser()
   const page = {
-    author: user.email,
-    slug: unformattedPage.slug,
-    level: calculatePageLevel(unformattedPage),
     name: unformattedPage.name,
-    id: createId('page'),
+    slug: unformattedPage.slug,
+    isInMenu: unformattedPage.isInMenu,
     parent: unformattedPage.parent,
-    components: unformattedPage.components,
-    meta: unformattedPage.meta
+    order: calculatePageLevel(unformattedPage.order),
+    title: unformattedPage.title,
+    description: unformattedPage.description,
+    keywords: unformattedPage.keywords,
+    components: [],
+    id: createId('page'),
+    author: user.email
   }
   return page
 }
 
-const calculatePageLevel = (page: Page | void) => {
+const calculatePageLevel = (page: number | void) => {
   return 0
 }

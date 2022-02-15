@@ -1,11 +1,7 @@
 <template>
   <div>
     <p>Create a page</p>
-    <RendererForm
-      :formName="formStore.state.forms.createPage.formInfo.name"
-      :formFields="createPageForm"
-      @submit="createPage($event)"
-    />
+    <RendererMultiForm :form="createPageForm" @submit="createPage($event)" />
   </div>
   <NuxtLink :to="`/${AdminSearch.Admin}/${AdminSearch.PageManagement}`">Cancel</NuxtLink>
   <div v-if="response">{{ response }}</div>
@@ -17,8 +13,7 @@ import { Page } from '~~/types'
 import { AdminSearch } from '~~/types/enums'
 
 const response = ref(),
-  createPageForm = ref(formStore.get.getCreatePageForm().form),
-  activeTab = ref()
+  createPageForm = ref(formStore.get.getCreatePageForm())
 
 onBeforeMount(() => {
   parseUrl()
@@ -26,13 +21,9 @@ onBeforeMount(() => {
 
 const createPage = async (formSubmitEvent: Page) => {
   response.value = await adminStore.do.setPage(formSubmitEvent)
-  if (response.value.createPage) {
+  if (response.value?.createPage) {
     useRouter().push(`${AdminSearch.Admin}/${AdminSearch.PageManagement}`)
   }
-}
-
-const handleTab = (formName: string) => {
-  activeTab.value = formName
 }
 
 const parseUrl = () => {
