@@ -185,7 +185,6 @@ export const adminStore = readonly({
 
 // internals
 const formatPageToInsert = async (unformattedPage: Page): Promise<Page> => {
-  console.log(unformattedPage)
   const user: User = getUser()
   const page = {
     name: unformattedPage.name,
