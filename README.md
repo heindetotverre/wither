@@ -38,6 +38,8 @@ Once Nuxt3 supports generating static pages the project will be updated for even
 - DONE: Page creation and deletion
 - DONE: GraphQL implementation
 - DONE: Form from state management implementation
-- CURRENT: Multi part forms
-- Page nesting
-- Page component rendering
+- DONE: Multi part forms
+- CURRENT: Component and component content generation
+- Styling
+- Image gallery
+- Uploading custom HTML/Styling

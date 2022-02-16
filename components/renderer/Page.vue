@@ -4,8 +4,7 @@
   </NuxtLayout>
 
   <div v-if="!noHomePage && !is404">
-    <p>Page with components: {{ page }}</p>
-    <component v-for="component in page.components" :is="component">
+    <component v-for="component in page.pageComponents" :is="component">
       <slot></slot>
     </component>
   </div>
