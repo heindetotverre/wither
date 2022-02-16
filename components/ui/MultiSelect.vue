@@ -81,10 +81,12 @@ const emits = defineEmits([
 ])
 
 onMounted(() => {
+  values = props.value as string[]
   currentValue.value = props.value.join(',')
 })
 
 watch(() => props.value, () => {
+  values = props.value as string[]
   currentValue.value = props.value.join('')
 })
 

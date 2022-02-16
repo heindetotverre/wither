@@ -17,8 +17,8 @@ const renderer = ref()
 
 const search = !getUrlPath().last
   ? ''
-  : getUrlPath().last as string
-const tokenId = useCookie<Record<string, any>>('witherLoginToken')
+  : getUrlPath().last as string,
+  tokenId = useCookie<Record<string, any>>('witherLoginToken')
 
 await generalStore.do.setClient()
 await authStore.do.setTokenState(tokenId.value?.id)

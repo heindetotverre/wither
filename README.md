@@ -12,7 +12,7 @@ npm install
 
 ## Development and usage
 
-make sure you have the graphql server from the aformentioned repo running
+make sure you have the graphql server from the aformentioned repo running at http://localhost:4000/gql and the mongodb instance on sai server at mongodb://127.0.0.1:27017/db (this is the standard mongod location). See the README of https://github.com/heindetotverre/gqlserver
 
 npm run dev
 
@@ -40,6 +40,6 @@ Once Nuxt3 supports generating static pages the project will be updated for even
 - DONE: Form from state management implementation
 - DONE: Multi part forms
 - CURRENT: Component and component content generation
-- Styling
-- Image gallery
+- Styling implementation
+- Image gallery adn image uploading
 - Uploading custom HTML/Styling
