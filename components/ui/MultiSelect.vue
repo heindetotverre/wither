@@ -1,5 +1,5 @@
 <template>
-  <div :class="domclass" v-if="visible" @blur="onBlur()">
+  <div :class="domclass" v-if="visible" ref="multiSelect">
     <label :for="id">{{ label }}</label>
     <input
       :id="id"
@@ -9,12 +9,18 @@
       :disabled="disabled"
       @focus="onFocus()"
     />
-    <div v-if="hasFocus">
-      <div v-for="(option, index) of options" :key="index" @click="selectOption(option as string)">
-        <UiCheckbox :id="`multiselect_${id}`" :name="`multiselect_${name}`" />
-        <span>{{ option }}</span>
-      </div>
-    </div>
+    <ul v-if="hasFocus">
+      <li v-for="(option, index) of options" :key="index">
+        <UiCheckbox
+          :id="`multiselect_${id}_${index}`"
+          :name="`multiselect_${name}`"
+          :value="checkForValue(option as string)"
+          type="checkbox"
+          :label="(option as string)"
+          @input="selectOption(option as string)"
+        />
+      </li>
+    </ul>
   </div>
 </template>
 <script setup lang="ts">
@@ -51,8 +57,8 @@ const props = defineProps({
     default: []
   },
   value: {
-    type: [String, Number],
-    default: ''
+    type: Array,
+    default: []
   },
   domclass: {
     type: String,
@@ -75,29 +81,43 @@ const emits = defineEmits([
 ])
 
 onMounted(() => {
-  currentValue.value = props.value
+  currentValue.value = props.value.join(',')
 })
 
 watch(() => props.value, () => {
-  currentValue.value = props.value
+  currentValue.value = props.value.join('')
 })
 
 const currentValue = ref(),
-  hasFocus = ref(false)
+  hasFocus = ref(false),
+  multiSelect = ref()
 
-const onBlur = () => {
-  hasFocus.value = false
-  emits('blur')
+let values: string[] = []
+
+const checkForValue = (option: string) => {
+  return !!values.includes(option)
+}
+
+const handleClickOutside = (event: Event) => {
+  if (multiSelect.value && !multiSelect.value.contains(event.target)) {
+    document.body.removeEventListener('click', handleClickOutside)
+    hasFocus.value = false
+    emits('blur')
+  }
 }
 
 const onFocus = () => {
+  document.body.addEventListener('click', handleClickOutside)
   hasFocus.value = true
   emits('focus')
 }
 
 const selectOption = (option: string) => {
-  currentValue.value = option
-  emits('input', currentValue.value)
-  hasFocus.value = false
+  values.includes(option)
+    ? values = values.filter(v => v !== option)
+    : values.push(option)
+
+  currentValue.value = values.join(', ')
+  emits('input', values)
 }
 </script>

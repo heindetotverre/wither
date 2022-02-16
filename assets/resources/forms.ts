@@ -249,6 +249,7 @@ export const presetForms = {
       {
         formPart: 'content',
         ...selectInputField,
+        component: 'UiMultiSelect',
         label: 'components',
         key: 'pageComponents',
         options: componentKeys,

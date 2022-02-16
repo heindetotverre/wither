@@ -67,6 +67,7 @@ const fetchAdmin = async () => {
           name
           slug
           isInMenu
+          pageComponents
           pageMenuParent
           pageMenuOrder
           title
@@ -107,6 +108,7 @@ const setPage = async (formContent: Page) => {
           name
           slug
           isInMenu
+          pageComponents
           pageMenuParent
           pageMenuOrder
           title
@@ -183,6 +185,7 @@ export const adminStore = readonly({
 
 // internals
 const formatPageToInsert = async (unformattedPage: Page): Promise<Page> => {
+  console.log(unformattedPage)
   const user: User = getUser()
   const page = {
     name: unformattedPage.name,
@@ -193,7 +196,7 @@ const formatPageToInsert = async (unformattedPage: Page): Promise<Page> => {
     title: unformattedPage.title,
     description: unformattedPage.description,
     keywords: unformattedPage.keywords,
-    components: [],
+    pageComponents: unformattedPage.pageComponents,
     id: createId('page'),
     author: user.email
   }

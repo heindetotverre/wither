@@ -22,11 +22,7 @@ const response = ref(),
   query = useRoute().query
 
 onBeforeMount(() => {
-  parseUrl()
-})
-
-onMounted(() => {
-  checkValuesAndSetForm()
+  setFormValues()
 })
 
 const checkValuesAndSetForm = () => {
@@ -45,28 +41,27 @@ const createPage = async (formSubmitEvent: Page) => {
 
 const onInput = (event: FormEvent) => {
   if (event.key === 'isInMenu') {
-    formStore.do.updateSpecificFormValues({ name: formName, key: 'pageMenuParent', property: 'visible', value: event.value })
+    formStore.do.updateSpecificFormValues({ name: formName, key: 'pageMenuParent', property: 'visible', value: true })
   }
   if (event.key === 'pageMenuParent' && event.value !== '') {
     formStore.do.updateSpecificFormValues({ name: formName, key: 'pageMenuOrder', property: 'visible', value: true })
   }
   if (event.key === 'isInMenu' && !event.value) {
-    formStore.do.updateSpecificFormValues({ name: formName, key: 'pageMenuOrder', property: 'visible', value: event.value })
-    formStore.do.updateSpecificFormValues({ name: formName, key: 'pageMenuParent', property: 'visible', value: event.value })
-    formStore.do.updateSpecificFormValues({ name: formName, key: 'pageMenuOrder', property: 'value', value: '' })
+    formStore.do.updateSpecificFormValues({ name: formName, key: 'pageMenuOrder', property: 'visible', value: false })
+    formStore.do.updateSpecificFormValues({ name: formName, key: 'pageMenuParent', property: 'visible', value: false })
+    formStore.do.updateSpecificFormValues({ name: formName, key: 'pageMenuOrder', property: 'value', value: 0 })
     formStore.do.updateSpecificFormValues({ name: formName, key: 'pageMenuParent', property: 'value', value: '' })
   }
 }
 
-const parseUrl = () => {
+const setFormValues = () => {
   if (Object.keys(query).length) {
     const page = adminStore.get.getPages().find(p => p.id === query.pageid)
     if (page) {
       formStore.do.setFormValuesBasedOnQuery('createPage', page)
     }
-  } else {
-    createPageForm.value = formStore.get.getCreatePageForm()
   }
+  checkValuesAndSetForm()
 }
 
 </script>

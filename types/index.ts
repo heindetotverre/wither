@@ -1,11 +1,11 @@
 interface Page {
   author: string,
-  components: string[],
   description: string,
   id: string,
   isInMenu: boolean,
   keywords: string,
   name: string,
+  pageComponents: string[],
   pageMenuParent: string,
   pageMenuOrder: number,
   slug: string,

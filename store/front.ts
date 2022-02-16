@@ -17,8 +17,8 @@ const fetchSinglePage = async (currentPageSlug: string) => {
       query: `{
           getSinglePage(slug: "${currentPageSlug}") {
             name
-            components
-            parent
+            pageComponents
+            pageMenuParent
           }
        }`
     }))

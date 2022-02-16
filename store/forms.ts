@@ -15,6 +15,7 @@ const state = reactive({
 })
 
 const getCreatePageForm = () => {
+  updateAllFormValues('createPage', 'clear')
   if (!adminStore.get.getPages().length) {
     state.forms.createPage.fields.map(f => {
       if (f.key === 'name') {
@@ -100,7 +101,9 @@ const setFormValuesBasedOnQuery = (formName: keyof Forms, queriedObject: Record<
 const updateAllFormValues = (formName: keyof Forms, method: string | void) => {
   if (method === 'clear') {
     state.forms[formName].fields.forEach(field => {
-      if (field.type === 'checkbox') {
+      if (field.key === 'pageComponents') {
+        updateSpecificFormValues({ name: formName, key: field.key, property: 'value', value: [] })
+      } else if (field.type === 'checkbox') {
         updateSpecificFormValues({ name: formName, key: field.key, property: 'value', value: false })
       } else {
         updateSpecificFormValues({ name: formName, key: field.key, property: 'value', value: '' })
