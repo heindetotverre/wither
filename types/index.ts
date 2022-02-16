@@ -6,8 +6,8 @@ interface Page {
   isInMenu: boolean,
   keywords: string,
   name: string,
-  order: number,
-  parent: string,
+  pageMenuParent: string,
+  pageMenuOrder: number,
   slug: string,
   title: string
 }
@@ -77,7 +77,7 @@ interface Form {
     multipart: boolean,
     parts: string[]
   },
-  form: FormField[]
+  fields: FormField[]
 }
 
 interface Token {

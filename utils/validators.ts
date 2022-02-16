@@ -13,7 +13,7 @@ const validators = {
     }
   },
   novalidator: (input: string) => {
-    return false
+    return true
   }
 }
 

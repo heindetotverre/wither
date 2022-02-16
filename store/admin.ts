@@ -67,8 +67,8 @@ const fetchAdmin = async () => {
           name
           slug
           isInMenu
-          parent
-          order
+          pageMenuParent
+          pageMenuOrder
           title
           description
           keywords
@@ -107,8 +107,8 @@ const setPage = async (formContent: Page) => {
           name
           slug
           isInMenu
-          parent
-          order
+          pageMenuParent
+          pageMenuOrder
           title
           description
           keywords
@@ -188,8 +188,8 @@ const formatPageToInsert = async (unformattedPage: Page): Promise<Page> => {
     name: unformattedPage.name,
     slug: unformattedPage.slug,
     isInMenu: unformattedPage.isInMenu,
-    parent: unformattedPage.parent,
-    order: calculatePageLevel(unformattedPage.order),
+    pageMenuParent: unformattedPage.pageMenuParent,
+    pageMenuOrder: calculatePageLevel(unformattedPage.pageMenuOrder),
     title: unformattedPage.title,
     description: unformattedPage.description,
     keywords: unformattedPage.keywords,
@@ -200,6 +200,6 @@ const formatPageToInsert = async (unformattedPage: Page): Promise<Page> => {
   return page
 }
 
-const calculatePageLevel = (page: number | void) => {
+const calculatePageLevel = (page: number) => {
   return 0
 }

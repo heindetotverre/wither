@@ -20,6 +20,9 @@ const props = defineProps({
   visible: {
     type: Boolean,
     default: true
+  },
+  validation: {
+    type: Object
   }
 })
 

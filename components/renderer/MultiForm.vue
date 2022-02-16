@@ -6,17 +6,23 @@
     <RendererForm
       v-if="activeTab === formPart"
       :formName="form.formInfo.name"
-      :formFields="form.form.filter(f => f.formPart === formPart)"
+      :formFields="form.fields.filter(f => f.formPart === formPart)"
       @inputField="emits('inputField', $event)"
-      @submit="onSubmit()"
     />
   </div>
-  <button @click="onSubmit()">Save page</button>
+  <component
+    v-for="(button, index) in buttons"
+    :key="index"
+    :is="button.component"
+    :disabled="isDisabled(button)"
+    :label="button.label"
+    @click="onSubmit()"
+  ></component>
 </template>
 <script lang="ts" setup>
 import { formStore } from '~~/store/forms'
 import { PropType } from 'vue'
-import { Form } from '~~/types'
+import { Form, FormField } from '~~/types'
 
 const props = defineProps({
   form: {
@@ -29,6 +35,14 @@ const emits = defineEmits([
   'inputField',
   'submit'
 ])
+
+const buttons = ref(props.form.fields.filter(f => f.class === 'Button'))
+
+const isDisabled = (field: FormField) => {
+  return field.disabled
+    ? field.disabled
+    : field.class === 'Button' && fullFormValidation()
+}
 
 const formValues = computed(() => formStore.get.getFormValues(props.form.formInfo.name)),
   activeTab = ref(props.form.formInfo.parts[0])

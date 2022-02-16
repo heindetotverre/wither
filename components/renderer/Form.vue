@@ -67,6 +67,10 @@ const collectValidationMessages = () => {
   return 'Oops, error!'
 }
 
+const fullFormValidation = () => {
+  return formStore.get.getFullFormValidationState(props.formName)
+}
+
 const isDisabled = (field: FormField) => {
   return field.disabled
     ? field.disabled
@@ -93,9 +97,5 @@ const onSubmit = () => {
   } else {
     emits('submit', formValues.value)
   }
-}
-
-const fullFormValidation = () => {
-  return formStore.get.getFullFormValidationState(props.formName)
 }
 </script>

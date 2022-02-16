@@ -29,3 +29,6 @@ renderer.value = getUrlPath().first === 'admin'
 
 cookie.value = Cookie.Accepted
 </script>
+<style less>
+@import "~~/assets/less/general.less";
+</style>

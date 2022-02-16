@@ -16,7 +16,7 @@ const state = reactive({
 
 const getCreatePageForm = () => {
   if (!adminStore.get.getPages().length) {
-    state.forms.createPage.form.map(f => {
+    state.forms.createPage.fields.map(f => {
       if (f.key === 'name') {
         updateSpecificFormValues({ name: 'createPage', key: f.key, property: 'value', value: 'home' })
         updateSpecificFormValues({ name: 'createPage', key: f.key, property: 'disabled', value: true })
@@ -27,8 +27,9 @@ const getCreatePageForm = () => {
       }
     })
   } else {
-    updateSpecificFormValues({ name: 'createPage', key: 'parentPage', property: 'options', value: adminStore.get.getPages().map(p => p.name) })
-    state.forms.createPage.form.map(f => {
+    updateSpecificFormValues({ name: 'createPage', key: 'pageMenuParent', property: 'options', value: adminStore.get.getPages().map(p => p.name) })
+    updateSpecificFormValues({ name: 'createPage', key: 'pageMenuOrder', property: 'options', value: adminStore.get.getPages().map((p, index) => index) })
+    state.forms.createPage.fields.map(f => {
       if (f.key === 'name') {
         updateSpecificFormValues({ name: 'createPage', key: f.key, property: 'value', value: '' })
         updateSpecificFormValues({ name: 'createPage', key: f.key, property: 'disabled', value: false })
@@ -43,7 +44,7 @@ const getCreatePageForm = () => {
 }
 
 const getFormValues = (formName: keyof Forms) => {
-  return state.forms[formName].form.reduce((acc: any, curr) => {
+  return state.forms[formName].fields.reduce((acc: any, curr) => {
     return curr.class !== 'Button'
       ? { ...acc, [curr.key]: curr.value }
       : acc
@@ -51,8 +52,8 @@ const getFormValues = (formName: keyof Forms) => {
 }
 
 const getFullFormValidationState = (formName: keyof Forms) => {
-  const formFields = state.forms[formName]
-  const fieldsToValidate = formFields.form.filter(field => field.required),
+  const formFields = state.forms[formName],
+    fieldsToValidate = formFields.fields.filter(field => field.required),
     notValidated = []
 
   for (const singleFieldToValidate of fieldsToValidate) {
@@ -70,24 +71,25 @@ const getFullFormValidationState = (formName: keyof Forms) => {
 }
 
 const getLoginForm = () => {
-  return state.forms.login.form
+  return state.forms.login.fields
 }
 
 const getRegisterForm = () => {
-  return state.forms.register.form
+  return state.forms.register.fields
 }
 
 const getUpdateUserInfoForm = () => {
-  return state.forms.updateUserInfo.form
+  return state.forms.updateUserInfo.fields
 }
 
 const getUpdateUserCredentialsForm = () => {
-  return state.forms.updateUserCredentials.form
+  return state.forms.updateUserCredentials.fields
 }
 
 const setFormValuesBasedOnQuery = (formName: keyof Forms, queriedObject: Record<string, any>) => {
-  const keys = Object.keys(queriedObject)
-  const values = Object.values(queriedObject)
+  const keys = Object.keys(queriedObject),
+    values = Object.values(queriedObject)
+
   keys.forEach((k, i) => {
     if (state.forms[formName]) {
       updateSpecificFormValues({ name: formName, key: k, property: 'value', value: values[i] })
@@ -97,14 +99,18 @@ const setFormValuesBasedOnQuery = (formName: keyof Forms, queriedObject: Record<
 
 const updateAllFormValues = (formName: keyof Forms, method: string | void) => {
   if (method === 'clear') {
-    state.forms[formName].form.forEach(field => {
-      updateSpecificFormValues({ name: formName, key: field.key, property: 'value', value: '' })
+    state.forms[formName].fields.forEach(field => {
+      if (field.type === 'checkbox') {
+        updateSpecificFormValues({ name: formName, key: field.key, property: 'value', value: false })
+      } else {
+        updateSpecificFormValues({ name: formName, key: field.key, property: 'value', value: '' })
+      }
     })
   }
 }
 
 const updateSpecificFormValues = (input: FormEvent) => {
-  const field = state.forms[input.name].form.find(f => f.key === input.key)
+  const field = state.forms[input.name].fields.find(f => f.key === input.key)
   if (field) {
     field[input.property] = input.value
   }
@@ -112,7 +118,7 @@ const updateSpecificFormValues = (input: FormEvent) => {
 
 const validateSingleField = (input: FormEvent, reset: State | void) => {
   let domclass = '',
-    field = state.forms[input.name].form.find(f => f.key === input.key)
+    field = state.forms[input.name].fields.find(f => f.key === input.key)
 
   if (field && field.validation && validators[field.validation.validator]) {
     if (reset !== State.Reset) {

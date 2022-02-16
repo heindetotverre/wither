@@ -1,5 +1,5 @@
 <template>
-  <div :class="domclass" v-if="visible">
+  <div :class="domclass" v-if="visible" ref="select">
     <label :for="id">{{ label }}</label>
     <input
       :id="id"
@@ -7,12 +7,18 @@
       :value="currentValue"
       :type="type"
       :disabled="disabled"
-      @blur="onBlur()"
       @focus="onFocus()"
+      @input="onInput()"
     />
-    <div v-if="hasFocus">
-      <div v-for="(option, index) of options" :key="index">| {{ option }} |</div>
-    </div>
+
+    <ul v-if="hasFocus">
+      <span @click="selectOption('clear')">clear</span>
+      <li
+        v-for="(option, index) of options"
+        :key="index"
+        @click="selectOption(option as string)"
+      >{{ option }}</li>
+    </ul>
   </div>
 </template>
 <script setup lang="ts">
@@ -59,6 +65,9 @@ const props = defineProps({
   visible: {
     type: Boolean,
     default: true
+  },
+  validation: {
+    type: Object
   }
 })
 
@@ -78,15 +87,32 @@ watch(() => props.value, () => {
 })
 
 const currentValue = ref(),
-  hasFocus = ref(false)
+  hasFocus = ref(false),
+  select = ref()
 
-const onBlur = () => {
-  hasFocus.value = false
-  emits('blur')
+const handleClickOutside = (event: Event) => {
+  if (select.value && !select.value.contains(event.target)) {
+    document.body.removeEventListener('click', handleClickOutside)
+    hasFocus.value = false
+    emits('blur')
+  }
 }
 
 const onFocus = () => {
+  document.body.addEventListener('click', handleClickOutside)
   hasFocus.value = true
   emits('focus')
+}
+
+const onInput = () => {
+
+}
+
+const selectOption = (option: string) => {
+  currentValue.value = option === 'clear'
+    ? ''
+    : option
+  emits('input', currentValue.value)
+  hasFocus.value = false
 }
 </script>

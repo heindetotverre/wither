@@ -6,7 +6,7 @@ const loginFormName: keyof Forms = 'login',
   registerFormName: keyof Forms = 'register',
   createPageFormName: keyof Forms = 'createPage',
   updateUserInfoFormName: keyof Forms = 'updateUserInfo',
-  updateUserCredentials: keyof Forms = 'updateUserCredentials',
+  updateUserCredentialFormName: keyof Forms = 'updateUserCredentials',
   textInputField = {
     class: 'TextInput',
     component: 'UiInput',
@@ -68,7 +68,7 @@ export const presetForms = {
       multipart: false,
       parts: []
     },
-    form: [
+    fields: [
       {
         ...emailInputField,
         key: 'email',
@@ -95,7 +95,7 @@ export const presetForms = {
       multipart: false,
       parts: []
     },
-    form: [
+    fields: [
       {
         ...textInputField,
         label: 'firstname',
@@ -150,7 +150,7 @@ export const presetForms = {
       multipart: true,
       parts: ['general', 'meta', 'content']
     },
-    form: [
+    fields: [
       {
         formPart: 'general',
         ...textInputField,
@@ -186,7 +186,7 @@ export const presetForms = {
         formPart: 'general',
         ...selectInputField,
         label: 'parent',
-        key: 'parentPage',
+        key: 'pageMenuParent',
         options: [],
         id: createId(createPageFormName),
         validation: {
@@ -200,7 +200,7 @@ export const presetForms = {
         formPart: 'general',
         ...selectInputField,
         label: 'order',
-        key: 'order',
+        key: 'pageMenuOrder',
         options: [],
         id: createId(createPageFormName),
         validation: {
@@ -274,7 +274,7 @@ export const presetForms = {
       multipart: false,
       parts: []
     },
-    form: [
+    fields: [
       {
         ...textInputField,
         label: 'firstname',
@@ -313,34 +313,34 @@ export const presetForms = {
   },
   updateUserCredentials: {
     formInfo: {
-      name: registerFormName,
+      name: updateUserCredentialFormName,
       multipart: false,
       parts: []
     },
-    form: [
+    fields: [
       {
         ...passwordInputField,
         key: 'oldPassword',
         label: 'old password',
-        id: createId(registerFormName)
+        id: createId(updateUserCredentialFormName)
       },
       {
         ...passwordInputField,
         key: 'password',
         label: 'password',
-        id: createId(updateUserCredentials)
+        id: createId(updateUserCredentialFormName)
       },
       {
         ...passwordInputField,
         key: 'passwordCheck',
         label: 'password again',
-        id: createId(updateUserCredentials)
+        id: createId(updateUserCredentialFormName)
       },
       {
         ...button,
         label: 'Save',
         key: 'saveUserCredentials',
-        id: createId(updateUserCredentials)
+        id: createId(updateUserCredentialFormName)
       }
     ] as FormField[]
   }
