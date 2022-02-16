@@ -44,16 +44,15 @@ const props = defineProps({
     default: []
   },
   value: {
-    type: String,
-    default: ''
+    type: [String, Boolean],
+    default: false
   },
   domclass: {
     type: String,
     default: ''
   },
   validation: {
-    type: Object,
-    required: true
+    type: Object
   }
 })
 

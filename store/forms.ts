@@ -114,7 +114,7 @@ const validateSingleField = (input: FormEvent, reset: State | void) => {
   let domclass = '',
     field = state.forms[input.name].form.find(f => f.key === input.key)
 
-  if (field && validators[field.validation.validator]) {
+  if (field && field.validation && validators[field.validation.validator]) {
     if (reset !== State.Reset) {
       if (field.value && field.value.length && !validators[field.validation.validator](field.value)) {
         domclass = 'error'
