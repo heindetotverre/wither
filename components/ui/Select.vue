@@ -1,5 +1,5 @@
 <template>
-  <div :class="domclass">
+  <div :class="domclass" v-if="visible">
     <label :for="id">{{ label }}</label>
     <input
       :id="id"
@@ -7,10 +7,12 @@
       :value="currentValue"
       :type="type"
       :disabled="disabled"
-      @blur="emits('blur')"
-      @focus="emits('focus')"
+      @blur="onBlur()"
+      @focus="onFocus()"
     />
-    <span v-for="(option, index) of options" :key="index">| {{ option }} |</span>
+    <div v-if="hasFocus">
+      <div v-for="(option, index) of options" :key="index">| {{ option }} |</div>
+    </div>
   </div>
 </template>
 <script setup lang="ts">
@@ -53,6 +55,10 @@ const props = defineProps({
   domclass: {
     type: String,
     default: ''
+  },
+  visible: {
+    type: Boolean,
+    default: true
   }
 })
 
@@ -63,8 +69,6 @@ const emits = defineEmits([
   'input'
 ])
 
-const currentValue = ref()
-
 onMounted(() => {
   currentValue.value = props.value
 })
@@ -72,4 +76,17 @@ onMounted(() => {
 watch(() => props.value, () => {
   currentValue.value = props.value
 })
+
+const currentValue = ref(),
+  hasFocus = ref(false)
+
+const onBlur = () => {
+  hasFocus.value = false
+  emits('blur')
+}
+
+const onFocus = () => {
+  hasFocus.value = true
+  emits('focus')
+}
 </script>

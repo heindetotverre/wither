@@ -14,6 +14,7 @@
       :options="field.options"
       :value="field.value"
       :validation="field.validation"
+      :visible="field.visible"
       @blur="onBlur(field)"
       @focus="onFocus(field)"
       @input="onInput(field, $event)"
@@ -82,6 +83,7 @@ const onFocus = (field: FormField) => {
 }
 
 const onInput = (field: FormField, event: Event) => {
+  emits('inputField', { name: props.formName, key: field.key, property: 'value', value: event })
   formStore.do.updateSpecificFormValues({ name: props.formName, key: field.key, property: 'value', value: event })
 }
 

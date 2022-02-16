@@ -1,5 +1,5 @@
 <template>
-  <div :class="domclass">
+  <div :class="domclass" v-if="visible">
     <label :for="id">{{ label }}</label>
     <input
       :id="id"
@@ -54,6 +54,10 @@ const props = defineProps({
   validation: {
     type: Object,
     required: true
+  },
+  visible: {
+    type: Boolean,
+    default: true
   }
 })
 
@@ -64,8 +68,6 @@ const emits = defineEmits([
   'input'
 ])
 
-const currentValue = ref()
-
 onMounted(() => {
   currentValue.value = props.value
 })
@@ -73,6 +75,8 @@ onMounted(() => {
 watch(() => props.value, () => {
   currentValue.value = props.value
 })
+
+const currentValue = ref()
 
 const input = (event: Event) => {
   const inputEl = event.target as HTMLInputElement

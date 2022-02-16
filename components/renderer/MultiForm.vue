@@ -7,6 +7,7 @@
       v-if="activeTab === formPart"
       :formName="form.formInfo.name"
       :formFields="form.form.filter(f => f.formPart === formPart)"
+      @inputField="emits('inputField', $event)"
       @submit="onSubmit()"
     />
   </div>
@@ -25,6 +26,7 @@ const props = defineProps({
 })
 
 const emits = defineEmits([
+  'inputField',
   'submit'
 ])
 

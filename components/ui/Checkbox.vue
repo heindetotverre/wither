@@ -1,15 +1,15 @@
 <template>
-  <div :class="domclass">
+  <div :class="domclass" v-if="visible">
     <label :for="id">{{ label }}</label>
     <input
       :id="id"
       :autocomplete="autocomplete"
-      :value="currentValue"
+      :checked="currentValue"
       :type="type"
       :disabled="disabled"
       @blur="emits('blur')"
       @focus="emits('focus')"
-      @input="input($event)"
+      @input="input()"
     />
     <slot />
   </div>
@@ -53,6 +53,10 @@ const props = defineProps({
   },
   validation: {
     type: Object
+  },
+  visible: {
+    type: Boolean,
+    default: true
   }
 })
 
@@ -73,9 +77,8 @@ watch(() => props.value, () => {
   currentValue.value = props.value
 })
 
-const input = (event: Event) => {
-  const inputEl = event.target as HTMLInputElement
-  currentValue.value = inputEl.value
+const input = () => {
+  currentValue.value = !currentValue.value
   emits('input', currentValue.value)
 }
 </script>

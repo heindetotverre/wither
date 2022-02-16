@@ -12,6 +12,7 @@ const loginFormName: keyof Forms = 'login',
     component: 'UiInput',
     type: 'text',
     required: true,
+    visible: true
   },
   emailInputField = {
     class: 'emailInput',
@@ -23,7 +24,8 @@ const loginFormName: keyof Forms = 'login',
       validator: "email",
       validated: true,
       validationMessage: 'is not an email'
-    }
+    },
+    visible: true
   },
   passwordInputField = {
     class: 'PasswordInput',
@@ -35,22 +37,26 @@ const loginFormName: keyof Forms = 'login',
       validator: "notempty",
       validated: true,
       validationMessage: 'password not compliant with password rules'
-    }
+    },
+    visible: true
   },
   selectInputField = {
     class: 'SelectInput',
     component: 'UiSelect',
     type: 'select',
     options: [],
+    visible: true
   },
   checkboxInputField = {
     class: 'CheckboxInput',
     component: 'UiCheckbox',
-    type: 'checkbox'
+    type: 'checkbox',
+    visible: true
   },
   button = {
     class: 'Button',
     component: 'UiButton',
+    visible: true
   }
 
 const componentKeys = presetComponents.map(component => component.key)
@@ -187,7 +193,8 @@ export const presetForms = {
           validator: "novalidator",
           validated: true,
           validationMessage: ''
-        }
+        },
+        visible: false
       },
       {
         formPart: 'general',
@@ -200,7 +207,8 @@ export const presetForms = {
           validator: "onlynumbers",
           validated: true,
           validationMessage: ''
-        }
+        },
+        visible: false
       },
       {
         formPart: 'meta',

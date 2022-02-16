@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="visible">
     <button @click.prevent="handleClick()" :disabled="disabled">{{ label }}</button>
   </div>
 </template>
@@ -16,6 +16,10 @@ const props = defineProps({
   domclass: {
     type: String,
     default: ''
+  },
+  visible: {
+    type: Boolean,
+    default: true
   }
 })
 

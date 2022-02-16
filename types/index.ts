@@ -1,15 +1,15 @@
 interface Page {
-  name: string,
-  slug: string,
-  isInMenu: boolean,
-  parent: string,
-  order: number,
-  title: string,
-  description: string,
-  keywords: string,
+  author: string,
   components: string[],
+  description: string,
   id: string,
-  author: string
+  isInMenu: boolean,
+  keywords: string,
+  name: string,
+  order: number,
+  parent: string,
+  slug: string,
+  title: string
 }
 
 interface User {
@@ -41,7 +41,8 @@ interface FormField {
     validated: boolean,
     validationMessage: string,
   }
-  value: any
+  value: any,
+  visible?: boolean
 }
 
 interface Validators {

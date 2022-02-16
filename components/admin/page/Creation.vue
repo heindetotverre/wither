@@ -1,7 +1,11 @@
 <template>
   <div>
     <p>Create a page</p>
-    <RendererMultiForm :form="createPageForm" @submit="createPage($event)" />
+    <RendererMultiForm
+      :form="createPageForm"
+      @inputField="onInput($event)"
+      @submit="createPage($event)"
+    />
   </div>
   <NuxtLink :to="`/${AdminPath.Admin}/${AdminPath.PageManagement}`">Cancel</NuxtLink>
   <div v-if="response">{{ response }}</div>
@@ -9,7 +13,7 @@
 <script setup lang="ts">
 import { formStore } from '~~/store/forms'
 import { adminStore } from '~~/store/admin'
-import { Page } from '~~/types'
+import { FormEvent, Page } from '~~/types'
 import { AdminPath } from '~~/types/enums'
 
 const response = ref(),
@@ -23,6 +27,13 @@ const createPage = async (formSubmitEvent: Page) => {
   response.value = await adminStore.do.setPage(formSubmitEvent)
   if (response.value?.createPage) {
     useRouter().push(`${AdminPath.Admin}/${AdminPath.PageManagement}`)
+  }
+}
+
+const onInput = (event: FormEvent) => {
+  if (event.key === 'isInMenu') {
+    formStore.do.updateSpecificFormValues({ name: createPageForm.value.formInfo.name, key: 'order', property: 'visible', value: event.value })
+    formStore.do.updateSpecificFormValues({ name: createPageForm.value.formInfo.name, key: 'parentPage', property: 'visible', value: event.value })
   }
 }
 
