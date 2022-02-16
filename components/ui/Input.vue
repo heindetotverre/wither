@@ -11,7 +11,7 @@
       @focus="emits('focus')"
       @input="input($event)"
     />
-    <div v-if="!validation.validated">{{ validation.validationMessage }}</div>
+    <slot />
   </div>
 </template>
 <script setup lang="ts">
@@ -44,8 +44,8 @@ const props = defineProps({
     default: []
   },
   value: {
-    type: String,
-    default: ''
+    type: [String, Boolean],
+    default: false
   },
   domclass: {
     type: String,
@@ -64,7 +64,7 @@ const emits = defineEmits([
   'input'
 ])
 
-const currentValue = ref('')
+const currentValue = ref()
 
 onMounted(() => {
   currentValue.value = props.value

@@ -14,10 +14,6 @@ const state = reactive({
   ...initialState
 })
 
-const createMultiPartForm = (formName: keyof Forms) => {
-
-}
-
 const getCreatePageForm = () => {
   if (!adminStore.get.getPages().length) {
     state.forms.createPage.form.map(f => {
@@ -139,7 +135,6 @@ const validateSingleField = (input: FormEvent, reset: State | void) => {
 export const formStore = readonly({
   state: state,
   do: {
-    createMultiPartForm,
     setFormValuesBasedOnQuery,
     updateAllFormValues,
     updateSpecificFormValues,

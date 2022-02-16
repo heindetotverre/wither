@@ -12,7 +12,7 @@
       :formFields="updateUserCredentials"
       @submit="editUser($event, formStore.state.forms.updateUserCredentials.formInfo.name)"
     />
-    <NuxtLink :to="`/${AdminSearch.Admin}`">Cancel</NuxtLink>
+    <NuxtLink :to="`/${AdminPath.Admin}`">Cancel</NuxtLink>
     <div v-if="response">{{ response }}</div>
   </div>
 </template>
@@ -20,7 +20,7 @@
 import { adminStore } from '~~/store/admin'
 import { formStore } from '~~/store/forms'
 import { Forms, User } from '~~/types'
-import { AdminSearch } from '~~/types/enums'
+import { AdminPath } from '~~/types/enums'
 
 const response = ref(),
   updateUserInfoForm = ref(formStore.get.getUpdateUserInfoForm()),
@@ -30,7 +30,7 @@ const editUser = async (formSubmitEvent: User, formName: keyof Forms) => {
   response.value = await adminStore.do.updateUserInfo(formSubmitEvent)
   formStore.do.updateAllFormValues(formName, 'clear')
   if (!response.value.errors) {
-    useRouter().push(`${AdminSearch.Admin}`)
+    useRouter().push(`${AdminPath.Admin}`)
   }
 }
 

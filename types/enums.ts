@@ -1,4 +1,4 @@
-enum AdminSearch {
+enum AdminPath {
   Admin = 'admin',
   PageManagement = 'page-management',
   PageCreation = 'page-creation',
@@ -25,7 +25,7 @@ enum State {
 }
 
 export {
-  AdminSearch,
+  AdminPath,
   Cookie,
   Group,
   Render,

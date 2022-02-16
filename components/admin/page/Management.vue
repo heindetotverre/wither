@@ -1,6 +1,6 @@
 <template>
   <div>
-    <NuxtLink :to="`/${AdminSearch.Admin}/${AdminSearch.PageCreation}`">Create Page</NuxtLink>
+    <NuxtLink :to="`/${AdminPath.Admin}/${AdminPath.PageCreation}`">Create Page</NuxtLink>
     <div v-for="(page) of pages" :key="page.name">
       <div v-for="(entry, index) of Object.entries(page)" :key="index">{{ entry }}</div>
       <button @click="deletePage(page.id)">Delete page</button>
@@ -12,7 +12,7 @@
 </template>
 <script setup lang="ts">
 import { adminStore } from '~~/store/admin'
-import { AdminSearch } from '~~/types/enums'
+import { AdminPath } from '~~/types/enums'
 
 const pages = computed(() => adminStore.get.getPages()),
   response = ref()
@@ -22,6 +22,6 @@ const deletePage = async (pageId: string) => {
 }
 
 const editPage = (pageId: string) => {
-  useRouter().push(`/${AdminSearch.Admin}/${AdminSearch.PageCreation}?pageid=${pageId}`)
+  useRouter().push(`/${AdminPath.Admin}/${AdminPath.PageCreation}?pageid=${pageId}`)
 }
 </script>

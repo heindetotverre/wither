@@ -19,6 +19,7 @@
       @input="onInput(field, $event)"
     >
       <slot></slot>
+      <div v-if="!field.validation?.validated">{{ field.validation?.validationMessage }}</div>
     </component>
     <div class="error" v-if="showValidationError">
       <span>{{ collectValidationMessages() }}</span>

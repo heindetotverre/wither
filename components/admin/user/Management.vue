@@ -6,7 +6,7 @@
 </template>
 <script setup lang="ts">
 import { adminStore } from '~~/store/admin'
-import { AdminSearch } from '~~/types/enums'
+import { AdminPath } from '~~/types/enums'
 
 const user = computed(() => adminStore.get.getUser()),
   response = ref()
@@ -15,6 +15,6 @@ const deleteUser = async (userId: string) => {
   response.value = await adminStore.do.deleteUser(userId)
 }
 const editUser = (userId: string) => {
-  useRouter().push(`/${AdminSearch.Admin}/${AdminSearch.UserEdit}?userid=${userId}`)
+  useRouter().push(`/${AdminPath.Admin}/${AdminPath.UserEdit}?userid=${userId}`)
 }
 </script>
