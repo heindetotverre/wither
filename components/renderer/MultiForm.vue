@@ -5,8 +5,7 @@
   <div v-for="(formPart, index) of form.formInfo.parts" :key="index">
     <RendererForm
       v-if="activeTab === formPart"
-      :formName="form.formInfo.name"
-      :formFields="form.fields.filter(f => f.formPart === formPart)"
+      :form="getSplitForm(formPart)"
       @inputField="emits('inputField', $event)"
     />
   </div>
@@ -49,6 +48,13 @@ const formValues = computed(() => formStore.get.getFormValues(props.form.formInf
 
 const fullFormValidation = () => {
   return formStore.get.getFullFormValidationState(props.form.formInfo.name)
+}
+
+const getSplitForm = (formPart: string): Form => {
+  return {
+    formInfo: props.form.formInfo,
+    fields: props.form.fields.filter(f => f.formPart === formPart)
+  }
 }
 
 const handleTab = (formName: string) => {

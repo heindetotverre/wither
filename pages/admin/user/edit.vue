@@ -2,15 +2,13 @@
   <div>
     <p>Edit user info</p>
     <RendererForm
-      :formName="formStore.state.forms.updateUserInfo.formInfo.name"
-      :formFields="updateUserInfoForm"
-      @submit="editUser($event, formStore.state.forms.updateUserInfo.formInfo.name)"
+      :form="updateUserInfoForm"
+      @submit="editUser($event, updateUserInfoForm.formInfo.name)"
     />
     <p>Edit credentials</p>
     <RendererForm
-      :formName="formStore.state.forms.updateUserCredentials.formInfo.name"
-      :formFields="updateUserCredentials"
-      @submit="editUser($event, formStore.state.forms.updateUserCredentials.formInfo.name)"
+      :form="updateUserCredentials"
+      @submit="editUser($event, updateUserCredentials.formInfo.name)"
     />
     <NuxtLink :to="`/${AdminPath.Admin}`">Cancel</NuxtLink>
     <div v-if="response">{{ response }}</div>
@@ -46,7 +44,7 @@ const parseUrl = () => {
   const query = useRoute().query
   if (query) {
     const user = adminStore.get.getUser()
-    formStore.do.setFormValuesBasedOnQuery(formStore.state.forms.updateUserInfo.formInfo.name, user)
+    formStore.do.setFormValuesBasedOnQuery(updateUserInfoForm.value.formInfo.name, user)
   }
 }
 

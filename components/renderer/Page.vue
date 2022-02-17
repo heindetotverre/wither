@@ -4,7 +4,15 @@
   </NuxtLayout>
 
   <div v-if="!noHomePage && !is404">
-    <component v-for="component in page.pageComponents" :is="component">
+    <component
+      v-for="(component, index) in page.pageComponents"
+      :key="index"
+      :is="component"
+      :mode="Mode.Front"
+      :data="page"
+      :name="component"
+      :id="`${component}_${index}`"
+    >
       <slot></slot>
     </component>
   </div>
@@ -16,6 +24,7 @@
 <script setup lang="ts">
 import { frontStore } from '~~/store/front'
 import { authStore } from '~~/store/auth'
+import { Mode } from '~~/types/enums'
 
 const props = defineProps({
   path: {

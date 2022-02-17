@@ -1,5 +1,5 @@
 import { reactive, readonly, } from 'vue'
-import { Forms, FormEvent, FormField, Form } from '~~/types/types'
+import { Forms, FormEvent, DynamicForm } from '~~/types/types'
 import { State } from '~~/types/enums'
 import { adminStore } from '~~/store/admin'
 import { presetForms } from '~~/assets/resources/forms'
@@ -7,7 +7,8 @@ import validators from '~~/utils/validators'
 
 // externals
 const initialState = {
-  forms: presetForms
+  presetForms: presetForms,
+  dynamicForms: [] as DynamicForm[]
 }
 
 const state = reactive({
@@ -17,7 +18,7 @@ const state = reactive({
 const getCreatePageForm = () => {
   updateAllFormValues('createPage', 'clear')
   if (!adminStore.get.getPages().length) {
-    state.forms.createPage.fields.map(f => {
+    state.presetForms.createPage.fields.map(f => {
       if (f.key === 'name') {
         updateSpecificFormValues({ name: 'createPage', key: f.key, property: 'value', value: 'home' })
         updateSpecificFormValues({ name: 'createPage', key: f.key, property: 'disabled', value: true })
@@ -30,7 +31,7 @@ const getCreatePageForm = () => {
   } else {
     updateSpecificFormValues({ name: 'createPage', key: 'pageMenuParent', property: 'options', value: adminStore.get.getPages().map(p => p.name) })
     updateSpecificFormValues({ name: 'createPage', key: 'pageMenuOrder', property: 'options', value: adminStore.get.getPages().map((p, index) => index) })
-    state.forms.createPage.fields.map(f => {
+    state.presetForms.createPage.fields.map(f => {
       if (f.key === 'name') {
         updateSpecificFormValues({ name: 'createPage', key: f.key, property: 'value', value: '' })
         updateSpecificFormValues({ name: 'createPage', key: f.key, property: 'disabled', value: false })
@@ -41,11 +42,18 @@ const getCreatePageForm = () => {
       }
     })
   }
-  return state.forms.createPage
+  return state.presetForms.createPage
+}
+
+const getDynamicFormByName = (name: string) => {
+  const form = state.dynamicForms.find(f => f.formInfo.name === name)
+  if (form) {
+    return form
+  }
 }
 
 const getFormValues = (formName: keyof Forms) => {
-  return state.forms[formName].fields.reduce((acc: any, curr) => {
+  return state.presetForms[formName].fields.reduce((acc: any, curr) => {
     return curr.class !== 'Button'
       ? { ...acc, [curr.key]: curr.value }
       : acc
@@ -53,7 +61,7 @@ const getFormValues = (formName: keyof Forms) => {
 }
 
 const getFullFormValidationState = (formName: keyof Forms) => {
-  const fieldsToValidate = state.forms[formName].fields.filter(field => field.required),
+  const fieldsToValidate = state.presetForms[formName].fields.filter(field => field.required),
     notValidated = []
 
   for (const singleFieldToValidate of fieldsToValidate) {
@@ -71,19 +79,23 @@ const getFullFormValidationState = (formName: keyof Forms) => {
 }
 
 const getLoginForm = () => {
-  return state.forms.login.fields
+  return state.presetForms.login
 }
 
 const getRegisterForm = () => {
-  return state.forms.register.fields
+  return state.presetForms.register
 }
 
 const getUpdateUserInfoForm = () => {
-  return state.forms.updateUserInfo.fields
+  return state.presetForms.updateUserInfo
 }
 
 const getUpdateUserCredentialsForm = () => {
-  return state.forms.updateUserCredentials.fields
+  return state.presetForms.updateUserCredentials
+}
+
+const insertNewDynamicForm = (form: DynamicForm) => {
+  state.dynamicForms.push(form)
 }
 
 const setFormValuesBasedOnQuery = (formName: keyof Forms, queriedObject: Record<string, any>) => {
@@ -91,7 +103,7 @@ const setFormValuesBasedOnQuery = (formName: keyof Forms, queriedObject: Record<
     values = Object.values(queriedObject)
 
   keys.forEach((k, i) => {
-    if (state.forms[formName]) {
+    if (state.presetForms[formName]) {
       updateSpecificFormValues({ name: formName, key: k, property: 'value', value: values[i] })
     }
   })
@@ -99,7 +111,7 @@ const setFormValuesBasedOnQuery = (formName: keyof Forms, queriedObject: Record<
 
 const updateAllFormValues = (formName: keyof Forms, method: string | void) => {
   if (method === 'clear') {
-    state.forms[formName].fields.forEach(field => {
+    state.presetForms[formName].fields.forEach(field => {
       if (field.key === 'pageComponents') {
         updateSpecificFormValues({ name: formName, key: field.key, property: 'value', value: [] })
       } else if (field.type === 'checkbox') {
@@ -112,30 +124,33 @@ const updateAllFormValues = (formName: keyof Forms, method: string | void) => {
 }
 
 const updateSpecificFormValues = (input: FormEvent) => {
-  const field = state.forms[input.name].fields.find(f => f.key === input.key)
+  const field = state.presetForms[input.name].fields.find(f => f.key === input.key)
   if (field) {
     field[input.property] = input.value
   }
 }
 
 const validateSingleField = (input: FormEvent, reset: State | void) => {
-  let domclass = '',
-    field = state.forms[input.name].fields.find(f => f.key === input.key)
+  const presetForm = state.presetForms[input.name]
+  if (presetForm) {
+    let domclass = '',
+      field = presetForm.fields.find(f => f.key === input.key)
 
-  if (field && field.validation && validators[field.validation.validator]) {
-    if (reset !== State.Reset) {
-      if (field.value && field.value.length && !validators[field.validation.validator](field.value)) {
-        domclass = 'error'
-        field.validation.validated = false
+    if (field && field.validation && validators[field.validation.validator]) {
+      if (reset !== State.Reset) {
+        if (field.value && field.value.length && !validators[field.validation.validator](field.value)) {
+          domclass = 'error'
+          field.validation.validated = false
+        } else {
+          domclass = ''
+          field.validation.validated = true
+        }
       } else {
         domclass = ''
         field.validation.validated = true
       }
-    } else {
-      domclass = ''
-      field.validation.validated = true
+      field[input.property] = domclass
     }
-    field[input.property] = domclass
   }
 }
 
@@ -143,6 +158,7 @@ const validateSingleField = (input: FormEvent, reset: State | void) => {
 export const formStore = readonly({
   state: state,
   do: {
+    insertNewDynamicForm,
     setFormValuesBasedOnQuery,
     updateAllFormValues,
     updateSpecificFormValues,
@@ -150,6 +166,7 @@ export const formStore = readonly({
   },
   get: {
     getCreatePageForm,
+    getDynamicFormByName,
     getFormValues,
     getFullFormValidationState,
     getLoginForm,

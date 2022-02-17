@@ -1,26 +1,31 @@
-interface Page {
-  author: string,
-  description: string,
-  id: string,
-  isInMenu: boolean,
-  keywords: string,
+interface ContentField {
+  default: string,
+  label: string,
   name: string,
-  pageComponents: string[],
-  pageMenuParent: string,
-  pageMenuOrder: number,
-  slug: string,
-  title: string
+  type: string
 }
 
-interface User {
-  group: string,
-  firstName: string,
-  lastName: string,
-  email: string,
-  password: string,
-  passwordCheck?: string,
-  id: string,
-  __typename?: string
+interface DynamicForm {
+  formInfo: {
+    name: string,
+  },
+  fields: FormField[]
+}
+
+interface Form {
+  formInfo: {
+    name: keyof Forms,
+    multipart: boolean,
+    parts: string[]
+  },
+  fields: FormField[]
+}
+
+interface FormEvent {
+  name: keyof Forms,
+  key: string,
+  property: keyof FormField
+  value?: any
 }
 
 interface FormField {
@@ -45,6 +50,46 @@ interface FormField {
   visible?: boolean
 }
 
+interface Forms {
+  createPage: Form,
+  login: Form,
+  register: Form,
+  updateUserInfo: Form,
+  updateUserCredentials: Form
+}
+
+interface Page {
+  author: string,
+  description: string,
+  id: string,
+  isInMenu: boolean,
+  keywords: string,
+  name: string,
+  pageComponents: string[],
+  pageMenuParent: string,
+  pageMenuOrder: number,
+  slug: string,
+  title: string
+}
+
+interface Token {
+  id: string,
+  user: string,
+  group: string,
+  created: number
+}
+
+interface User {
+  group: string,
+  firstName: string,
+  lastName: string,
+  email: string,
+  password: string,
+  passwordCheck?: string,
+  id: string,
+  __typename?: string
+}
+
 interface Validators {
   email: Validator,
   notempty: Validator,
@@ -56,38 +101,9 @@ interface Validator {
   (input: string): boolean
 }
 
-interface FormEvent {
-  name: keyof Forms,
-  key: string,
-  property: keyof FormField
-  value?: any
-}
-
-interface Forms {
-  createPage: Form,
-  login: Form,
-  register: Form,
-  updateUserInfo: Form,
-  updateUserCredentials: Form
-}
-
-interface Form {
-  formInfo: {
-    name: keyof Forms,
-    multipart: boolean,
-    parts: string[]
-  },
-  fields: FormField[]
-}
-
-interface Token {
-  id: string,
-  user: string,
-  group: string,
-  created: number
-}
-
 export {
+  ContentField,
+  DynamicForm,
   Forms,
   Form,
   FormEvent,

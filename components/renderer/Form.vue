@@ -38,16 +38,12 @@
 <script setup lang="ts">
 import { PropType } from 'vue'
 import { formStore } from '~~/store/forms'
-import { Forms, FormField } from '~~/types/types'
+import { Form, FormField } from '~~/types/types'
 import { State } from '~~/types/enums'
 
 const props = defineProps({
-  formName: {
-    type: String as PropType<keyof Forms>,
-    required: true
-  },
-  formFields: {
-    type: Array as PropType<Array<FormField>>,
+  form: {
+    type: Object as PropType<Form>,
     required: true
   }
 })
@@ -57,10 +53,10 @@ const emits = defineEmits([
   'submit'
 ])
 
-const formValues = computed(() => formStore.get.getFormValues(props.formName))
+const formValues = computed(() => formStore.get.getFormValues(props.form.formInfo.name))
 
-const formFields = props.formFields.filter(f => f.class !== 'Button'),
-  buttons = props.formFields.filter(f => f.class === 'Button'),
+const formFields = props.form.fields.filter(f => f.class !== 'Button'),
+  buttons = props.form.fields.filter(f => f.class === 'Button'),
   showValidationError = ref()
 
 const collectValidationMessages = () => {
@@ -68,7 +64,7 @@ const collectValidationMessages = () => {
 }
 
 const fullFormValidation = () => {
-  return formStore.get.getFullFormValidationState(props.formName)
+  return formStore.get.getFullFormValidationState(props.form.formInfo.name)
 }
 
 const isDisabled = (field: FormField) => {
@@ -78,17 +74,17 @@ const isDisabled = (field: FormField) => {
 }
 
 const onBlur = (field: FormField) => {
-  formStore.do.validateSingleField({ name: props.formName, key: field.key, property: 'domclass' })
+  formStore.do.validateSingleField({ name: props.form.formInfo.name, key: field.key, property: 'domclass' })
 }
 
 const onFocus = (field: FormField) => {
-  formStore.do.validateSingleField({ name: props.formName, key: field.key, property: 'domclass' }, State.Reset)
+  formStore.do.validateSingleField({ name: props.form.formInfo.name, key: field.key, property: 'domclass' }, State.Reset)
   showValidationError.value = false
 }
 
 const onInput = (field: FormField, event: Event) => {
-  emits('inputField', { name: props.formName, key: field.key, property: 'value', value: event })
-  formStore.do.updateSpecificFormValues({ name: props.formName, key: field.key, property: 'value', value: event })
+  emits('inputField', { name: props.form.formInfo.name, key: field.key, property: 'value', value: event })
+  formStore.do.updateSpecificFormValues({ name: props.form.formInfo.name, key: field.key, property: 'value', value: event })
 }
 
 const onSubmit = () => {

@@ -2,20 +2,12 @@
   <div>
     <p>Login section</p>
     <div v-if="formRenderer === Auth.Login">
-      <RendererForm
-        :formName="formStore.state.forms.login.formInfo.name"
-        :formFields="loginForm"
-        @submit="auth(Auth.Login, $event)"
-      />
+      <RendererForm :form="loginForm" @submit="auth(Auth.Login, $event)" />
       <p>Not a member yet?</p>
       <button @click="formRenderer = Auth.Register">Register yourself</button>
     </div>
     <div v-if="formRenderer === Auth.Register">
-      <RendererForm
-        :formName="formStore.state.forms.register.formInfo.name"
-        :formFields="registerForm"
-        @submit="auth(Auth.Register, $event)"
-      />
+      <RendererForm :form="registerForm" @submit="auth(Auth.Register, $event)" />
       <p>Already a member?</p>
       <button @click="formRenderer = Auth.Login">Go to login</button>
     </div>

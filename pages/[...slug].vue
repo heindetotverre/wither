@@ -22,5 +22,5 @@ await authStore.do.setTokenState(tokenId.value?.id)
 cookie.value = Cookie.Accepted
 </script>
 <style less>
-@import "~~/assets/less/general.less";
+@import "~~/assets/less/wither/general.less";
 </style>

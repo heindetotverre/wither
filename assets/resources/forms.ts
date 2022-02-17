@@ -53,6 +53,12 @@ const loginFormName: keyof Forms = 'login',
     type: 'checkbox',
     visible: true
   },
+  imageInputfield = {
+    class: 'FileUploadInput',
+    component: 'UiFileUpload',
+    type: 'file',
+    visible: true
+  },
   button = {
     class: 'Button',
     component: 'UiButton',
@@ -60,6 +66,15 @@ const loginFormName: keyof Forms = 'login',
   }
 
 const componentKeys = presetComponents.map(component => component.key)
+
+export {
+  textInputField,
+  emailInputField,
+  passwordInputField,
+  selectInputField,
+  checkboxInputField,
+  imageInputfield
+}
 
 export const presetForms = {
   login: {
@@ -249,11 +264,12 @@ export const presetForms = {
       {
         formPart: 'content',
         ...selectInputField,
-        component: 'UiMultiSelect',
+        component: 'UiContentSelect',
         label: 'components',
         key: 'pageComponents',
         options: componentKeys,
         id: createId(createPageFormName),
+        required: true,
         validation: {
           validator: "notempty",
           validated: true,

@@ -23,6 +23,11 @@ enum Group {
   User
 }
 
+enum Mode {
+  Front,
+  Back
+}
+
 enum Render {
   Admin,
   Page
@@ -37,6 +42,7 @@ export {
   AdminPath,
   Cookie,
   Group,
+  Mode,
   Render,
   State
 }

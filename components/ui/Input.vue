@@ -64,7 +64,6 @@ const props = defineProps({
 const emits = defineEmits([
   'blur',
   'focus',
-  'submit',
   'input'
 ])
 

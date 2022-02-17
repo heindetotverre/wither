@@ -30,5 +30,5 @@ if (isLoggedIn.value) {
 
 </script>
 <style lang="less">
-@import "~~/assets/less/admin.less";
+@import "~~/assets/less/wither/admin.less";
 </style>
