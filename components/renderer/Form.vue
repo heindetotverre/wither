@@ -52,16 +52,16 @@ const props = defineProps({
   }
 })
 
+const emits = defineEmits([
+  'inputField',
+  'submit'
+])
+
 const formValues = computed(() => formStore.get.getFormValues(props.formName))
 
 const formFields = props.formFields.filter(f => f.class !== 'Button'),
   buttons = props.formFields.filter(f => f.class === 'Button'),
   showValidationError = ref()
-
-const emits = defineEmits([
-  'inputField',
-  'submit'
-])
 
 const collectValidationMessages = () => {
   return 'Oops, error!'
