@@ -53,8 +53,7 @@ const getFormValues = (formName: keyof Forms) => {
 }
 
 const getFullFormValidationState = (formName: keyof Forms) => {
-  const formFields = state.forms[formName],
-    fieldsToValidate = formFields.fields.filter(field => field.required),
+  const fieldsToValidate = state.forms[formName].fields.filter(field => field.required),
     notValidated = []
 
   for (const singleFieldToValidate of fieldsToValidate) {
