@@ -22,7 +22,7 @@
 <script lang="ts" setup>
 import { formStore } from '~~/store/forms'
 import { PropType } from 'vue'
-import { Form, FormField } from '~~/types'
+import { Form, FormField } from '~~/types/types'
 
 const props = defineProps({
   form: {

@@ -1,20 +1,26 @@
 <template>
   <div>
-    <p>{{ Object.keys(query).length ? 'Edit page' : 'Create page' }}</p>
-    <RendererMultiForm
-      :form="createPageForm"
-      @inputField="onInput($event)"
-      @submit="createPage($event)"
-    />
+    <div>
+      <p>{{ Object.keys(query).length ? 'Edit page' : 'Create page' }}</p>
+      <RendererMultiForm
+        :form="createPageForm"
+        @inputField="onInput($event)"
+        @submit="createPage($event)"
+      />
+    </div>
+    <NuxtLink :to="`/${AdminPath.Admin}/${AdminPath.Pages}/${AdminPath.Management}`">Cancel</NuxtLink>
+    <div v-if="response">{{ response }}</div>
   </div>
-  <NuxtLink :to="`/${AdminPath.Admin}/${AdminPath.PageManagement}`">Cancel</NuxtLink>
-  <div v-if="response">{{ response }}</div>
 </template>
 <script setup lang="ts">
 import { formStore } from '~~/store/forms'
 import { adminStore } from '~~/store/admin'
-import { FormEvent, Page } from '~~/types'
+import { FormEvent, Page } from '~~/types/types'
 import { AdminPath } from '~~/types/enums'
+
+definePageMeta({
+  layout: 'admin'
+})
 
 const response = ref(),
   createPageForm = ref(formStore.get.getCreatePageForm()),
@@ -35,7 +41,7 @@ const checkValuesAndSetForm = () => {
 const createPage = async (formSubmitEvent: Page) => {
   response.value = await adminStore.do.setPage(formSubmitEvent)
   if (response.value?.createPage) {
-    useRouter().push(`${AdminPath.Admin}/${AdminPath.PageManagement}`)
+    useRouter().push(`/admin/${AdminPath.Pages}/${AdminPath.Management}`)
   }
 }
 

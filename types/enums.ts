@@ -1,8 +1,16 @@
 enum AdminPath {
   Admin = 'admin',
-  PageManagement = 'page-management',
-  PageCreation = 'page-creation',
-  UserEdit = 'user-edit'
+  Login = 'login',
+  Pages = 'page',
+  Users = 'user',
+  Create = 'create',
+  Edit = 'edit',
+  Management = 'management'
+}
+
+enum Auth {
+  Login = 'login',
+  Register = 'register'
 }
 
 enum Cookie {
@@ -25,6 +33,7 @@ enum State {
 }
 
 export {
+  Auth,
   AdminPath,
   Cookie,
   Group,

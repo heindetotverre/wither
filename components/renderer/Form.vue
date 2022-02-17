@@ -38,7 +38,7 @@
 <script setup lang="ts">
 import { PropType } from 'vue'
 import { formStore } from '~~/store/forms'
-import { Forms, FormField } from '~~/types'
+import { Forms, FormField } from '~~/types/types'
 import { State } from '~~/types/enums'
 
 const props = defineProps({

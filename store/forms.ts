@@ -1,5 +1,5 @@
 import { reactive, readonly, } from 'vue'
-import { Forms, FormEvent, FormField, Form } from '~~/types'
+import { Forms, FormEvent, FormField, Form } from '~~/types/types'
 import { State } from '~~/types/enums'
 import { adminStore } from '~~/store/admin'
 import { presetForms } from '~~/assets/resources/forms'

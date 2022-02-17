@@ -19,8 +19,12 @@
 <script lang="ts" setup>
 import { adminStore } from '~~/store/admin'
 import { formStore } from '~~/store/forms'
-import { Forms, User } from '~~/types'
+import { Forms, User } from '~~/types/types'
 import { AdminPath } from '~~/types/enums'
+
+definePageMeta({
+  layout: 'admin'
+})
 
 const response = ref(),
   updateUserInfoForm = ref(formStore.get.getUpdateUserInfoForm()),
@@ -30,7 +34,7 @@ const editUser = async (formSubmitEvent: User, formName: keyof Forms) => {
   response.value = await adminStore.do.updateUserInfo(formSubmitEvent)
   formStore.do.updateAllFormValues(formName, 'clear')
   if (!response.value.errors) {
-    useRouter().push(`${AdminPath.Admin}`)
+    useRouter().push(`/${AdminPath.Admin}/${AdminPath.Users}/${AdminPath.Management}`)
   }
 }
 

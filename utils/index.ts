@@ -1,5 +1,5 @@
 import { useRoute } from 'vue-router'
-import { Page } from '~~/types'
+import { Page } from '~~/types/types'
 
 const createId = (idPrefix: string) => {
   return `${idPrefix ? idPrefix : ''}_${Math.random().toString(16).slice(2)}`
@@ -25,26 +25,45 @@ const findPageBySlug = (pages: Array<any>, slug: String): Array<any> => {
   }
 }
 
-const flattenObject = (pages) => {
-  if (pages.length) {
-    const flattenedArray = []
-    const reduceObject = (pages) => {
-      pages.reduce((acc, curr) => {
+const flattenObject = (arr: Array<any>) => {
+  if (arr.length) {
+    const flattenedArray = [] as Array<any>
+    const reduceObject = (arr: Array<any>) => {
+      arr.reduce((acc, curr) => {
         flattenedArray.push(curr)
         if (curr.children?.length > 0) {
           return reduceObject(curr.children)
         }
       }, [])
     }
-    reduceObject(pages)
+    reduceObject(arr)
     return flattenedArray
   } else {
     return []
   }
 }
 
-const getUrlPath = () => {
+const getUrlPathFromDynamicRoute = () => {
   const urlPath = useRoute().params.slug as Array<string>
+
+  const index = urlPath.length
+    ? urlPath.indexOf('')
+    : -1
+
+  if (index > 0) {
+    urlPath.splice(index)
+  }
+
+  return {
+    last: [...urlPath].pop(),
+    first: urlPath[0],
+    full: urlPath
+  }
+}
+
+const getUrlPathFromRoute = () => {
+  const route = useRoute().name as String
+  const urlPath = route.split('/')
 
   const index = urlPath.length
     ? urlPath.indexOf('')
@@ -66,5 +85,6 @@ export {
   createUUID,
   findPageBySlug,
   flattenObject,
-  getUrlPath
+  getUrlPathFromDynamicRoute,
+  getUrlPathFromRoute
 }

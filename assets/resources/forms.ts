@@ -1,5 +1,5 @@
 import { createId } from '~~/utils'
-import { FormField, Forms } from '~~/types'
+import { FormField, Forms } from '~~/types/types'
 import { presetComponents } from '~~/assets/resources/components'
 
 const loginFormName: keyof Forms = 'login',

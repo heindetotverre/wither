@@ -1,5 +1,5 @@
 import { reactive, readonly, } from "vue"
-import { Page } from '~~/types'
+import { Page } from '~~/types/types'
 import { useQuery } from "@urql/vue"
 
 // externals

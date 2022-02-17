@@ -18,7 +18,7 @@ import { frontStore } from '~~/store/front'
 import { authStore } from '~~/store/auth'
 
 const props = defineProps({
-  search: {
+  path: {
     type: String,
     required: true
   }
@@ -28,14 +28,14 @@ const isLoggedIn = computed(() => authStore.get.getTokenState()),
   is404 = ref(false),
   noHomePage = ref(false)
 
-await frontStore.get.fetchSinglePage(`/${props.search ? props.search : ''}`)
+await frontStore.get.fetchSinglePage(`/${props.path ? props.path : ''}`)
 
 const page = frontStore.get.getCurrentPage
 
-is404.value = !!(!page && props.search !== '')
-noHomePage.value = (!page && props.search === '')
+is404.value = !!(!page && props.path !== '')
+noHomePage.value = (!page && props.path === '')
 
-if (props.search === '' && !page && !isLoggedIn.value) {
+if (props.path === '' && !page && !isLoggedIn.value) {
   useRouter().push('/admin')
 }
 

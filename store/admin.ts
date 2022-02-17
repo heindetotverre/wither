@@ -1,5 +1,5 @@
 import { reactive, readonly, } from "vue"
-import { Page, User } from '~~/types'
+import { Page, User } from '~~/types/types'
 import { createId } from "~~/utils"
 import { authStore } from "./auth"
 import { useQuery } from "@urql/vue"
@@ -7,7 +7,6 @@ import { generalStore } from "./index"
 
 // externals
 const initialState = {
-  clientHandle: {} as any,
   currentPage: {} as Page,
   pages: [] as Array<Page>,
   user: {} as User

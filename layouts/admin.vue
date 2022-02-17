@@ -1,26 +1,33 @@
 <template>
-  <Html :lang="'en-GB'">
-    <Head>
-      <Title>Admin</Title>
-      <Meta name="description" :content="`Admin section`" />
-    </Head>
-  </Html>
+  <div>
+    <Html :lang="'en-GB'">
+      <Head>
+        <Title>Admin</Title>
+        <Meta name="description" :content="`Admin section`" />
+      </Head>
+    </Html>
 
-  <AdminBar v-if="isLoggedIn" />
+    <AdminBar :user="user" />
 
-  <slot />
+    <slot />
+  </div>
 </template>
 <script setup lang="ts">
+import { generalStore } from '~~/store'
+import { adminStore } from '~~/store/admin'
 import { authStore } from '~~/store/auth'
 
-const props = defineProps({
-  name: {
-    type: String,
-    default: ''
-  }
-})
+const tokenId = useCookie<Record<string, any>>('witherLoginToken'),
+  isLoggedIn = computed(() => authStore.get.getTokenState()),
+  user = computed(() => adminStore.get.getUser())
 
-const isLoggedIn = computed(() => authStore.get.getTokenState())
+await generalStore.do.setClient()
+await authStore.do.setTokenState(tokenId.value?.id)
+
+if (isLoggedIn.value) {
+  await adminStore.get.fetchAdmin()
+}
+
 </script>
 <style lang="less">
 @import "~~/assets/less/admin.less";

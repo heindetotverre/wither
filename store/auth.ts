@@ -1,5 +1,5 @@
 import { reactive, readonly, } from "vue"
-import { User } from '~~/types'
+import { User } from '~~/types/types'
 import { Group } from "~~/types/enums"
 import { createUUID } from "~~/utils"
 import { generalStore } from "./index"
