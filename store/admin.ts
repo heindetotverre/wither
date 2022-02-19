@@ -1,9 +1,11 @@
 import { reactive, readonly, } from "vue"
-import { Page, User } from '~~/types/types'
+import { DynamicForm, Page, User } from '~~/types/types'
 import { createId } from "~~/utils"
 import { authStore } from "./auth"
 import { useQuery } from "@urql/vue"
 import { generalStore } from "./index"
+import { formStore } from "./forms"
+import { contentStore } from "./content"
 
 // externals
 const initialState = {
@@ -81,13 +83,41 @@ const fetchAdmin = async () => {
           email
           id
         }
+        getComponentContent {
+          formInfo {
+            name
+            slug
+          }
+          fields {
+            autocomplete
+            class
+            component
+            disabled
+            formPart
+            id
+            key
+            label
+            options
+            type
+            required
+            validation {
+              validator
+              validated
+              validationMessage
+            }
+            value
+            visible
+          }
+        }
       }`
     }))
     const pageData = (data.value.data as any).getPages,
-      userData = (data.value.data as any).getSingleUser
+      userData = (data.value.data as any).getSingleUser,
+      componentContentData = (data.value.data as any).getComponentContent
 
     state.pages = pageData
     state.user = userData
+    componentContentData.forEach((content: DynamicForm) => formStore.do.setDynamicForm(contentStore.do.sanitzeContent(content)))
     return pageData
   } catch (error) {
     console.log(error)
@@ -99,8 +129,26 @@ const getPages = () => state.pages
 const getUser = () => state.user
 
 const setPage = async (formContent: Page) => {
+  const pageComponentsContent = formStore.get.getAllDynamicFormsBySlug(formContent.slug)
   const pageToInsert = await formatPageToInsert(formContent)
   try {
+    pageComponentsContent?.forEach(async (content) => {
+      const mutationPrep = generalStore.get.getClient().useMutation(`
+        mutation ($input: ComponentContentInput) {
+          createComponentContent (input: $input) {
+            formInfo {
+              name
+              slug
+            }
+          }
+        }
+      `)
+      const { data } = await mutationPrep.executeMutation({ input: content })
+      if (!data.createComponentContent) {
+        throw new Error(`componentContent not created for page ${formContent.name}`)
+      }
+      formStore.do.setDynamicForm(data.createComponentContent)
+    })
     const mutationPrep = generalStore.get.getClient().useMutation(`
       mutation ($input: PageInput) {
         createPage (input: $input) {

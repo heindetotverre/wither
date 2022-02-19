@@ -1,15 +1,19 @@
 interface ContentField {
-  default: string,
-  label: string,
+  default?: string,
+  label?: string,
   name: string,
-  type: string
+  type: string,
+  children?: ContentField[]
 }
 
 interface DynamicForm {
   formInfo: {
     name: string,
+    slug: string,
+    __typename?: string
   },
-  fields: FormField[]
+  fields: FormField[],
+  __typename?: string
 }
 
 interface Form {
@@ -45,9 +49,11 @@ interface FormField {
     validator: keyof Validators,
     validated: boolean,
     validationMessage: string,
-  }
+    __typename?: string
+  },
   value: any,
-  visible?: boolean
+  visible?: boolean,
+  __typename?: string
 }
 
 interface Forms {

@@ -19,8 +19,8 @@ const props = defineProps({
     type: Number,
     required: true
   },
-  data: {
-    type: Object,
+  slug: {
+    type: String,
     required: true
   },
   id: {
@@ -33,16 +33,13 @@ const props = defineProps({
   }
 })
 
-const emits = defineEmits([
-  'sendId'
-])
-
 onMounted(() => {
-  props.mode === Mode.Back
-    ? contentStore.do.registerFields(fields, props.id)
-    : content.value = contentStore.get.createdFields(props.id, props.data.id)
-
-  emits('sendId', props.id)
+  content.value = contentStore.get.createdFields(props.id, props.slug)
+  if (props.mode === Mode.Back) {
+    if (!Object.keys(content.value).length) {
+      contentStore.do.registerFields(fields, props.id, props.slug)
+    }
+  }
 })
 
 const content = ref()

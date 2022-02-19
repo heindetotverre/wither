@@ -2,14 +2,21 @@
   <div ref="contentSelect">
     <div v-for="(component, index) in componentList" :key="index">
       <button @click.prevent="removeComponent(component)">Remove component</button>
+      <button
+        :disabled="componentList.indexOf(component) === 0"
+        @click.prevent="sortComponent(component, Sort.Up)"
+      >Move component up</button>
+      <button
+        :disabled="componentList.indexOf(component) === componentList.length - 1"
+        @click.prevent="sortComponent(component, Sort.Down)"
+      >Move component down</button>
       <component
-        :is="component"
+        :is="getCleanComponentName(component)"
         :mode="Mode.Back"
-        :data="page"
-        :id="createId(component, index)"
+        :slug="getSlug()"
+        :id="component"
         :name="component"
-        @click="triggerFieldsToFill(createId(component, index), component)"
-        @sendId="triggerFieldsToFill($event, component)"
+        @click="triggerFieldsToFill(component)"
       >
         <slot></slot>
       </component>
@@ -22,15 +29,15 @@
       <li
         v-for="(component, index) of options"
         :key="index"
-        @click="addComponent(component as string)"
+        @click="addComponent(createId(component as string))"
       >{{ component }}</li>
     </ul>
   </div>
 </template>
 <script lang="ts" setup>
-import { adminStore } from '~~/store/admin'
-import { formStore } from '~~/store/forms';
-import { Mode } from '~~/types/enums'
+import { formStore } from '~~/store/forms'
+import { changeArrayPos, createId } from '~~/utils'
+import { Mode, Sort } from '~~/types/enums'
 
 const props = defineProps({
   disabled: {
@@ -66,7 +73,7 @@ const props = defineProps({
   },
   value: {
     type: Array,
-    default: ''
+    default: []
   },
   domclass: {
     type: String,
@@ -87,28 +94,38 @@ const emits = defineEmits([
   'input'
 ])
 
+onMounted(() => {
+  componentList.value = props.value as string[]
+})
+
+watch(() => props.value, () => {
+  componentList.value = props.value as string[]
+})
+
 const isComponentListOpen = ref(false),
   contentSelect = ref(),
   activeComponent = ref(),
-  addContentForm = ref(),
   componentList = ref<string[]>([]),
-  contentFormToFill = ref(),
-  page = adminStore.get.getPages().filter(p => p.name === 'home')
-
-const createId = (component: string, index: number) => {
-  return `${component}_${index}`
-}
+  contentFormToFill = ref()
 
 const addComponent = (component: string) => {
   componentList.value.push(component)
-  document.body.removeEventListener('click', handleClickOutside)
   isComponentListOpen.value = false
-  addContentForm.value = true
+  emits('input', componentList.value)
+}
+
+const getCleanComponentName = (componentId: string) => {
+  return componentId.split('_')[0]
+}
+
+const getSlug = () => {
+  return formStore.get.getSpecificFormValue('createPage', 'slug') || 'noSlugCreatedYet'
 }
 
 const handleClickOutside = (event: Event) => {
   if (contentSelect.value && !contentSelect.value.contains(event.target)) {
     document.body.removeEventListener('click', handleClickOutside)
+    activeComponent.value = null
     isComponentListOpen.value = false
   }
 }
@@ -118,17 +135,19 @@ const openComponents = () => {
   isComponentListOpen.value = true
 }
 
-const saveContent = () => {
-  addContentForm.value = false
-}
-
-const triggerFieldsToFill = (event: string, component: string) => {
-  activeComponent.value = component
-  contentFormToFill.value = formStore.get.getDynamicFormByName(event)
+const triggerFieldsToFill = (id: string) => {
+  document.body.addEventListener('click', handleClickOutside)
+  activeComponent.value = id
+  contentFormToFill.value = formStore.get.getDynamicFormById(id)
 }
 
 const removeComponent = (component: string) => {
   componentList.value = componentList.value.filter(c => c !== component)
-  contentFormToFill.value = false
+  contentFormToFill.value = null
+  emits('input', componentList.value)
+}
+
+const sortComponent = (component: string, direction: number) => {
+  componentList.value = changeArrayPos(componentList.value, component, direction)
 }
 </script>

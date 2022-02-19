@@ -33,6 +33,11 @@ enum Render {
   Page
 }
 
+enum Sort {
+  Up,
+  Down
+}
+
 enum State {
   Reset
 }
@@ -44,5 +49,6 @@ export {
   Group,
   Mode,
   Render,
+  Sort,
   State
 }

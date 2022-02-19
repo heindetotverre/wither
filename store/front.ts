@@ -1,6 +1,9 @@
 import { reactive, readonly, } from "vue"
-import { Page } from '~~/types/types'
+import { DynamicForm, Page } from '~~/types/types'
 import { useQuery } from "@urql/vue"
+import { formStore } from "./forms"
+import { generalStore } from "."
+import { contentStore } from "./content"
 
 // externals
 const initialState = {
@@ -20,9 +23,37 @@ const fetchSinglePage = async (currentPageSlug: string) => {
             pageComponents
             pageMenuParent
           }
+          getComponentContentBySlug(slug: "${currentPageSlug}") {
+            formInfo {
+              name
+              slug
+            }
+            fields {
+              autocomplete
+              class
+              component
+              disabled
+              formPart
+              id
+              key
+              label
+              options
+              type
+              required
+              validation {
+                validator
+                validated
+                validationMessage
+              }
+              value
+              visible
+            }
+          }
        }`
     }))
     const pageData = (data.value.data as any).getSinglePage
+    const pageContent = (data.value.data as any).getComponentContentBySlug
+    pageContent.forEach((content: DynamicForm) => formStore.do.setDynamicForm(contentStore.do.sanitzeContent(content)))
     state.currentPage = pageData
     return state.currentPage
   } catch (error) {

@@ -3,6 +3,7 @@
     <div>
       <h1>{{ content.title }}</h1>
       <h2>{{ content.subTitle }}</h2>
+      <!-- <a :href="content.link.url">{{ content.link.text }}</a> -->
     </div>
     <div>
       <img :src="content.image" />
@@ -19,8 +20,8 @@ const props = defineProps({
     type: Number,
     required: true
   },
-  data: {
-    type: Object,
+  slug: {
+    type: String,
     required: true
   },
   id: {
@@ -33,16 +34,13 @@ const props = defineProps({
   }
 })
 
-const emits = defineEmits([
-  'sendId'
-])
-
 onMounted(() => {
-  props.mode === Mode.Back
-    ? contentStore.do.registerFields(fields, props.id)
-    : content.value = contentStore.get.createdFields(props.id, props.data.id)
-
-  emits('sendId', props.id)
+  content.value = contentStore.get.createdFields(props.id, props.slug)
+  if (props.mode === Mode.Back) {
+    if (!Object.keys(content.value).length) {
+      contentStore.do.registerFields(fields, props.id, props.slug)
+    }
+  }
 })
 
 const content = ref({}) as any
@@ -65,6 +63,24 @@ const fields = [
     type: 'image',
     label: 'Upload the image',
     default: '/dummy.jpg'
+  },
+  {
+    name: 'link',
+    type: 'group',
+    children: [
+      {
+        name: 'link.url',
+        type: 'text',
+        label: 'Enter the link url',
+        default: '#'
+      },
+      {
+        name: 'link.text',
+        type: 'text',
+        label: 'Enter the link text',
+        default: 'This is a link'
+      }
+    ]
   }
 ]
 

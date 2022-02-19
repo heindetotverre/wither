@@ -7,11 +7,11 @@
     <component
       v-for="(component, index) in page.pageComponents"
       :key="index"
-      :is="component"
+      :is="getCleanComponentName(component)"
       :mode="Mode.Front"
-      :data="page"
+      :slug="slug"
       :name="component"
-      :id="`${component}_${index}`"
+      :id="component"
     >
       <slot></slot>
     </component>
@@ -35,9 +35,10 @@ const props = defineProps({
 
 const isLoggedIn = computed(() => authStore.get.getTokenState()),
   is404 = ref(false),
-  noHomePage = ref(false)
+  noHomePage = ref(false),
+  slug = `/${props.path ? props.path : ''}`
 
-await frontStore.get.fetchSinglePage(`/${props.path ? props.path : ''}`)
+await frontStore.get.fetchSinglePage(slug)
 
 const page = frontStore.get.getCurrentPage
 
@@ -46,6 +47,10 @@ noHomePage.value = (!page && props.path === '')
 
 if (props.path === '' && !page && !isLoggedIn.value) {
   useRouter().push('/admin')
+}
+
+const getCleanComponentName = (componentId: string) => {
+  return componentId.split('_')[0]
 }
 
 </script>
