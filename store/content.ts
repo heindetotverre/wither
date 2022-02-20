@@ -24,6 +24,9 @@ const createdFields = (componentId: string, slug: string) => {
 
 const registerFields = (fields: ContentField[], formId: string, slug: string) => {
   const formFields = flattenObject(fields).map(field => {
+    if (field.children) {
+      console.log(field)
+    }
     return getFormfield(field)
   })
   const form: DynamicForm = {

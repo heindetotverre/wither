@@ -2,7 +2,6 @@ import { reactive, readonly, } from "vue"
 import { DynamicForm, Page } from '~~/types/types'
 import { useQuery } from "@urql/vue"
 import { formStore } from "./forms"
-import { generalStore } from "."
 import { contentStore } from "./content"
 
 // externals

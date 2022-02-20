@@ -42,6 +42,4 @@ emits('setFields', [
   }
 ])
 
-const fields =
-
 </script>

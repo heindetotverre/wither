@@ -28,7 +28,7 @@ const props = defineProps({
   }
 })
 
-onMounted(() => {
+onServerPrefetch(() => {
   content.value = contentStore.get.createdFields(props.id, props.slug)
   if (props.mode === Mode.Back) {
     if (!Object.keys(content.value).length) {
