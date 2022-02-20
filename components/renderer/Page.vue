@@ -4,17 +4,14 @@
   </NuxtLayout>
 
   <div v-if="!noHomePage && !is404">
-    <component
+    <RendererPageComponent
       v-for="(component, index) in page.pageComponents"
       :key="index"
-      :is="getCleanComponentName(component)"
       :mode="Mode.Front"
       :slug="slug"
       :name="component"
       :id="component"
-    >
-      <slot></slot>
-    </component>
+    />
   </div>
   <div v-if="noHomePage">
     <p>No Homepage yet, go and create one</p>
@@ -47,10 +44,6 @@ noHomePage.value = (!page && props.path === '')
 
 if (props.path === '' && !page && !isLoggedIn.value) {
   useRouter().push('/admin')
-}
-
-const getCleanComponentName = (componentId: string) => {
-  return componentId.split('_')[0]
 }
 
 </script>

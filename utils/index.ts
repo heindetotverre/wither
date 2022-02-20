@@ -30,17 +30,13 @@ const createUUID = () => {
   })
 }
 
-const findPageBySlug = (pages: Array<any>, slug: String): Array<any> => {
-  if (pages.length) {
-    return pages.reduce((acc, curr) => curr.slug.replace('/', '') === slug
-      ? acc.concat(curr)
-      : curr.children.length > 0
-        ? acc.concat(findPageBySlug(curr.children, slug))
-        : acc
-      , [])
-  } else {
-    return []
-  }
+const findNestedPropertyInArray = (arr: Array<any>, keyYouLookFor: any): Array<any> => {
+  return arr.reduce((acc, curr) => curr === keyYouLookFor
+    ? acc.concat(curr)
+    : curr.length > 0
+      ? acc.concat(findNestedPropertyInArray(curr, keyYouLookFor))
+      : acc
+    , [])
 }
 
 const flattenObject = (arr: Array<any>) => {
@@ -102,7 +98,7 @@ export {
   changeArrayPos,
   createId,
   createUUID,
-  findPageBySlug,
+  findNestedPropertyInArray,
   flattenObject,
   getUrlPathFromDynamicRoute,
   getUrlPathFromRoute

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <CookieWall v-if="cookie !== Cookie.Accepted" />
+    <PageComponentsCookieWall v-if="cookie !== Cookie.Accepted" />
     <RendererPage :path="path" />
   </div>
 </template>

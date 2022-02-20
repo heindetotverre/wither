@@ -10,16 +10,13 @@
         :disabled="componentList.indexOf(component) === componentList.length - 1"
         @click.prevent="sortComponent(component, Sort.Down)"
       >Move component down</button>
-      <component
-        :is="getCleanComponentName(component)"
+      <RendererPageComponent
         :mode="Mode.Back"
         :slug="getSlug()"
-        :id="component"
         :name="component"
+        :id="component"
         @click="triggerFieldsToFill(component)"
-      >
-        <slot></slot>
-      </component>
+      />
       <div v-if="activeComponent === component">
         <RendererForm :form="contentFormToFill" />
       </div>

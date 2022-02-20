@@ -1,51 +1,28 @@
 <template>
-  <div v-if="props.mode === Mode.Front">
+  <div>
     <div>
       <h1>{{ content.title }}</h1>
       <h2>{{ content.subTitle }}</h2>
-      <!-- <a :href="content.link.url">{{ content.link.text }}</a> -->
+      <a :href="content['link.url']">{{ content['link.text'] }}</a>
     </div>
     <div>
       <img :src="content.image" />
     </div>
   </div>
-  <div v-else>Backend of {{ id }} component</div>
 </template>
 <script setup lang="ts">
-import { contentStore } from '~~/store/content'
-import { Mode } from '~~/types/enums'
-
 const props = defineProps({
-  mode: {
-    type: Number,
-    required: true
-  },
-  slug: {
-    type: String,
-    required: true
-  },
-  id: {
-    type: String,
-    required: true
-  },
-  name: {
-    type: String,
+  content: {
+    type: Object,
     required: true
   }
 })
 
-onMounted(() => {
-  content.value = contentStore.get.createdFields(props.id, props.slug)
-  if (props.mode === Mode.Back) {
-    if (!Object.keys(content.value).length) {
-      contentStore.do.registerFields(fields, props.id, props.slug)
-    }
-  }
-})
+const emits = defineEmits([
+  'setFields'
+])
 
-const content = ref({}) as any
-
-const fields = [
+emits('setFields', [
   {
     name: 'title',
     type: 'text',
@@ -82,6 +59,5 @@ const fields = [
       }
     ]
   }
-]
-
+])
 </script>
