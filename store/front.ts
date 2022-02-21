@@ -21,6 +21,7 @@ const fetchSinglePage = async (currentPageSlug: string) => {
             name
             pageComponents
             pageMenuParent
+            id
           }
           getComponentContentBySlug(slug: "${currentPageSlug}") {
             formInfo {

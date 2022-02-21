@@ -38,7 +38,7 @@ emits('setFields', [
     name: 'image',
     type: 'image',
     label: 'Upload the image',
-    default: '/dummy.jpg'
+    default: '/dummy.png'
   }
 ])
 

@@ -1,15 +1,7 @@
 <template>
   <div>
-    <NuxtLink :to="!urlPath.includes('admin')
-    ? '/admin'
-    : '/'">
-      {{
-        !urlPath.includes('admin')
-          ? 'Go to to admin'
-          : 'Go to website'
-      }}
-    </NuxtLink>
-    <span v-if="urlPath.includes('admin')">
+    <div v-if="!isFront()">
+      <NuxtLink :to="`/`">Go to website</NuxtLink>
       <span v-if="user?.firstName">Hi {{ user?.firstName }}</span>
       <NuxtLink :to="`/${AdminPath.Admin}`">Go to your dashboard</NuxtLink>
       <NuxtLink
@@ -18,7 +10,13 @@
       <NuxtLink
         :to="`/${AdminPath.Admin}/${AdminPath.Users}/${AdminPath.Management}`"
       >Manage your account</NuxtLink>
-    </span>
+    </div>
+    <div v-else>
+      <NuxtLink :to="`/${AdminPath.Admin}`">Go to admin</NuxtLink>
+      <NuxtLink
+        :to="`/${AdminPath.Admin}/${AdminPath.Pages}/${AdminPath.Create}?pageid=${currentPage?.id}`"
+      >Edit this page</NuxtLink>
+    </div>
     <button @click="logout()">Log out</button>
   </div>
 </template>
@@ -27,6 +25,8 @@ import { PropType } from 'vue'
 import { AdminPath } from '~~/types/enums'
 import { authStore } from '~~/store/auth'
 import { User } from '~~/types/types'
+import { frontStore } from '~~/store/front'
+import { isFront } from '~~/utils/index'
 
 const props = defineProps({
   user: {
@@ -34,9 +34,9 @@ const props = defineProps({
   }
 })
 
+const currentPage = computed(() => frontStore.get.getCurrentPage)
+
 const logout = async () => {
   await authStore.do.logout()
 }
-
-const urlPath = useRoute().path
 </script>

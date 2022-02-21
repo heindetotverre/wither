@@ -94,6 +94,11 @@ const getUrlPathFromRoute = () => {
   }
 }
 
+const isFront = () => {
+  const urlPath = useRoute().path
+  return !urlPath.includes('admin')
+}
+
 export {
   changeArrayPos,
   createId,
@@ -101,5 +106,6 @@ export {
   findNestedPropertyInArray,
   flattenObject,
   getUrlPathFromDynamicRoute,
-  getUrlPathFromRoute
+  getUrlPathFromRoute,
+  isFront
 }

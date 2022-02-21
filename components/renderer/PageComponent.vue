@@ -28,7 +28,9 @@ const props = defineProps({
   }
 })
 
-const content = computed(() => contentStore.get.createdFields(props.id, props.slug))
+const content = computed(() => {
+  return contentStore.get.createdFields(props.id, props.slug)
+})
 
 const getCleanComponentName = (componentId: string) => {
   return componentId.split('_')[0]

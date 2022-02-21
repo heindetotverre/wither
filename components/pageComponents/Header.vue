@@ -39,20 +39,20 @@ emits('setFields', [
     name: 'image',
     type: 'image',
     label: 'Upload the image',
-    default: '/dummy.jpg'
+    default: '/dummy.png'
   },
   {
     name: 'link',
     type: 'group',
     children: [
       {
-        name: 'link.url',
+        name: 'url',
         type: 'text',
         label: 'Enter the link url',
         default: '#'
       },
       {
-        name: 'link.text',
+        name: 'text',
         type: 'text',
         label: 'Enter the link text',
         default: 'This is a link'
