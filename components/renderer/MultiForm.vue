@@ -40,13 +40,13 @@ const buttons = ref(props.form.fields.filter(f => f.class === 'Button'))
 const isDisabled = (field: FormField) => {
   return field.disabled
     ? field.disabled
-    : field.class === 'Button' && fullFormValidation()
+    : field.class === 'Button' && fullFormValidationHasError()
 }
 
 const formValues = computed(() => formStore.get.getFormValues(props.form.formInfo.name)),
   activeTab = ref(props.form.formInfo.parts[0])
 
-const fullFormValidation = () => {
+const fullFormValidationHasError = () => {
   return formStore.get.getFullFormValidationState(props.form.formInfo.name)
 }
 
@@ -62,7 +62,7 @@ const handleTab = (formName: string) => {
 }
 
 const onSubmit = () => {
-  if (!fullFormValidation()) {
+  if (!fullFormValidationHasError()) {
     emits('submit', formValues.value)
   }
 }

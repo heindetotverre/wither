@@ -111,10 +111,6 @@ const addComponent = (component: string) => {
   emits('input', componentList.value)
 }
 
-const getCleanComponentName = (componentId: string) => {
-  return componentId.split('_')[0]
-}
-
 const getSlug = () => {
   return formStore.get.getSpecificFormValue('createPage', 'slug') || 'noSlugCreatedYet'
 }

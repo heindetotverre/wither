@@ -147,7 +147,6 @@ const setPage = async (formContent: Page) => {
       if (!data.createComponentContent) {
         throw new Error(`componentContent not created for page ${formContent.name}`)
       }
-      formStore.do.setDynamicForm(data.createComponentContent)
     })
     const mutationPrep = generalStore.get.getClient().useMutation(`
       mutation ($input: PageInput) {

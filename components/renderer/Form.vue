@@ -53,9 +53,8 @@ const emits = defineEmits([
   'submit'
 ])
 
-const formValues = computed(() => formStore.get.getFormValues(props.form.formInfo.name))
-
-const formFields = props.form.fields.filter(f => f.class !== 'Button'),
+const formValues = computed(() => formStore.get.getFormValues(props.form.formInfo.name)),
+  formFields = props.form.fields.filter(f => f.class !== 'Button'),
   buttons = props.form.fields.filter(f => f.class === 'Button'),
   showValidationError = ref()
 
@@ -63,14 +62,14 @@ const collectValidationMessages = () => {
   return 'Oops, error!'
 }
 
-const fullFormValidation = () => {
+const fullFormValidationHasError = () => {
   return formStore.get.getFullFormValidationState(props.form.formInfo.name)
 }
 
 const isDisabled = (field: FormField) => {
   return field.disabled
     ? field.disabled
-    : field.class === 'Button' && fullFormValidation()
+    : field.class === 'Button' && fullFormValidationHasError()
 }
 
 const onBlur = (field: FormField) => {
@@ -88,7 +87,7 @@ const onInput = (field: FormField, event: Event) => {
 }
 
 const onSubmit = () => {
-  if (fullFormValidation()) {
+  if (fullFormValidationHasError()) {
     showValidationError.value = true
   } else {
     emits('submit', formValues.value)

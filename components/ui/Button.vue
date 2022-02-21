@@ -1,6 +1,6 @@
 <template>
   <div v-if="visible">
-    <button @click.prevent="handleClick()" :disabled="disabled">{{ label }}</button>
+    <button @click.prevent="handleClick()" :disabled="isDisabled">{{ label }}</button>
   </div>
 </template>
 <script setup lang="ts">
@@ -29,6 +29,16 @@ const props = defineProps({
 const emits = defineEmits([
   'click'
 ])
+
+const isDisabled = ref(true)
+
+onMounted(() => {
+  isDisabled.value = props.disabled
+})
+
+watch(() => props.disabled, () => {
+  isDisabled.value = props.disabled
+})
 
 const handleClick = () => {
   emits('click')

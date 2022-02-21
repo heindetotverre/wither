@@ -16,7 +16,7 @@ const state = reactive({
 const createdFields = (componentId: string, slug: string) => {
   const fieldsForPage = formStore.get.getAllDynamicFormsBySlug(slug)
   const fieldsForComponent = fieldsForPage?.find((f) => f.formInfo.name === componentId)
-  const parsedFields = fieldsForComponent?.fields.reduce((acc, curr) => {
+  const parsedFields = fieldsForComponent?.fields?.reduce((acc, curr) => {
     return { ...acc, [curr.key]: curr.value }
   }, {})
   return parsedFields || {}
@@ -24,9 +24,9 @@ const createdFields = (componentId: string, slug: string) => {
 
 const registerFields = (fields: ContentField[], formId: string, slug: string) => {
   const formFields = flattenObject(fields).map(field => {
-    if (field.children) {
-      console.log(field)
-    }
+    // if (field.children) {
+    //   console.log(field)
+    // }
     return getFormfield(field)
   })
   const form: DynamicForm = {
