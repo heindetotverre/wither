@@ -45,5 +45,7 @@ noHomePage.value = (!page && props.path === '')
 if (props.path === '' && !page && !isLoggedIn.value) {
   useRouter().push('/admin')
 }
-
 </script>
+<style less>
+@import "~~/assets/less/wither/front.less";
+</style>

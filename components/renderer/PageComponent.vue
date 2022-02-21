@@ -7,7 +7,7 @@
 <script lang="ts" setup>
 import { contentStore } from '~~/store/content'
 import { Mode } from '~~/types/enums'
-import { ContentField } from '~~/types/types'
+import { ContentField, FormField } from '~~/types/types'
 
 const props = defineProps({
   mode: {
@@ -28,9 +28,7 @@ const props = defineProps({
   }
 })
 
-const content = computed(() => {
-  return contentStore.get.createdFields(props.id, props.slug)
-})
+const content = computed(() => contentStore.get.createdFields(props.id, props.slug) as FormField[])
 
 const getCleanComponentName = (componentId: string) => {
   return componentId.split('_')[0]
