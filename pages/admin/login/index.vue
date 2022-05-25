@@ -19,7 +19,7 @@ import { generalStore } from '~~/store'
 import { authStore } from '~~/store/auth'
 import { formStore } from '~~/store/forms'
 import { User } from '~~/types/types'
-import { AdminPath, Auth } from '~~/types/enums'
+import { AdminPath, Auth, FormNames } from '~~/types/enums'
 
 const response = ref(),
   formRenderer = ref(Auth.Login),
@@ -29,11 +29,15 @@ const response = ref(),
 await generalStore.do.setClient()
 
 const auth = async (method: Auth, event: User) => {
-  const result = await authStore.do[method](event)
-  if (!result.error && !(result instanceof Error)) {
+  const authResult = await authStore.do[method](event)
+  if (!authResult.error && !(authResult instanceof Error)) {
     useRouter().push(`/${AdminPath.Admin}`)
   } else {
-    response.value = result
+    if (method === Auth.Login && authResult?.error?.message.includes('User not found')) {
+      formStore.do.updateAllFormValues(FormNames.LOGIN, 'clear')
+    }
+    response.value = authResult
+
   }
 }
 </script>

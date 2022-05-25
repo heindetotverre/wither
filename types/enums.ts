@@ -17,6 +17,14 @@ enum Cookie {
   Accepted
 }
 
+enum FormNames {
+  CREATE_PAGE = 'createPage',
+  LOGIN = 'login',
+  REGISTER = 'register',
+  UPDATE_USER_INFO = 'updateUserInfo',
+  UPDATE_USER_CREDENTIALS = 'updateUserCredentials'
+}
+
 enum Group {
   Default,
   Admin,
@@ -46,6 +54,7 @@ export {
   Auth,
   AdminPath,
   Cookie,
+  FormNames,
   Group,
   Mode,
   Render,
