@@ -3,7 +3,7 @@ import { DynamicForm, Page, User } from '~~/types/types'
 import { createId } from "~~/utils"
 import { authStore } from "./auth"
 import { useQuery } from "@urql/vue"
-import { generalStore } from "./index"
+import { gqlStore } from "./graphql"
 import { formStore } from "./forms"
 import { contentStore } from "./content"
 
@@ -20,7 +20,7 @@ const state = reactive({
 
 const deletePage = async (pageId: string) => {
   try {
-    const mutationPrep = generalStore.get.getClient().useMutation(`
+    const mutationPrep = gqlStore.get.getClient().useMutation(`
       mutation ($id: String) {
         deletePage (id: $id ) {
           name
@@ -41,7 +41,7 @@ const deletePage = async (pageId: string) => {
 
 const deleteUser = async (userId: string) => {
   try {
-    const mutationPrep = generalStore.get.getClient().useMutation(`
+    const mutationPrep = gqlStore.get.getClient().useMutation(`
       mutation ($id: String) {
         deleteUser (id: $id ) {
           id
@@ -133,7 +133,7 @@ const setPage = async (formContent: Page) => {
   const pageToInsert = await formatPageToInsert(formContent)
   try {
     pageComponentsContent?.forEach(async (content) => {
-      const mutationPrep = generalStore.get.getClient().useMutation(`
+      const mutationPrep = gqlStore.get.getClient().useMutation(`
         mutation ($input: ComponentContentInput) {
           createComponentContent (input: $input) {
             formInfo {
@@ -148,7 +148,7 @@ const setPage = async (formContent: Page) => {
         throw new Error(`componentContent not created for page ${formContent.name}`)
       }
     })
-    const mutationPrep = generalStore.get.getClient().useMutation(`
+    const mutationPrep = gqlStore.get.getClient().useMutation(`
       mutation ($input: PageInput) {
         createPage (input: $input) {
           name
@@ -195,7 +195,7 @@ const updateUserInfo = async (formContent: User) => {
       ...formContent
     }
     delete user.__typename
-    const mutationPrep = generalStore.get.getClient().useMutation(`
+    const mutationPrep = gqlStore.get.getClient().useMutation(`
       mutation ($input: UserInput) {
         editUser (input: $input ) {
           firstName

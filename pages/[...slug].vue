@@ -8,7 +8,7 @@
 import { ref } from 'vue'
 import { getUrlPathFromDynamicRoute } from '~~/utils'
 import { authStore } from '~~/store/auth'
-import { generalStore } from '~~/store'
+import { gqlStore } from '~~/store/graphql'
 import { Cookie } from '~~/types/enums'
 
 const cookie = ref()
@@ -16,7 +16,7 @@ const cookie = ref()
 const path = getUrlPathFromDynamicRoute().last || '',
   tokenId = useCookie<Record<string, any>>('witherLoginToken')
 
-await generalStore.do.setClient()
+await gqlStore.do.setClient()
 await authStore.do.setTokenState(tokenId.value?.id)
 
 cookie.value = Cookie.Accepted

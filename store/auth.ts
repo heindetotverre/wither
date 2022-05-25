@@ -2,7 +2,7 @@ import { reactive, readonly, } from "vue"
 import { User } from '~~/types/types'
 import { Group } from "~~/types/enums"
 import { createUUID } from "~~/utils"
-import { generalStore } from "./index"
+import { gqlStore } from "./graphql"
 
 // externals
 const initialState = {
@@ -25,7 +25,7 @@ const login = async (formContent: User) => {
       user: formContent.email,
       password: formContent.password
     }
-    const mutationPrep = generalStore.get.getClient().useMutation(`
+    const mutationPrep = gqlStore.get.getClient().useMutation(`
       mutation ($input: TokenInput) {
         createToken (input: $input) {
           id
@@ -45,7 +45,7 @@ const login = async (formContent: User) => {
 
 const logout = async () => {
   try {
-    const mutationPrep = generalStore.get.getClient().useMutation(`
+    const mutationPrep = gqlStore.get.getClient().useMutation(`
       mutation ($id: String) {
         deleteToken (id: $id ) {
           id
@@ -76,7 +76,7 @@ const register = async (formContent: User) => {
       group: Group.Default,
       id: createUUID()
     }
-    const mutationPrep = generalStore.get.getClient().useMutation(`
+    const mutationPrep = gqlStore.get.getClient().useMutation(`
       mutation ($input: UserInput) {
         createUser (input: $input) {
           email

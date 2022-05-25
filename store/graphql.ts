@@ -19,7 +19,7 @@ const setClient = () => {
 }
 
 // exports
-export const generalStore = readonly({
+export const gqlStore = readonly({
   state: state,
   do: {
     setClient

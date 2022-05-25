@@ -13,7 +13,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { generalStore } from '~~/store'
+import { gqlStore } from '~~/store/graphql'
 import { adminStore } from '~~/store/admin'
 import { authStore } from '~~/store/auth'
 
@@ -21,7 +21,7 @@ const tokenId = useCookie<Record<string, any>>('witherLoginToken'),
   isLoggedIn = computed(() => authStore.get.getTokenState()),
   user = computed(() => adminStore.get.getUser())
 
-await generalStore.do.setClient()
+await gqlStore.do.setClient()
 await authStore.do.setTokenState(tokenId.value?.id)
 
 if (isLoggedIn.value) {

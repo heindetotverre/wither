@@ -15,7 +15,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { generalStore } from '~~/store'
+import { gqlStore } from '~~/store/graphql'
 import { authStore } from '~~/store/auth'
 import { formStore } from '~~/store/forms'
 import { User } from '~~/types/types'
@@ -26,7 +26,7 @@ const response = ref(),
   loginForm = ref(formStore.get.getLoginForm()),
   registerForm = ref(formStore.get.getRegisterForm())
 
-await generalStore.do.setClient()
+await gqlStore.do.setClient()
 
 const auth = async (method: Auth, event: User) => {
   const authResult = await authStore.do[method](event)
