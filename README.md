@@ -2,17 +2,15 @@
 
 A basic page server and content builder built in Nuxt3
 
-prereqisities
-
-- Needs the following repo running: https://github.com/heindetotverre/gqlserver
-
 ## Setup
 
 npm install
 
 ## Development and usage
 
-make sure you have the graphql server from the aformentioned repo running at http://localhost:4000/gql and the mongodb instance on sai server at mongodb://127.0.0.1:27017/db (this is the standard mongod location). See the README of https://github.com/heindetotverre/gqlserver
+npm run mongo
+
+npm run gql
 
 npm run dev
 
