@@ -6,7 +6,7 @@
     "mongo": "mongod --dbpath ./server/db",
     "gql": "node server/graphql/server.mjs",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nuxi dev",
+    "dev": "nuxi dev --port 5000",
     "build": "nuxi build",
     "start": "node .output/server/index.mjs"
   },

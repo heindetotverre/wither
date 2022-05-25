@@ -43,7 +43,7 @@ is404.value = !!(!page && props.path !== '')
 noHomePage.value = (!page && props.path === '')
 
 if (props.path === '' && !page && !isLoggedIn.value) {
-  useRouter().push('/admin')
+  useRouter().push('/admin/login')
 }
 </script>
 <style less>
