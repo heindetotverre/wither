@@ -1,5 +1,0 @@
-{
-  "scripts": {
-      "postdeploy": "npm run gql"
-  }
-}
