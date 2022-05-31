@@ -1,2 +1,2 @@
-wither=
-wither-server=server/graphql
+wither=/
+wither-server=/server/graphql
