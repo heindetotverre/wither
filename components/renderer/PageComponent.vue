@@ -31,7 +31,7 @@ const props = defineProps({
 const content = computed(() => contentStore.get.createdFields(props.id, props.slug) as FormField[])
 
 const getCleanComponentName = (componentId: string) => {
-  return componentId.split('_')[0]
+  return resolveComponent(componentId.split('_')[0])
 }
 
 const setFields = (fieldsFromComponent: ContentField[]) => {

@@ -39,6 +39,7 @@ await frontStore.get.fetchSinglePage(slug)
 
 const page = frontStore.get.getCurrentPage
 
+
 is404.value = !!(!page && props.path !== '')
 noHomePage.value = (!page && props.path === '')
 

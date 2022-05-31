@@ -5,4 +5,4 @@ nuxt.d.ts
 .output
 .DS_Store
 .env
-server/graphql/
+server/graphql/*/**

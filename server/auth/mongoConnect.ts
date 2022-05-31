@@ -1,9 +1,9 @@
+import { env } from 'process';
 import mongoose from 'mongoose'
-import config from '#config'
 
 export default async () => {
   try {
-    await mongoose.connect(config.DB_LOCATION)
+    await mongoose.connect(env.MONGO_URL as string)
   } catch (error) {
     console.log(error)
   }

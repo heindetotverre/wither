@@ -1,4 +1,4 @@
-import { defineNuxtConfig } from 'nuxt3'
+import { defineNuxtConfig } from 'nuxt'
 
 // https://v3.nuxtjs.org/docs/directory-structure/nuxt.config
 export default defineNuxtConfig({
@@ -10,7 +10,8 @@ export default defineNuxtConfig({
       { name: 'viewport', content: 'width=device-width, initial-scale=1' }
     ]
   },
-  publicRuntimeConfig: {
-    DB_LOCATION: process.env.MONGO_URL
+  components: {
+    global: true,
+    dirs: ['~/components'],
   }
 })
