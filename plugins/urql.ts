@@ -6,6 +6,8 @@ const url = 'gql'
 const host = 'localhost'
 const graphQlUrl = `http://${host}:${port}/${url}`
 
+console.log(`===> graphql client url: ${graphQlUrl} <===`)
+
 export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.use(urql, {
     url: graphQlUrl
