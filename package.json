@@ -3,8 +3,6 @@
   "version": "1.0.0",
   "description": "hybrid nuxt app for serving and creating pages",
   "scripts": {
-    "mongo": "mongod --dbpath ./server/db",
-    "gql": "node server/graphql/server.mjs",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nuxi dev --port 5000",
     "build": "nuxi build",
@@ -16,11 +14,6 @@
   },
   "dependencies": {
     "@urql/vue": "^0.6.1",
-    "cors": "^2.8.5",
-    "express": "^4.17.2",
-    "express-graphql": "^0.12.0",
-    "graphql": "^16.5.0",
-    "mongodb": "^4.3.0",
     "mongoose": "^6.1.6"
   }
 }
