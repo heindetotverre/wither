@@ -2,7 +2,6 @@
   <NuxtLayout name="page" :page="page">
     <template v-if="is404" #404>This is a 404 layout template</template>
   </NuxtLayout>
-
   <div v-if="!noHomePage && !is404">
     <RendererPageComponent
       v-for="(component, index) in page.pageComponents"
@@ -33,7 +32,7 @@ const props = defineProps({
 const isLoggedIn = computed(() => authStore.get.getTokenState()),
   is404 = ref(false),
   noHomePage = ref(false),
-  slug = `/${props.path ? props.path : ''}`
+  slug = `/${props.path || ''}`
 
 await frontStore.get.fetchSinglePage(slug)
 
