@@ -6,6 +6,7 @@ export default async () => {
     await mongoose.connect(env.MONGO_URL as string)
   } catch (error) {
     console.log(error)
+    return
   }
   return mongoose.connection
 }

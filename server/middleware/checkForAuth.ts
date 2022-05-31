@@ -5,6 +5,11 @@ import { useCookie, setCookie, sendRedirect } from 'h3'
 export default async (req: IncomingMessage, res: ServerResponse, next: Function) => {
   const client = await mongoConnect(),
     cookie = useCookie(req, 'witherLoginToken') as any
+
+  if (!client) {
+    next()
+  }
+
   let redirect
   if (cookie) {
     const tokenId = JSON.parse(cookie)?.id
