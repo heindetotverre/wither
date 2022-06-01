@@ -1,0 +1,18 @@
+query fetchToken($tokenId: ID) {
+  getToken(id: $tokenId) {
+    id
+    created
+  }
+}
+
+mutation deleteToken($tokenId: ID) {
+  deleteToken(id: $tokenId) {
+    id
+  }
+}
+
+mutation createToken($input: TokenInput) {
+  createToken(input: $input) {
+    id
+  }
+}

@@ -15,29 +15,26 @@
   </div>
 </template>
 <script setup lang="ts">
-import { gqlStore } from '~~/store/graphql'
 import { authStore } from '~~/store/auth'
 import { formStore } from '~~/store/forms'
 import { User } from '~~/types/types'
-import { AdminPath, Auth, FormNames } from '~~/types/enums'
+import { Auth, FormNames } from '~~/types/enums'
 
 const response = ref(),
   formRenderer = ref(Auth.Login),
   loginForm = ref(formStore.get.getLoginForm()),
   registerForm = ref(formStore.get.getRegisterForm())
 
-await gqlStore.do.setClient()
 
 const auth = async (method: Auth, event: User) => {
-  const authResult = await authStore.do[method](event)
+  const authResult = await authStore.do[method](event) as any
   if (!authResult.error && !(authResult instanceof Error)) {
-    useRouter().push(`/${AdminPath.Admin}`)
+    useRouter().push('/')
   } else {
     if (method === Auth.Login && authResult?.error?.message.includes('User not found')) {
       formStore.do.updateAllFormValues(FormNames.LOGIN, 'clear')
     }
-    response.value = authResult
-
   }
+  response.value = authResult
 }
 </script>

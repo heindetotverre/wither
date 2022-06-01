@@ -86,7 +86,7 @@ interface Token {
 }
 
 interface User {
-  group: string,
+  group: number,
   firstName: string,
   lastName: string,
   email: string,

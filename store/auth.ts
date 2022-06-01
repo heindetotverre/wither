@@ -1,8 +1,7 @@
 import { reactive, readonly, } from "vue"
 import { User } from '~~/types/types'
-import { Group } from "~~/types/enums"
+import { Errors, Group } from "~~/types/enums"
 import { createUUID } from "~~/utils"
-import { gqlStore } from "./graphql"
 
 // externals
 const initialState = {
@@ -25,35 +24,21 @@ const login = async (formContent: User) => {
       user: formContent.email,
       password: formContent.password
     }
-    const mutationPrep = gqlStore.get.getClient().useMutation(`
-      mutation ($input: TokenInput) {
-        createToken (input: $input) {
-          id
-        }
-      }`
-    )
-    const result = await mutationPrep.executeMutation({ input: loginPayload })
-    if (result.data.createToken) {
-      await finishLogin(result.data.createToken.id, true)
+    const { data } = await useAsyncData('createToken', async () => GqlCreateToken({ input: loginPayload }))
+    if (data.value.createToken) {
+      await finishLogin(data.value.createToken.id as string, true)
     }
-    return result
+    return data
   } catch (error) {
-    console.log(error)
+    console.log(`${Errors.GQL_ERROR_DELETE_PAGE}: ${formContent.email} | ${error}`)
     return error
   }
 }
 
 const logout = async () => {
   try {
-    const mutationPrep = gqlStore.get.getClient().useMutation(`
-      mutation ($id: String) {
-        deleteToken (id: $id ) {
-          id
-        }
-      }`
-    )
-    const result = await mutationPrep.executeMutation({ id: state.tokenId })
-    if (result.data.deleteToken) {
+    const { data } = await useAsyncData('deleteToken', async () => GqlDeleteToken({ tokenId: state.tokenId }))
+    if (data.value.deleteToken) {
       await finishLogin('', false)
     }
   } catch (error) {
@@ -76,18 +61,11 @@ const register = async (formContent: User) => {
       group: Group.Default,
       id: createUUID()
     }
-    const mutationPrep = gqlStore.get.getClient().useMutation(`
-      mutation ($input: UserInput) {
-        createUser (input: $input) {
-          email
-        }
-      }`
-    )
-    const result = await mutationPrep.executeMutation({ input: userPayload })
-    if (result.data.createUser) {
+    const { data } = await useAsyncData('deleteToken', async () => GqlCreateUser({ input: userPayload }))
+    if (data.value.createUser) {
       await finishLogin(userPayload.id, true)
     }
-    return result
+    return data
   } catch (error) {
     console.log(error)
     return error
@@ -116,7 +94,7 @@ export const authStore = readonly({
 
 // internals
 const finishLogin = async (data: string, set: boolean) => {
-  await useFetch<any>('/auth', { method: 'POST', body: { secret: data, set: set } })
+  await useFetch<any>('/setcookie', { method: 'POST', body: { secret: data, set: set } })
   state.hasToken = !state.hasToken
   state.tokenId = set
     ? data

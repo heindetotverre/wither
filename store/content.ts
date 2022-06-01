@@ -2,7 +2,7 @@ import { reactive, readonly, } from "vue"
 import { ContentField, DynamicForm, FormField } from "~~/types/types"
 import { formStore } from "./forms"
 import { textInputField, imageInputfield } from "~~/assets/resources/forms"
-import { createId, flattenObject } from "~~/utils"
+import { createId, flattenObject, sanitzeContent } from "~~/utils"
 
 // externals
 const initialState = {
@@ -33,25 +33,14 @@ const registerFields = (fields: ContentField[], formId: string, slug: string) =>
     },
     fields: formFields.filter(f => f !== undefined) as FormField[]
   }
-  formStore.do.setDynamicForm(contentStore.do.sanitzeContent(form), 'register')
-}
-
-const sanitzeContent = (content: DynamicForm) => {
-  delete content.__typename
-  delete content.formInfo.__typename
-  content.fields.forEach(f => {
-    delete f.__typename
-    delete f.validation.__typename
-  })
-  return content
+  formStore.do.setDynamicForm(sanitzeContent(form), 'register')
 }
 
 // exports
 export const contentStore = readonly({
   state: state,
   do: {
-    registerFields,
-    sanitzeContent
+    registerFields
   },
   get: {
     createdFields

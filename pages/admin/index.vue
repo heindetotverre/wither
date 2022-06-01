@@ -5,7 +5,6 @@
 <script setup lang="ts">
 import { adminStore } from '~~/store/admin'
 import { authStore } from '~~/store/auth'
-import { gqlStore } from '~~/store/graphql'
 
 definePageMeta({
   layout: 'admin'
@@ -14,6 +13,5 @@ definePageMeta({
 const tokenId = useCookie<Record<string, any>>('witherLoginToken'),
   user = computed(() => adminStore.get.getUser())
 
-await gqlStore.do.setClient()
 await authStore.do.setTokenState(tokenId.value?.id)
 </script>

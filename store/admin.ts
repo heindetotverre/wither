@@ -1,11 +1,9 @@
 import { reactive, readonly, } from "vue"
 import { DynamicForm, Page, User } from '~~/types/types'
-import { createId } from "~~/utils"
+import { Errors } from "~~/types/enums"
+import { createId, sanitzeContent } from "~~/utils"
 import { authStore } from "./auth"
-import { useQuery } from "@urql/vue"
-import { gqlStore } from "./graphql"
 import { formStore } from "./forms"
-import { contentStore } from "./content"
 
 // externals
 const initialState = {
@@ -20,107 +18,45 @@ const state = reactive({
 
 const deletePage = async (pageId: string) => {
   try {
-    const mutationPrep = gqlStore.get.getClient().useMutation(`
-      mutation ($id: String) {
-        deletePage (id: $id ) {
-          name
-        }
-      }`
-    )
-    const result = await mutationPrep.executeMutation({ id: pageId })
-    if (result.data.deletePage) {
+    const { data } = await useAsyncData('deletePage', async () => GqlDeletePage({ id: pageId }))
+    if (data.value.deletePage) {
       state.pages = state.pages.filter(page => {
         return page.id !== pageId
       })
     }
-    return result.data
+    return data.value
   } catch (error) {
-    console.log(error)
+    console.log(`${Errors.GQL_ERROR_DELETE_PAGE}: ${pageId} | ${error}`)
   }
 }
 
 const deleteUser = async (userId: string) => {
   try {
-    const mutationPrep = gqlStore.get.getClient().useMutation(`
-      mutation ($id: String) {
-        deleteUser (id: $id ) {
-          id
-        }
-      }`
-    )
-    const result = await mutationPrep.executeMutation({ id: userId })
-    if (result.data.deleteUser) {
+    const { data } = await useAsyncData('deletePage', async () => GqlDeleteUser({ id: userId }))
+    if (data.value.deleteUser) {
       authStore.do.logout()
       state.user = {} as User
     }
-    return result.data
+    return data.value
   } catch (error) {
-    console.log(error)
+    console.log(`${Errors.GQL_ERROR_DELETE_USER}: ${userId} | ${error}`)
   }
 }
 
 const fetchAdmin = async () => {
   try {
     const tokenId = authStore.get.getTokenId()
-    const { data } = await useAsyncData('pages', async () => useQuery({
-      query: `{
-        getPages {
-          name
-          slug
-          isInMenu
-          pageComponents
-          pageMenuParent
-          pageMenuOrder
-          title
-          description
-          keywords
-          id
-          author
-        }
-        getSingleUser(tokenId: "${tokenId}") {
-          firstName
-          lastName
-          email
-          id
-        }
-        getComponentContent {
-          formInfo {
-            name
-            slug
-          }
-          fields {
-            autocomplete
-            class
-            component
-            disabled
-            formPart
-            id
-            key
-            label
-            options
-            type
-            required
-            validation {
-              validator
-              validated
-              validationMessage
-            }
-            value
-            visible
-          }
-        }
-      }`
-    }))
-    const pageData = (data.value.data as any).getPages,
-      userData = (data.value.data as any).getSingleUser,
-      componentContentData = (data.value.data as any).getComponentContent
+    const { data } = await useAsyncData('fetchAdminData', async () => GqlFetchAdminData({ tokenId: tokenId }))
+    const pageData = data.value.getPages as [Page],
+      userData = data.value.getSingleUser as User,
+      componentContentData = data.value.getComponentContent as [DynamicForm]
 
     state.pages = pageData
     state.user = userData
-    componentContentData.forEach((content: DynamicForm) => formStore.do.setDynamicForm(contentStore.do.sanitzeContent(content)))
+    componentContentData.forEach((content: DynamicForm) => formStore.do.setDynamicForm(sanitzeContent(content)))
     return pageData
   } catch (error) {
-    console.log(error)
+    console.log(`${Errors.GQL_ERROR_GET_ADMIN_DATA} | ${error}`)
   }
 }
 
@@ -129,54 +65,27 @@ const getPages = () => state.pages
 const getUser = () => state.user
 
 const setPage = async (formContent: Page) => {
-  const pageComponentsContent = formStore.get.getAllDynamicFormsBySlug(formContent.slug)
+  const pageComponentsContent = formStore.get.getAllDynamicFormsBySlug(formContent.slug) as [DynamicForm]
   const pageToInsert = await formatPageToInsert(formContent)
   try {
-    pageComponentsContent?.forEach(async (content) => {
-      const mutationPrep = gqlStore.get.getClient().useMutation(`
-        mutation ($input: ComponentContentInput) {
-          createComponentContent (input: $input) {
-            formInfo {
-              name
-              slug
-            }
-          }
-        }
-      `)
-      const { data } = await mutationPrep.executeMutation({ input: content })
-      if (!data.createComponentContent) {
-        throw new Error(`componentContent not created for page ${formContent.name}`)
+    for (const content of pageComponentsContent) {
+      const { data } = await useAsyncData(content.formInfo.name, async () => GqlCreateComponentContent({ input: content }))
+      if (!data.value.createComponentContent) {
+        throw new Error()
       }
-    })
-    const mutationPrep = gqlStore.get.getClient().useMutation(`
-      mutation ($input: PageInput) {
-        createPage (input: $input) {
-          name
-          slug
-          isInMenu
-          pageComponents
-          pageMenuParent
-          pageMenuOrder
-          title
-          description
-          keywords
-          id
-          author
-        }
-      }`
-    )
-    const { data } = await mutationPrep.executeMutation({ input: pageToInsert })
-    if (data.createPage) {
-      const existingPage = state.pages.find(p => p.id === data.createPage.id)
+    }
+    const { data } = await useAsyncData('createPage', async () => GqlCreatePage({ input: pageToInsert }))
+    if (data.value.createPage) {
+      const existingPage = state.pages.find(p => p.id === data.value.createPage?.id)
       if (existingPage) {
-        Object.assign(existingPage, data.createPage)
+        Object.assign(existingPage, data.value.createPage)
       } else {
-        state.pages.push(data.createPage)
+        state.pages.push(data.value.createPage as Page)
       }
     }
     return data
   } catch (error) {
-    console.log(error)
+    console.log(`${Errors.GQL_ERROR_SET_PAGE}: ${formContent.name} | ${error}`)
   }
 }
 
@@ -194,22 +103,11 @@ const updateUserInfo = async (formContent: User) => {
       ...getUser(),
       ...formContent
     }
-    delete user.__typename
-    const mutationPrep = gqlStore.get.getClient().useMutation(`
-      mutation ($input: UserInput) {
-        editUser (input: $input ) {
-          firstName
-          lastName
-          email
-          id
-        }
-      }`
-    )
-    const { data } = await mutationPrep.executeMutation({ input: user })
-    Object.assign(state.user, data.editUser)
+    const { data } = await useAsyncData('editUser', async () => GqlEditUser({ input: user }))
+    Object.assign(state.user, data.value.editUser)
     return data
   } catch (error) {
-    console.log(error)
+    console.log(`${Errors.GQL_ERROR_UPDATE_USER}: ${formContent.id} | ${error}`)
   }
 }
 

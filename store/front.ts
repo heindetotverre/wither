@@ -1,8 +1,8 @@
 import { reactive, readonly, } from "vue"
 import { DynamicForm, Page } from '~~/types/types'
-import { useQuery } from "@urql/vue"
+import { Errors } from "~~/types/enums"
 import { formStore } from "./forms"
-import { contentStore } from "./content"
+import { sanitzeContent } from '~~/utils'
 
 // externals
 const initialState = {
@@ -15,49 +15,16 @@ const state = reactive({
 
 const fetchSinglePage = async (currentPageSlug: string) => {
   try {
-    const { data } = await useAsyncData('page', async () => useQuery({
-      query: `{
-          getSinglePage(slug: "${currentPageSlug}") {
-            name
-            pageComponents
-            pageMenuParent
-            id
-          }
-          getComponentContentBySlug(slug: "${currentPageSlug}") {
-            formInfo {
-              name
-              slug
-            }
-            fields {
-              autocomplete
-              class
-              component
-              disabled
-              formPart
-              id
-              key
-              label
-              options
-              type
-              required
-              validation {
-                validator
-                validated
-                validationMessage
-              }
-              value
-              visible
-            }
-          }
-       }`
-    }))
-    const pageData = (data.value.data as any).getSinglePage
-    const pageContent = (data.value.data as any).getComponentContentBySlug
-    pageContent.forEach((content: DynamicForm) => formStore.do.setDynamicForm(contentStore.do.sanitzeContent(content)))
-    state.currentPage = pageData
-    return state.currentPage
+    const data = await GqlFetchSinglePage({slug: currentPageSlug})
+
+    const componentData = data.getComponentContentBySlug as [DynamicForm]
+    const page = data.getSinglePage as Page
+
+    componentData.forEach((content: DynamicForm) => formStore.do.setDynamicForm(sanitzeContent(content)))
+    state.currentPage = page
+    return page
   } catch (error) {
-    console.log(error)
+    console.log(`${Errors.GQL_ERROR_GET_SINGLE_PAGE}: ${currentPageSlug} | ${error}`)
   }
 }
 

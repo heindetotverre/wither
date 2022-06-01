@@ -4,7 +4,7 @@
   </NuxtLayout>
   <div v-if="!noHomePage && !is404">
     <RendererPageComponent
-      v-for="(component, index) in page.pageComponents"
+      v-for="(component, index) in page?.pageComponents"
       :key="index"
       :mode="Mode.Front"
       :slug="slug"
@@ -13,7 +13,7 @@
     />
   </div>
   <div v-if="noHomePage">
-    <p>No Homepage yet, go and create one</p>
+    <p>No Homepage yet, go and <a href="/admin/page/create">create one</a></p>
   </div>
 </template>
 
@@ -34,15 +34,12 @@ const isLoggedIn = computed(() => authStore.get.getTokenState()),
   noHomePage = ref(false),
   slug = `/${props.path || ''}`
 
-await frontStore.get.fetchSinglePage(slug)
+const page = await frontStore.get.fetchSinglePage(slug)
 
-const page = frontStore.get.getCurrentPage
+is404.value = !!(!page?.id && props.path !== '')
+noHomePage.value = (!page?.id && props.path === '')
 
-
-is404.value = !!(!page && props.path !== '')
-noHomePage.value = (!page && props.path === '')
-
-if (props.path === '' && !page && !isLoggedIn.value) {
+if (props.path === '/' && !page && !isLoggedIn.value) {
   useRouter().push('/admin/login')
 }
 </script>

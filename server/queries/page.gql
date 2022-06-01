@@ -1,0 +1,34 @@
+query fetchSinglePage($slug: String) {
+  getSinglePage(slug: $slug) {
+    name
+    pageComponents
+    pageMenuParent
+    id
+  }
+  getComponentContentBySlug(slug: $slug) {
+    formInfo {
+      name
+      slug
+    }
+    fields {
+      autocomplete
+      class
+      component
+      disabled
+      formPart
+      id
+      key
+      label
+      options
+      type
+      required
+      validation {
+        validator
+        validated
+        validationMessage
+      }
+      value
+      visible
+    }
+  }
+}

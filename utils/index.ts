@@ -1,5 +1,6 @@
 import { useRoute } from 'vue-router'
 import { Sort } from '~~/types/enums'
+import { DynamicForm } from '~~/types/types'
 
 const changeArrayPos = (arr: any[], el: any, direction: number) => {
   let elIndex = arr.indexOf(el)
@@ -99,6 +100,16 @@ const isFront = () => {
   return !urlPath.includes('admin')
 }
 
+const sanitzeContent = (content: DynamicForm) => {
+  delete content.__typename
+  delete content.formInfo.__typename
+  content.fields.forEach(f => {
+    delete f.__typename
+    delete f.validation.__typename
+  })
+  return content
+}
+
 export {
   changeArrayPos,
   createId,
@@ -107,5 +118,6 @@ export {
   flattenObject,
   getUrlPathFromDynamicRoute,
   getUrlPathFromRoute,
-  isFront
+  isFront,
+  sanitzeContent
 }

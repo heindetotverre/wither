@@ -14,6 +14,7 @@
     <div v-else>
       <NuxtLink :to="`/${AdminPath.Admin}`">Go to admin</NuxtLink>
       <NuxtLink
+        v-if="currentPage.id"
         :to="`/${AdminPath.Admin}/${AdminPath.Pages}/${AdminPath.Create}?pageid=${currentPage?.id}`"
       >Edit this page</NuxtLink>
     </div>
@@ -38,5 +39,6 @@ const currentPage = computed(() => frontStore.get.getCurrentPage)
 
 const logout = async () => {
   await authStore.do.logout()
+  useRouter().push('/')
 }
 </script>

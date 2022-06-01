@@ -13,12 +13,12 @@
     "nuxt": "3.0.0-rc.3"
   },
   "dependencies": {
-    "@urql/vue": "^0.6.1",
     "graphql": "^16.5.0",
-    "mongoose": "^6.1.6"
+    "mongoose": "^6.1.6",
+    "nuxt-graphql-client": "^0.0.32"
   },
-  "engines" : { 
-    "npm" : "8.3.0",
-    "node" : "17.3.1"
+  "engines": {
+    "npm": "8.3.0",
+    "node": "17.3.1"
   }
 }

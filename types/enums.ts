@@ -17,6 +17,18 @@ enum Cookie {
   Accepted
 }
 
+enum Errors {
+  DB_ERROR_GET_TOKEN = 'Error: Couldn\'t retrieve token from db',
+  DB_ERROR_DELETE_TOKEN = 'Error: Couldn\'t delete token from db',
+  GQL_ERROR_SET_PAGE = 'Error: Couldn\'t create component data or page for page name',
+  GQL_ERROR_GET_SINGLE_PAGE = 'Error: Couldn\'t find page for slug',
+  GQL_ERROR_DELETE_PAGE = 'Error: Couldn\'t delete page with pageId',
+  GQL_ERROR_DELETE_USER = 'Error: Couldn\'t delete page with userId',
+  GQL_ERROR_GET_ADMIN_DATA = 'Error: Couldn\'t retireve admin data',
+  GQL_ERROR_UPDATE_USER = 'Error: Couldn\'t update page with userId',
+  GQL_ERROR_CREATE_TOKEN = 'Error: Couldn\'t create token for user',
+}
+
 enum FormNames {
   CREATE_PAGE = 'createPage',
   LOGIN = 'login',
@@ -54,6 +66,7 @@ export {
   Auth,
   AdminPath,
   Cookie,
+  Errors,
   FormNames,
   Group,
   Mode,
