@@ -4,14 +4,24 @@ A basic page server and content builder built in Nuxt3
 
 ## Setup
 
-npm install
+clone the required server into /server/graphql from https://github.com/heindetotverre/wither-server.git
+
+- server
+  - graphql
+    ...wither-server.git
+
+
+npm install on both the root and the server
 
 ## Development and usage
 
+server:
 npm run mongo
 
+server:
 npm run gql
 
+client:
 npm run dev
 
 create a user
