@@ -16,7 +16,7 @@ export default defineNuxtConfig({
   modules: ['nuxt-graphql-client'],
   runtimeConfig: {
     public: {
-      GQL_HOST: 'http://server.heindetotverre.com/'
+      GQL_HOST: process.env.GQL_HOST
     }
   }
 })

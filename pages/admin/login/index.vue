@@ -4,12 +4,12 @@
     <div v-if="formRenderer === Auth.Login">
       <RendererForm :form="loginForm" @submit="auth(Auth.Login, $event)" />
       <p>Not a member yet?</p>
-      <button @click="formRenderer = Auth.Register">Register yourself</button>
+      <button @click="switchAuthMethod()">Register yourself</button>
     </div>
     <div v-if="formRenderer === Auth.Register">
       <RendererForm :form="registerForm" @submit="auth(Auth.Register, $event)" />
       <p>Already a member?</p>
-      <button @click="formRenderer = Auth.Login">Go to login</button>
+      <button @click="switchAuthMethod()">Go to login</button>
     </div>
     <div v-if="response">{{ response.error ? response.error.message : response }}</div>
   </div>
@@ -28,13 +28,21 @@ const response = ref(),
 
 const auth = async (method: Auth, event: User) => {
   const authResult = await authStore.do[method](event) as any
-  if (!authResult.error && !(authResult instanceof Error)) {
+  if (!authResult?.response?.errors) {
     useRouter().push('/')
   } else {
-    if (method === Auth.Login && authResult?.error?.message.includes('User not found')) {
+    if (method === Auth.Login && authResult?.response?.errors.find((error : any) => error.message.includes('User not found'))) {
       formStore.do.updateAllFormValues(FormNames.LOGIN, 'clear')
     }
   }
   response.value = authResult
+}
+
+const switchAuthMethod = () => {
+  formRenderer.value = formRenderer.value === Auth.Login
+    ? Auth.Register
+    : Auth.Login
+
+  response.value = ''
 }
 </script>

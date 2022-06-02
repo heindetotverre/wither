@@ -1,3 +1,20 @@
+<script setup lang="ts">
+  import { authStore } from '~~/store/auth'
+
+  const props = defineProps({
+    name: {
+      type: String,
+      default: ''
+    },
+    page: {
+      type: Object,
+      default: {}
+    }
+  })
+
+  const isLoggedIn = computed(() => authStore.get.getTokenState())
+</script>
+
 <template>
   <div>
     <Html :lang="'en-GB'">
@@ -13,19 +30,3 @@
     <slot />
   </div>
 </template>
-<script setup lang="ts">
-import { authStore } from '~~/store/auth'
-
-const props = defineProps({
-  name: {
-    type: String,
-    default: ''
-  },
-  page: {
-    type: Object,
-    default: {}
-  }
-})
-
-const isLoggedIn = computed(() => authStore.get.getTokenState())
-</script>

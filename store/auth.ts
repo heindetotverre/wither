@@ -24,13 +24,14 @@ const login = async (formContent: User) => {
       user: formContent.email,
       password: formContent.password
     }
-    const { data } = await useAsyncData('createToken', async () => GqlCreateToken({ input: loginPayload }))
-    if (data.value.createToken) {
+    const { data, error } = await useAsyncData('createToken', async () => GqlCreateToken({ input: loginPayload }))
+    if (data.value?.createToken?.id) {
       await finishLogin(data.value.createToken.id as string, true)
+      return data.value
     }
-    return data
+    return error.value
   } catch (error) {
-    console.log(`${Errors.GQL_ERROR_DELETE_PAGE}: ${formContent.email} | ${error}`)
+    console.log(`${Errors.GQL_ERROR_CREATE_TOKEN}: ${formContent.email} | ${error}`)
     return error
   }
 }

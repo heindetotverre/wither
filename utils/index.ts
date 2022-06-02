@@ -58,6 +58,14 @@ const flattenObject = (arr: Array<any>) => {
   }
 }
 
+const getCleanComponentName = (componentName : string) => {
+  if (componentName.includes('_')) {
+    return resolveComponent(`Lazy${componentName.split('_')[0]}`)
+  } else {
+    return resolveComponent(`Lazy${componentName}`)
+  }
+}
+
 const getUrlPathFromDynamicRoute = () => {
   const urlPath = useRoute().params.slug as Array<string>
 
@@ -116,6 +124,7 @@ export {
   createUUID,
   findNestedPropertyInArray,
   flattenObject,
+  getCleanComponentName,
   getUrlPathFromDynamicRoute,
   getUrlPathFromRoute,
   isFront,

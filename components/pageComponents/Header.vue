@@ -1,3 +1,55 @@
+<script setup lang="ts">
+  const props = defineProps({
+    content: {
+      type: Object,
+      required: true
+    }
+  })
+
+  const emits = defineEmits([
+    'setFields'
+  ])
+
+  emits('setFields', [
+    {
+      name: 'title',
+      type: 'text',
+      label: 'Enter the title',
+      default: 'This is a title'
+    },
+    {
+      name: 'subTitle',
+      type: 'text',
+      label: 'Enter the sub title',
+      default: 'This is a sub title'
+    },
+    {
+      name: 'image',
+      type: 'image',
+      label: 'Upload the image',
+      default: '/dummy.png'
+    },
+    {
+      name: 'link',
+      type: 'group',
+      children: [
+        {
+          name: 'url',
+          type: 'text',
+          label: 'Enter the link url',
+          default: '#'
+        },
+        {
+          name: 'text',
+          type: 'text',
+          label: 'Enter the link text',
+          default: 'This is a link'
+        }
+      ]
+    }
+  ])
+</script>
+
 <template>
   <div>
     <div>
@@ -10,54 +62,3 @@
     </div>
   </div>
 </template>
-<script setup lang="ts">
-const props = defineProps({
-  content: {
-    type: Object,
-    required: true
-  }
-})
-
-const emits = defineEmits([
-  'setFields'
-])
-
-emits('setFields', [
-  {
-    name: 'title',
-    type: 'text',
-    label: 'Enter the title',
-    default: 'This is a title'
-  },
-  {
-    name: 'subTitle',
-    type: 'text',
-    label: 'Enter the sub title',
-    default: 'This is a sub title'
-  },
-  {
-    name: 'image',
-    type: 'image',
-    label: 'Upload the image',
-    default: '/dummy.png'
-  },
-  {
-    name: 'link',
-    type: 'group',
-    children: [
-      {
-        name: 'url',
-        type: 'text',
-        label: 'Enter the link url',
-        default: '#'
-      },
-      {
-        name: 'text',
-        type: 'text',
-        label: 'Enter the link text',
-        default: 'This is a link'
-      }
-    ]
-  }
-])
-</script>

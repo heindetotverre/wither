@@ -1,3 +1,25 @@
+<script setup lang="ts">
+  import { PropType } from 'vue'
+  import { AdminPath } from '~~/types/enums'
+  import { authStore } from '~~/store/auth'
+  import { User } from '~~/types/types'
+  import { frontStore } from '~~/store/front'
+  import { isFront } from '~~/utils/index'
+
+  const props = defineProps({
+    user: {
+      type: Object as PropType<User>
+    }
+  })
+
+  const currentPage = computed(() => frontStore.get.getCurrentPage)
+
+  const logout = async () => {
+    await authStore.do.logout()
+    useRouter().push('/')
+  }
+</script>
+
 <template>
   <div>
     <div v-if="!isFront()">
@@ -21,24 +43,3 @@
     <button @click="logout()">Log out</button>
   </div>
 </template>
-<script setup lang="ts">
-import { PropType } from 'vue'
-import { AdminPath } from '~~/types/enums'
-import { authStore } from '~~/store/auth'
-import { User } from '~~/types/types'
-import { frontStore } from '~~/store/front'
-import { isFront } from '~~/utils/index'
-
-const props = defineProps({
-  user: {
-    type: Object as PropType<User>
-  }
-})
-
-const currentPage = computed(() => frontStore.get.getCurrentPage)
-
-const logout = async () => {
-  await authStore.do.logout()
-  useRouter().push('/')
-}
-</script>

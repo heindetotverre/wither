@@ -1,3 +1,30 @@
+<script setup lang="ts">
+  import { frontStore } from '~~/store/front'
+  import { authStore } from '~~/store/auth'
+  import { Mode } from '~~/types/enums'
+
+  const props = defineProps({
+    path: {
+      type: String,
+      required: true
+    }
+  })
+
+  const isLoggedIn = computed(() => authStore.get.getTokenState()),
+    is404 = ref(false),
+    noHomePage = ref(false),
+    slug = `/${props.path || ''}`
+
+  const page = await frontStore.get.fetchSinglePage(slug)
+
+  is404.value = !!(!page?.id && props.path !== '')
+  noHomePage.value = (!page?.id && props.path === '')
+
+  if (props.path === '/' && !page && !isLoggedIn.value) {
+    useRouter().push('/admin/login')
+  }
+</script>
+
 <template>
   <NuxtLayout name="page" :page="page">
     <template v-if="is404" #404>This is a 404 layout template</template>
@@ -17,32 +44,6 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import { frontStore } from '~~/store/front'
-import { authStore } from '~~/store/auth'
-import { Mode } from '~~/types/enums'
-
-const props = defineProps({
-  path: {
-    type: String,
-    required: true
-  }
-})
-
-const isLoggedIn = computed(() => authStore.get.getTokenState()),
-  is404 = ref(false),
-  noHomePage = ref(false),
-  slug = `/${props.path || ''}`
-
-const page = await frontStore.get.fetchSinglePage(slug)
-
-is404.value = !!(!page?.id && props.path !== '')
-noHomePage.value = (!page?.id && props.path === '')
-
-if (props.path === '/' && !page && !isLoggedIn.value) {
-  useRouter().push('/admin/login')
-}
-</script>
 <style less>
 @import "~~/assets/less/wither/front.less";
 </style>
