@@ -4,6 +4,7 @@ import { Errors } from "~~/types/enums"
 import { createId, sanitzeContent } from "~~/utils"
 import { authStore } from "./auth"
 import { formStore } from "./forms"
+import { contentStore } from "./content"
 
 // externals
 const initialState = {
@@ -73,6 +74,7 @@ const setPage = async (formContent: Page) => {
       if (!data.value.createComponentContent) {
         throw new Error()
       }
+      formStore.do.setDynamicForm(content)
     }
     const { data } = await useAsyncData('createPage', async () => GqlCreatePage({ input: pageToInsert }))
     if (data.value.createPage) {

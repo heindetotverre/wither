@@ -15,10 +15,10 @@ const state = reactive({
 
 const fetchSinglePage = async (currentPageSlug: string) => {
   try {
-    const data = await GqlFetchSinglePage({slug: currentPageSlug})
+    const { data } = await useAsyncData('fetchSinglePage', async () => GqlFetchSinglePage({slug: currentPageSlug}))
 
-    const componentData = data.getComponentContentBySlug as [DynamicForm]
-    const page = data.getSinglePage as Page
+    const componentData = data.value.getComponentContentBySlug as [DynamicForm]
+    const page = data.value.getSinglePage as Page
 
     componentData.forEach((content: DynamicForm) => formStore.do.setDynamicForm(sanitzeContent(content)))
     state.currentPage = page

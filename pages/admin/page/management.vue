@@ -1,3 +1,23 @@
+<script setup lang="ts">
+  import { adminStore } from '~~/store/admin'
+  import { AdminPath } from '~~/types/enums'
+
+  definePageMeta({
+    layout: 'admin'
+  })
+
+  const pages = computed(() => adminStore.get.getPages()),
+    response = ref()
+
+  const deletePage = async (pageId: string) => {
+    response.value = await adminStore.do.deletePage(pageId)
+  }
+
+  const editPage = (pageId: string) => {
+    useRouter().push(`/${AdminPath.Admin}/${AdminPath.Pages}/${AdminPath.Create}?pageid=${pageId}`)
+  }
+</script>
+
 <template>
   <div>
     <div>
@@ -12,22 +32,3 @@
     <div v-if="response">{{ response }}</div>
   </div>
 </template>
-<script setup lang="ts">
-import { adminStore } from '~~/store/admin'
-import { AdminPath } from '~~/types/enums'
-
-definePageMeta({
-  layout: 'admin'
-})
-
-const pages = computed(() => adminStore.get.getPages()),
-  response = ref()
-
-const deletePage = async (pageId: string) => {
-  response.value = await adminStore.do.deletePage(pageId)
-}
-
-const editPage = (pageId: string) => {
-  useRouter().push(`/${AdminPath.Admin}/${AdminPath.Pages}/${AdminPath.Create}?pageid=${pageId}`)
-}
-</script>
