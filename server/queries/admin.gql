@@ -52,26 +52,6 @@ mutation createComponentContent($input: ComponentContentInput) {
       name
       slug
     }
-    fields {
-      autocomplete
-      class
-      component
-      disabled
-      formPart
-      id
-      key
-      label
-      options
-      type
-      required
-      validation {
-        validator
-        validated
-        validationMessage
-      }
-      value
-      visible
-    }
   }
 }
 

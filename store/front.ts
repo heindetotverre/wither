@@ -20,7 +20,11 @@ const fetchSinglePage = async (currentPageSlug: string) => {
     const componentData = data.value.getComponentContentBySlug as [DynamicForm]
     const page = data.value.getSinglePage as Page
 
-    componentData.forEach((content: DynamicForm) => formStore.do.setDynamicForm(sanitzeContent(content)))
+    componentData.forEach((content: DynamicForm) => {
+      if (!formStore.get.getDynamicFormById(content.formInfo.name)) {
+        formStore.do.setDynamicForm(sanitzeContent(content))
+      }
+    })
     state.currentPage = page
     return page
   } catch (error) {

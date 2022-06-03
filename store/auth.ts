@@ -43,7 +43,7 @@ const logout = async () => {
       await finishLogin('', false)
     }
   } catch (error) {
-    console.log(error)
+    console.log(`${Errors.GQL_ERROR_DELETE_TOKEN}: ${state.tokenId} | ${error}`)
   }
 }
 
@@ -62,13 +62,13 @@ const register = async (formContent: User) => {
       group: Group.Default,
       id: createUUID()
     }
-    const { data } = await useAsyncData('deleteToken', async () => GqlCreateUser({ input: userPayload }))
+    const { data } = await useAsyncData('createUser', async () => GqlCreateUser({ input: userPayload }))
     if (data.value.createUser) {
       await finishLogin(userPayload.id, true)
     }
     return data
   } catch (error) {
-    console.log(error)
+    console.log(`${Errors.GQL_ERROR_CREATE_USER}: ${formContent.email} | ${error}`)
     return error
   }
 }
