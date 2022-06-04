@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "description": "hybrid nuxt app for serving and creating pages",
   "scripts": {
+    "mongo": "mongod --dbpath ./server/graphql/db",
+    "graphql": "node ./server/graphql/server.mjs",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nuxi dev --port 5000",
     "build": "nuxi build",

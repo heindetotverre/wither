@@ -13,9 +13,9 @@ const state = reactive({
   ...initialState
 })
 
-const fetchSinglePage = async (currentPageSlug: string) => {
+const fetchSinglePage = async (pageSlug: string) => {
   try {
-    const { data } = await useAsyncData('fetchSinglePage', async () => GqlFetchSinglePage({slug: currentPageSlug}))
+    const { data } = await useAsyncData('fetchSinglePage', async () => GqlFetchSinglePage({slug: pageSlug}))
 
     const componentData = data.value.getComponentContentBySlug as [DynamicForm]
     const page = data.value.getSinglePage as Page
@@ -28,7 +28,7 @@ const fetchSinglePage = async (currentPageSlug: string) => {
     state.currentPage = page
     return page
   } catch (error) {
-    console.log(`${Errors.GQL_ERROR_GET_SINGLE_PAGE}: ${currentPageSlug} | ${error}`)
+    console.log(`${Errors.GQL_ERROR_GET_SINGLE_PAGE}: ${pageSlug} | ${error}`)
   }
 }
 
