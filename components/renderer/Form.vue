@@ -3,7 +3,6 @@
   import { formStore } from '~~/store/forms'
   import { Form, FormField } from '~~/types/types'
   import { State } from '~~/types/enums'
-  import { getCleanComponentName } from '~~/utils'
 
   const props = defineProps({
     form: {
@@ -57,6 +56,8 @@
       emits('submit', formValues.value)
     }
   }
+
+  const { dynamicComponent } = useComponentResolvement()
 </script>
 
 <template>
@@ -64,7 +65,7 @@
     <component
       v-for="field in formFields"
       :domclass="field.domclass"
-      :is="getCleanComponentName(field.component)"
+      :is="dynamicComponent(field.component, true)"
       :autocomplete="field.autocomplete"
       :disabled="isDisabled(field)"
       :id="field.id"
@@ -89,7 +90,7 @@
     <component
       v-for="(button, index) in buttons"
       :key="index"
-      :is="getCleanComponentName(button.component)"
+      :is="dynamicComponent(button.component, true)"
       :disabled="isDisabled(button)"
       :label="button.label"
       @click="onSubmit()"

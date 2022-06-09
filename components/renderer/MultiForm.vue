@@ -2,7 +2,6 @@
   import { formStore } from '~~/store/forms'
   import { PropType } from 'vue'
   import { Form, FormField } from '~~/types/types'
-  import { getCleanComponentName } from '~~/utils'
 
   const props = defineProps({
     form: {
@@ -47,6 +46,8 @@
       emits('submit', formValues.value)
     }
   }
+
+  const { dynamicComponent } = useComponentResolvement()
 </script>
 
 <template>
@@ -63,7 +64,7 @@
   <component
     v-for="(button, index) in buttons"
     :key="index"
-    :is="getCleanComponentName(button.component)"
+    :is="dynamicComponent(button.component)"
     :disabled="isDisabled(button)"
     :label="button.label"
     @click="onSubmit()"

@@ -1,3 +1,5 @@
+import { Component } from "nuxt/dist/app/compat/capi"
+
 interface ContentField {
   default?: string,
   label?: string,
@@ -55,7 +57,6 @@ interface FormField {
   visible?: boolean,
   __typename?: string
 }
-
 interface Forms {
   createPage: Form,
   login: Form,

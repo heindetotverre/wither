@@ -2,7 +2,6 @@
   import { contentStore } from '~~/store/content'
   import { Mode } from '~~/types/enums'
   import { ContentField, FormField } from '~~/types/types'
-  import { getCleanComponentName } from '~~/utils'
 
   const props = defineProps({
     mode: {
@@ -30,13 +29,15 @@
       contentStore.do.registerFields(fieldsFromComponent, props.id, props.slug)
     }
   }
+
+  const { dynamicComponent } = useComponentResolvement()
 </script>
 
 <template>
   <div>
     <component
       :content="content"
-      :is="getCleanComponentName(name)"
+      :is="dynamicComponent(name)"
       @setFields="setFields($event)"
     />
     <div v-if="props.mode === Mode.Back">Backend of {{ id }} component</div>

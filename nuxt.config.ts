@@ -14,5 +14,9 @@ export default defineNuxtConfig({
     public: {
       GQL_HOST: process.env.GQL_HOST
     }
+  },
+  components: {
+    global: true,
+    dirs: ['~/components']
   }
 })
