@@ -1,7 +1,7 @@
 import { reactive, readonly, } from "vue"
 import { DynamicForm, Page, User } from '~~/types/types'
 import { Errors } from "~~/types/enums"
-import { createId, sanitzeContent } from "~~/utils"
+import { createId, sanitzeComponentContent } from "~~/utils"
 import { authStore } from "./auth"
 import { formStore } from "./forms"
 import { contentStore } from "./content"
@@ -54,7 +54,7 @@ const fetchAdmin = async () => {
 
     state.pages = pageData
     state.user = userData
-    componentContentData.forEach((content: DynamicForm) => formStore.do.setDynamicForm(sanitzeContent(content)))
+    componentContentData.forEach((content: DynamicForm) => formStore.do.setDynamicForm(sanitzeComponentContent(content)))
     return pageData
   } catch (error) {
     console.log(`${Errors.GQL_ERROR_GET_ADMIN_DATA} | ${error}`)

@@ -116,5 +116,6 @@ export {
   FormField,
   Page,
   User,
-  Token
+  Token,
+  Validators
 }

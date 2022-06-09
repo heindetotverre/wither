@@ -2,7 +2,7 @@ import { reactive, readonly, } from "vue"
 import { DynamicForm, Page } from '~~/types/types'
 import { Errors } from "~~/types/enums"
 import { formStore } from "./forms"
-import { sanitzeContent } from '~~/utils'
+import { sanitzeComponentContent } from '~~/utils'
 
 // externals
 const initialState = {
@@ -22,7 +22,7 @@ const fetchSinglePage = async (pageSlug: string) => {
 
     componentData.forEach((content: DynamicForm) => {
       if (!formStore.get.getDynamicFormById(content.formInfo.name)) {
-        formStore.do.setDynamicForm(sanitzeContent(content))
+        formStore.do.setDynamicForm(sanitzeComponentContent(content))
       }
     })
     state.currentPage = page

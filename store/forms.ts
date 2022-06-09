@@ -3,7 +3,7 @@ import { Forms, FormEvent, DynamicForm } from '~~/types/types'
 import { State } from '~~/types/enums'
 import { adminStore } from '~~/store/admin'
 import { presetForms } from '~~/assets/resources/forms'
-import validators from '~~/utils/validators'
+import { mapValidators } from '~~/utils/validators/mapValidators'
 
 // externals
 const initialState = {
@@ -77,7 +77,7 @@ const getFullFormValidationState = (formName: keyof Forms) => {
   if (fieldsToValidate) {
     for (const singleFieldToValidate of fieldsToValidate) {
       const fieldKey = singleFieldToValidate.key,
-        fieldValidator = validators[singleFieldToValidate.validation.validator],
+        fieldValidator = mapValidators(singleFieldToValidate.validation.validator),
         fieldValue = getFormValues(formName)[fieldKey]
 
       if (fieldValidator) {
@@ -168,9 +168,9 @@ const validateSingleField = (input: FormEvent, reset: State | void) => {
     field = presetForm
       ? presetForm.fields.find(f => f.key === input.key)
       : state.dynamicForms.find(f => f.formInfo.name === input.name)?.fields.find(f => f.key === input.key)
-  if (field && field.validation && validators[field.validation.validator]) {
+  if (field && field.validation && mapValidators(field.validation.validator)) {
     if (reset !== State.Reset) {
-      if (field.value && field.value.length && !validators[field.validation.validator](field.value)) {
+      if (field.value && field.value.length && !mapValidators(field.validation.validator)(field.value)) {
         domclass = 'error'
         field.validation.validated = false
       } else {

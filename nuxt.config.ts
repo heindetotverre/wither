@@ -9,10 +9,6 @@ export default defineNuxtConfig({
       { name: 'viewport', content: 'width=device-width, initial-scale=1' }
     ]
   },
-  components: {
-    global: true,
-    dirs: ['~/components'],
-  },
   modules: ['nuxt-graphql-client'],
   runtimeConfig: {
     public: {
