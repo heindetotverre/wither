@@ -61,7 +61,7 @@
 </script>
 
 <template>
-  <form @keypress.enter="onSubmit()">
+  <form class="p-2" @keypress.enter="onSubmit()">
     <component
       v-for="field in formFields"
       :domclass="field.domclass"

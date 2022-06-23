@@ -3,6 +3,8 @@
   import { formStore } from '~~/store/forms'
   import { User } from '~~/types/types'
   import { Auth, FormNames } from '~~/types/enums'
+import { vShow } from 'vue'
+import { V_ON_WITH_KEYS } from '@vue/compiler-dom'
 
   const response = ref(),
     formRenderer = ref(Auth.Login),
@@ -32,14 +34,20 @@
 </script>
 
 <template>
-  <div>
+  <div class="login__landing">
     <p>Login section</p>
-    <div v-if="formRenderer === Auth.Login">
+    <div
+      v-if="formRenderer === Auth.Login"
+      class="p-2 login__form center--absolute"
+    >
       <RendererForm :form="loginForm" @submit="auth(Auth.Login, $event)" />
       <p>Not a member yet?</p>
       <button @click="switchAuthMethod()">Register yourself</button>
     </div>
-    <div v-if="formRenderer === Auth.Register">
+    <div
+      v-if="formRenderer === Auth.Register"
+      class="p-2 login__form center--absolute"
+    >
       <RendererForm :form="registerForm" @submit="auth(Auth.Register, $event)" />
       <p>Already a member?</p>
       <button @click="switchAuthMethod()">Go to login</button>
@@ -47,3 +55,16 @@
     <div v-if="response">{{ response.error ? response.error.message : response }}</div>
   </div>
 </template>
+
+<style lang="less" scoped>
+.login {
+  &__landing {
+    height: 100vh;
+    width: 100vw;
+  }
+
+  &__form {
+    width: 30rem;
+  }
+}
+</style>

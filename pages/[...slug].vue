@@ -14,7 +14,7 @@
   cookie.value = Cookie.Accepted
   </script>
   <style less>
-  @import "~~/assets/less/wither/general.less";
+  @import "~~/assets/less/wither/main.less";
 </style>
 
 <template>
