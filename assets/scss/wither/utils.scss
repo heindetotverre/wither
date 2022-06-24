@@ -78,11 +78,23 @@
   width: 100%;
 }
 
-.center--absolute {
+.absolute--center {
   left: 50%;
   position: absolute;
   top: 50%;
   transform: translate(-50%, -50%);
+}
+
+.absolute--right {
+  right: 0;
+  position: absolute;
+}
+
+.absolute--right-center {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .b-r-1 {
@@ -125,4 +137,8 @@
 .b-r-b-3 {
   border-bottom-left-radius: 3rem;
   border-bottom-right-radius: 3rem;
+}
+
+.full-width {
+  width: 100%;
 }

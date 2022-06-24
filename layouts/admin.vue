@@ -14,7 +14,7 @@
 </script>
 
 <template>
-  <div>
+  <div class="admin">
     <Html :lang="'en-GB'">
       <Head>
         <Title>Admin</Title>
@@ -24,7 +24,11 @@
 
     <AdminBar :user="user" />
 
-    <slot />
+    <UtilsAnimation
+      :animateTargets="['height', 'width']"
+    >
+      <slot />
+    </UtilsAnimation>
   </div>
 </template>
 

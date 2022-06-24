@@ -1,7 +1,7 @@
 <script setup lang="ts">
-  import { PropType } from 'vue'
+  import { PropType, Ref } from 'vue'
 
-  const { getStyleOffset, getStyleToAnimate } = useAnimationUtils()
+  const { getConstants, getStyleOffset, getStyleToAnimate } = useAnimationUtils()
 
   const props = defineProps({
     animateTargets: {
@@ -34,8 +34,13 @@
     transitionStyle.value = `transition:all ${props.transitionSpeed}s ease;`
     const animationStyleArr = [] as string[]
     props.animateTargets.forEach((animateTarget : string) => {
-      const styleInt = getStyleToAnimate(animateEl.value, animateTarget)
-      animationStyleArr.push(`${animateTarget}:${styleInt + getStyleOffset(animateEl.value.parentElement, animateTarget)}px;`)
+      const style = getStyleToAnimate(animateEl.value, animateTarget)
+      if (style === getConstants().FALLBACK) {
+        animationStyleArr.push(`${animateTarget}:${style}`)
+      } else {
+        const styleInt = style as number
+        animationStyleArr.push(`${animateTarget}:${styleInt + getStyleOffset(animateEl.value.parentElement, animateTarget)}px;`)
+      }
     })
     animationStyle.value = animationStyleArr.toString().replace(',', '')
   }

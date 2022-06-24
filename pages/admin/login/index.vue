@@ -32,7 +32,7 @@
 
 <template>
     <div class="auth__landing">
-      <div class="auth__form center--absolute b-r-t-1 b-r-b-3 p-3">
+      <div class="auth__form absolute--center b-r-t-1 b-r-b-3 p-3">
         <UtilsAnimation
           :animateTargets="['height', 'width']"
         >

@@ -43,7 +43,7 @@
 
   const mapValidationMessagesToContent = () => {
     formFields.forEach((field : FormField) => {
-      field.validation.validationMessage = $content(`global.forms.validationErrors.${field.validation.validator}`)
+      if (field.validation) field.validation.validationMessage = $content(`global.forms.validationErrors.${field.validation.validator}`)
     })
   }
 

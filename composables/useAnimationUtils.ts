@@ -1,6 +1,12 @@
 import { sanitizeStylingValue } from "~~/utils"
+import { Errors } from '~~/types/enums';
 
 const useAnimationUtils = () => {
+  const getConstants = () => {
+    return {
+      FALLBACK: '100%'
+    }
+  }
   
   const getStyleOffset = (parentComponent : HTMLElement, targetStyle : String) => {
     const parentComponentStyles = getComputedStyle(parentComponent)
@@ -29,12 +35,17 @@ const useAnimationUtils = () => {
         styleInt = widest
       })
     }
+    if (!styleInt) {
+      console.log(`${Errors.FE_ERROR_ANIMATION_STYLE} ${targetStyle}`)
+      return '100%';
+    }
     return styleInt
   }
 
 
 
   return {
+    getConstants,
     getStyleOffset,
     getStyleToAnimate
   }
