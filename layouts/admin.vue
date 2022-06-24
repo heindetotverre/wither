@@ -23,15 +23,16 @@
     </Html>
 
     <AdminBar :user="user" />
-
-    <UtilsAnimation
-      :animateTargets="['height', 'width']"
-    >
       <slot />
-    </UtilsAnimation>
   </div>
 </template>
 
 <style lang="scss">
   @import "~~/assets/scss/wither/admin.scss";
+</style>
+
+<style lang="scss" scoped>
+  .admin {
+    @include spread
+  }
 </style>

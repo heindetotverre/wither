@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { PropType, Ref } from 'vue'
+  import { PropType } from 'vue'
 
   const { getConstants, getStyleOffset, getStyleToAnimate } = useAnimationUtils()
 
@@ -30,19 +30,21 @@
     unsetObserver()
   })
 
-  const setAnimation = () => {
-    transitionStyle.value = `transition:all ${props.transitionSpeed}s ease;`
-    const animationStyleArr = [] as string[]
-    props.animateTargets.forEach((animateTarget : string) => {
-      const style = getStyleToAnimate(animateEl.value, animateTarget)
-      if (style === getConstants().FALLBACK) {
-        animationStyleArr.push(`${animateTarget}:${style}`)
-      } else {
-        const styleInt = style as number
-        animationStyleArr.push(`${animateTarget}:${styleInt + getStyleOffset(animateEl.value.parentElement, animateTarget)}px;`)
-      }
-    })
-    animationStyle.value = animationStyleArr.toString().replace(',', '')
+  const setAnimation = async () => {
+    await setTimeout(() => {
+      transitionStyle.value = `transition:all ${props.transitionSpeed}s ease;`
+      const animationStyleArr = [] as string[]
+      props.animateTargets.forEach((animateTarget : string) => {
+        const style = getStyleToAnimate(animateEl.value, animateTarget)
+        if (style === getConstants().FALLBACK) {
+          animationStyleArr.push(`${animateTarget}:${style}`)
+        } else {
+          const styleInt = style as number
+          animationStyleArr.push(`${animateTarget}:${styleInt + getStyleOffset(animateEl.value.parentElement, animateTarget)}px;`)
+        }
+      })
+      animationStyle.value = animationStyleArr.toString().replace(',', '')
+    }, 3)
   }
 
   const setObserver = () => {

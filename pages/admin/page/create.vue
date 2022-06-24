@@ -58,16 +58,38 @@
 </script>
 
 <template>
-  <div>
-    <div>
-      <p>{{ Object.keys(query).length ? 'Edit page' : 'Create page' }}</p>
-      <RendererMultiForm
-        :form="createPageForm"
-        @inputField="onInput($event)"
-        @submit="createPage($event)"
-      />
-    </div>
-    <NuxtLink :to="`/${AdminPath.Admin}/${AdminPath.Pages}/${AdminPath.Management}`">Cancel</NuxtLink>
-    <div v-if="response">{{ response }}</div>
+  <div class="page-create absolute--center b-r-t-1 b-r-b-3 p-3">
+    <UtilsAnimation
+      :animateTargets="['height']"
+    >
+      <div>
+        <p>{{ Object.keys(query).length ? 'Edit page' : 'Create page' }}</p>
+        <RendererMultiForm
+          :form="createPageForm"
+          @inputField="onInput($event)"
+          @submit="createPage($event)"
+        />
+      </div>
+      <NuxtLink :to="`/${AdminPath.Admin}/${AdminPath.Pages}/${AdminPath.Management}`">Cancel</NuxtLink>
+      <div v-if="response">{{ response }}</div>
+    </UtilsAnimation>
   </div>
 </template>
+
+<style lang="scss" scoped>
+  .page-create {
+      @include box-shadow-1;
+      background-color: $feather-grey;
+      max-height: 80vh;
+      overflow: auto;
+      width: 300px;
+
+      @include breakpoint($m) {
+        width: 600px;
+      }
+
+      @include breakpoint($l) {
+        width: 900px;
+      }
+  }
+</style>

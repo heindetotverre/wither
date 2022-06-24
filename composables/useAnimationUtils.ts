@@ -4,7 +4,7 @@ import { Errors } from '~~/types/enums';
 const useAnimationUtils = () => {
   const getConstants = () => {
     return {
-      FALLBACK: '100%'
+      FALLBACK: '100%;'
     }
   }
   
@@ -22,9 +22,8 @@ const useAnimationUtils = () => {
     let styleInt : number = 0;
     const elArr = [...elToAnimate.children] as []
     if (targetStyle === 'height') {
-      
       elArr.forEach((childEl : HTMLElement) => {
-        styleInt = styleInt + childEl.clientHeight
+        styleInt = childEl.clientHeight + styleInt
       })
     }
     if (targetStyle === 'width') {
@@ -37,7 +36,7 @@ const useAnimationUtils = () => {
     }
     if (!styleInt) {
       console.log(`${Errors.FE_ERROR_ANIMATION_STYLE} ${targetStyle}`)
-      return '100%';
+      return '100%;';
     }
     return styleInt
   }
