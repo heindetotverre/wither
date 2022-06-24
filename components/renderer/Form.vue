@@ -61,7 +61,7 @@
 </script>
 
 <template>
-  <form class="p-2" @keypress.enter="onSubmit()">
+  <form class="m-t-3 m-b-4" @keypress.enter="onSubmit()">
     <component
       v-for="field in formFields"
       :domclass="field.domclass"
@@ -81,14 +81,16 @@
       @focus="onFocus(field)"
       @input="onInput(field, $event)"
     >
-      <slot></slot>
-      <div v-if="!field.validation?.validated">{{ field.validation?.validationMessage }}</div>
+      <template #error-message>
+          <div class="m-t-1 error--message" v-if="!field.validation?.validated">{{ field.validation?.validationMessage }}</div>
+      </template>
     </component>
-    <div class="error" v-if="showValidationError">
+    <div class="m-t-1 error--message" v-if="showValidationError">
       <span>{{ collectValidationMessages() }}</span>
     </div>
     <component
       v-for="(button, index) in buttons"
+      class="m-t-2"
       :key="index"
       :is="dynamicComponent(button.component, true)"
       :disabled="isDisabled(button)"

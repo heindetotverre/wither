@@ -84,3 +84,45 @@
   top: 50%;
   transform: translate(-50%, -50%);
 }
+
+.b-r-1 {
+  border-radius: 1rem;
+}
+
+.b-r-2 {
+  border-radius: 2rem;
+}
+
+.b-r-3 {
+  border-radius: 3rem;
+}
+
+.b-r-t-1 {
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+}
+
+.b-r-t-2 {
+  border-top-left-radius: 2rem;
+  border-top-right-radius: 2rem;
+}
+
+.b-r-t-3 {
+  border-top-left-radius: 3rem;
+  border-top-right-radius: 3rem;
+}
+
+.b-r-b-1 {
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+}
+
+.b-r-b-2 {
+  border-bottom-left-radius: 2rem;
+  border-bottom-right-radius: 2rem;
+}
+
+.b-r-b-3 {
+  border-bottom-left-radius: 3rem;
+  border-bottom-right-radius: 3rem;
+}

@@ -4,6 +4,7 @@ import { createUUID } from "./createUUID"
 import { flattenObject } from "./flattenObject"
 import { getUrlPathFromDynamicRoute } from "./getUrlPathFromDynamicRoute"
 import { isFront } from "./isFront"
+import { sanitizeStylingValue } from "./sanitzeStylingValue"
 import { sanitzeComponentContent } from "./sanitizeComponentContent"
 
 export {
@@ -13,5 +14,6 @@ export {
   flattenObject,
   getUrlPathFromDynamicRoute,
   isFront,
-  sanitzeComponentContent
+  sanitzeComponentContent,
+  sanitizeStylingValue
 }

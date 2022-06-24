@@ -1,0 +1,27 @@
+.input {
+  &__wrapper {
+    margin-top: 2rem;
+  }
+
+  &__label {
+    display: block;
+    margin-bottom: .5rem;
+  }
+
+  &__el {
+    display: block;
+    padding: .5rem;
+    width: 100%;
+  }
+}
+
+.error {
+  .input__el, &--message{
+    border-color: red;
+    color: red;
+  }
+
+  &--message {
+    text-align: right;
+  }
+}

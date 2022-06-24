@@ -1,0 +1,6 @@
+button {
+  padding: .5rem 1rem;
+  &[disabled] {
+    cursor:not-allowed;
+  }
+}

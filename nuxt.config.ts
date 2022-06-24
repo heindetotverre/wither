@@ -18,5 +18,17 @@ export default defineNuxtConfig({
   components: {
     global: true,
     dirs: ['~/components']
-  }
+  },
+  css: ['~/assets/scss/wither/main.scss'],
+  vite: {
+    css: {
+        preprocessorOptions: {
+            scss: {
+                  additionalData: [
+                    `@import "~/assets/scss/wither/global.scss";`
+                  ]
+              },
+          },
+      },
+  },
 })

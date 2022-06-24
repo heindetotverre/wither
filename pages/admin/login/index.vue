@@ -3,8 +3,6 @@
   import { formStore } from '~~/store/forms'
   import { User } from '~~/types/types'
   import { Auth, FormNames } from '~~/types/enums'
-import { vShow } from 'vue'
-import { V_ON_WITH_KEYS } from '@vue/compiler-dom'
 
   const response = ref(),
     formRenderer = ref(Auth.Login),
@@ -34,37 +32,52 @@ import { V_ON_WITH_KEYS } from '@vue/compiler-dom'
 </script>
 
 <template>
-  <div class="login__landing">
-    <p>Login section</p>
-    <div
-      v-if="formRenderer === Auth.Login"
-      class="p-2 login__form center--absolute"
-    >
-      <RendererForm :form="loginForm" @submit="auth(Auth.Login, $event)" />
-      <p>Not a member yet?</p>
-      <button @click="switchAuthMethod()">Register yourself</button>
-    </div>
-    <div
-      v-if="formRenderer === Auth.Register"
-      class="p-2 login__form center--absolute"
-    >
-      <RendererForm :form="registerForm" @submit="auth(Auth.Register, $event)" />
-      <p>Already a member?</p>
-      <button @click="switchAuthMethod()">Go to login</button>
-    </div>
-    <div v-if="response">{{ response.error ? response.error.message : response }}</div>
+    <div class="auth__landing">
+      <div class="auth__form center--absolute b-r-t-1 b-r-b-3 p-3">
+        <UtilsAnimation
+          :animateTargets="['height', 'width']"
+        >
+          <p>Authentication</p>
+          <div
+            class="login"
+            v-if="formRenderer === Auth.Login"
+          >
+            <RendererForm :form="loginForm" @submit="auth(Auth.Login, $event)" />
+            <p>Not a member yet?</p>
+            <button class="m-t-1" @click="switchAuthMethod()">Register yourself</button>
+          </div>
+          <div
+            class="register"
+            v-if="formRenderer === Auth.Register"
+          >
+            <RendererForm :form="registerForm" @submit="auth(Auth.Register, $event)" />
+            <p>Already a member?</p>
+            <button class="m-t-1" @click="switchAuthMethod()">Go to login</button>
+          </div>
+        </UtilsAnimation>
+      </div>
+      <div v-if="response">{{ response.error ? response.error.message : response }}</div>
   </div>
 </template>
 
-<style lang="less" scoped>
-.login {
+<style lang="scss" scoped>
+.auth {
   &__landing {
     height: 100vh;
     width: 100vw;
+
+    .login {
+      width: 300px;
+    }
+
+    .register {
+      width: 600px;
+    }
   }
 
   &__form {
-    width: 30rem;
+    @include box-shadow-1;
+    background-color: $feather-grey;
   }
 }
 </style>

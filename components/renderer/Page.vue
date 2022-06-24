@@ -44,6 +44,6 @@
   </div>
 </template>
 
-<style less>
-@import "~~/assets/less/wither/front.less";
+<style lang="scss">
+  @import "~~/assets/scss/wither/front.scss";
 </style>

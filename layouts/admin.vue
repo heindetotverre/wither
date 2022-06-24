@@ -28,6 +28,6 @@
   </div>
 </template>
 
-<style lang="less">
-@import "~~/assets/less/wither/admin.less";
+<style lang="scss">
+  @import "~~/assets/scss/wither/admin.scss";
 </style>

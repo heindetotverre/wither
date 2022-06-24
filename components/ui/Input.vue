@@ -69,9 +69,10 @@
 </script>
 
 <template>
-  <div :class="domclass" v-if="visible">
-    <label :for="id">{{ label }}</label>
+  <div :class="[domclass, 'input__wrapper']" v-if="visible">
+    <label class="input__label" :for="id">{{ label }}</label>
     <input
+      class="input__el"
       :id="id"
       :autocomplete="autocomplete"
       :value="currentValue"
@@ -81,6 +82,6 @@
       @focus="emits('focus')"
       @input="input($event)"
     />
-    <slot />
+    <slot name="error-message" />
   </div>
 </template>
