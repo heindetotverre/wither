@@ -1,6 +1,7 @@
 import { sanitizeStylingValue } from "~~/utils"
 
 const useAnimationUtils = () => {
+  
   const getStyleOffset = (parentComponent : HTMLElement, targetStyle : String) => {
     const parentComponentStyles = getComputedStyle(parentComponent)
     if (targetStyle === 'height') {

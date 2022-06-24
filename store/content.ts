@@ -1,7 +1,7 @@
 import { reactive, readonly, } from "vue"
 import { ContentField, DynamicForm, FormField } from "~~/types/types"
 import { formStore } from "./forms"
-import { textInputField, imageInputfield } from "~~/assets/resources/forms"
+import { textInputField, imageInputfield } from "~~/assets/resources/definedForms"
 import { createId, flattenObject, sanitzeComponentContent } from "~~/utils"
 
 // externals

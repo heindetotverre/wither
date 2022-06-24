@@ -21,6 +21,12 @@
     buttons = props.form.fields.filter(f => f.class === 'Button'),
     showValidationError = ref()
 
+  onMounted(() => {
+    mapValidationMessagesToContent()
+  })
+
+  const { $content } = useNuxtApp()
+
   const collectValidationMessages = () => {
     return 'Oops, error!'
   }
@@ -33,6 +39,12 @@
     return field.disabled
       ? field.disabled
       : field.class === 'Button' && fullFormValidationHasError()
+  }
+
+  const mapValidationMessagesToContent = () => {
+    formFields.forEach((field : FormField) => {
+      field.validation.validationMessage = $content(`global.forms.validationErrors.${field.validation.validator}`)
+    })
   }
 
   const onBlur = (field: FormField) => {
@@ -69,7 +81,7 @@
       :autocomplete="field.autocomplete"
       :disabled="isDisabled(field)"
       :id="field.id"
-      :label="field.label"
+      :label="$content(`global.forms.labels.${field.key}`)"
       :key="field.key"
       :name="field.key"
       :type="field.type"
@@ -94,7 +106,7 @@
       :key="index"
       :is="dynamicComponent(button.component, true)"
       :disabled="isDisabled(button)"
-      :label="button.label"
+      :label="$content(`global.forms.buttons.${button.key}`)"
       @click="onSubmit()"
     ></component>
   </form>

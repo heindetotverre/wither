@@ -2,7 +2,7 @@ import { reactive, readonly, } from 'vue'
 import { Forms, FormEvent, DynamicForm } from '~~/types/types'
 import { State } from '~~/types/enums'
 import { adminStore } from '~~/store/admin'
-import { presetForms } from '~~/assets/resources/forms'
+import { presetForms } from '~~/assets/resources/definedForms'
 import { mapValidators } from '~~/utils/validators/mapValidators'
 
 // externals

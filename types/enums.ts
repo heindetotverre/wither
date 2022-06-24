@@ -28,7 +28,8 @@ enum Errors {
   GQL_ERROR_GET_ADMIN_DATA = 'Error: Couldn\'t retireve admin data',
   GQL_ERROR_UPDATE_USER = 'Error: Couldn\'t update page with userId',
   GQL_ERROR_CREATE_TOKEN = 'Error: Couldn\'t create token for user',
-  FE_ERROR_ANIMATION_COMPONENT = 'Error: Only one root element is allowed inside an animation component'
+  FE_ERROR_ANIMATION_COMPONENT = 'Error: Only one root element is allowed inside an animation component',
+  FE_ERROR_CONTENT_NOTFOUND = 'Error: No content was found with search path: '
 }
 
 enum FormNames {

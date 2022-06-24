@@ -1,6 +1,6 @@
 import { createId } from '~~/utils'
 import { FormField, Forms } from '~~/types/types'
-import { presetComponents } from '~~/assets/resources/components'
+import { presetComponents } from '~~/assets/resources/definedComponents'
 
 const loginFormName: keyof Forms = 'login',
   registerFormName: keyof Forms = 'register',
@@ -98,7 +98,7 @@ export const presetForms = {
       },
       {
         ...button,
-        key: 'button',
+        key: 'login',
         label: 'Login',
         id: createId(loginFormName)
       }
@@ -117,7 +117,7 @@ export const presetForms = {
         key: 'firstName',
         id: createId(registerFormName),
         validation: {
-          validator: "notempty",
+          validator: "nonumber",
           validated: true,
           validationMessage: 'no numbers allowed'
         }
@@ -128,7 +128,7 @@ export const presetForms = {
         key: 'lastName',
         id: createId(registerFormName),
         validation: {
-          validator: "notempty",
+          validator: "nonumber",
           validated: true,
           validationMessage: 'no numbers allowed'
         }
@@ -154,7 +154,7 @@ export const presetForms = {
       {
         ...button,
         label: 'Register',
-        key: 'button',
+        key: 'register',
         id: createId(registerFormName)
       }
     ] as FormField[]
@@ -298,7 +298,7 @@ export const presetForms = {
         key: 'firstName',
         id: createId(updateUserInfoFormName),
         validation: {
-          validator: "notempty",
+          validator: "nonumber",
           validated: true,
           validationMessage: 'no numbers allowed'
         }
@@ -309,7 +309,7 @@ export const presetForms = {
         key: 'lastName',
         id: createId(updateUserInfoFormName),
         validation: {
-          validator: "notempty",
+          validator: "nonumber",
           validated: true,
           validationMessage: 'no numbers allowed'
         }

@@ -9,7 +9,6 @@
     loginForm = ref(formStore.get.getLoginForm()),
     registerForm = ref(formStore.get.getRegisterForm())
 
-
   const auth = async (method: Auth, event: User) => {
     const authResult = await authStore.do[method](event) as any
     if (!authResult?.response?.errors) {
@@ -37,14 +36,14 @@
         <UtilsAnimation
           :animateTargets="['height', 'width']"
         >
-          <p>Authentication</p>
+          <p>{{ $content('admin.auth.title') }}</p>
           <div
             class="login"
             v-if="formRenderer === Auth.Login"
           >
             <RendererForm :form="loginForm" @submit="auth(Auth.Login, $event)" />
             <p>Not a member yet?</p>
-            <button class="m-t-1" @click="switchAuthMethod()">Register yourself</button>
+            <button class="m-t-1" @click="switchAuthMethod()">{{ $content('admin.auth.buttons.goToRegister') }}</button>
           </div>
           <div
             class="register"
@@ -52,7 +51,7 @@
           >
             <RendererForm :form="registerForm" @submit="auth(Auth.Register, $event)" />
             <p>Already a member?</p>
-            <button class="m-t-1" @click="switchAuthMethod()">Go to login</button>
+            <button class="m-t-1" @click="switchAuthMethod()">{{ $content('admin.auth.buttons.goToLogin') }}</button>
           </div>
         </UtilsAnimation>
       </div>
@@ -71,7 +70,11 @@
     }
 
     .register {
-      width: 600px;
+      width: 300px;
+
+      @include breakpoint($m) {
+        width: 600px;
+      }
     }
   }
 
