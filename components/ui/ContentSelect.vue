@@ -2,6 +2,8 @@
   import { formStore } from '~~/store/forms'
   import { changeArrayPos, createId } from '~~/utils'
   import { Mode, Sort } from '~~/types/enums'
+  import LazyRendererForm from "~~/components/renderer/Form.vue"
+
 
   const props = defineProps({
     disabled: {
@@ -96,6 +98,7 @@
   }
 
   const triggerFieldsToFill = (id: string) => {
+    console.log(id)
     document.body.addEventListener('click', handleClickOutside)
     activeComponent.value = id
     contentFormToFill.value = formStore.get.getDynamicFormById(id)
@@ -129,10 +132,10 @@
         :slug="getSlug()"
         :name="component"
         :id="component"
-        @click="triggerFieldsToFill(component)"
+        @triggerFieldsToFill="triggerFieldsToFill(component)"
       />
       <div v-if="activeComponent === component">
-        <RendererForm :form="contentFormToFill" />
+        <LazyRendererForm :form="contentFormToFill" />
       </div>
     </div>
     <button @click.prevent="openComponents()">Add component</button>

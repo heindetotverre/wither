@@ -3,6 +3,8 @@
   import { adminStore } from '~~/store/admin'
   import { FormEvent, Page } from '~~/types/types'
   import { AdminPath } from '~~/types/enums'
+  import LazyRendererMultiForm from "~~/components/renderer/MultiForm.vue"
+  import LazyUtilsAnimation from "~~/components/utils/Animation.vue"
 
   definePageMeta({
     layout: 'admin'
@@ -59,18 +61,18 @@
 
 <template>
   <div class="page-create absolute--center b-r-t-1 b-r-b-3 p-3">
-    <UtilsAnimation
+    <LazyUtilsAnimation
       :animateTargets="['height']"
     >
       <p>{{ Object.keys(query).length ? 'Edit page' : 'Create page' }}</p>
-      <RendererMultiForm
+      <LazyRendererMultiForm
         :form="createPageForm"
         @inputField="onInput($event)"
         @submit="createPage($event)"
       />
       <NuxtLink :to="`/${AdminPath.Admin}/${AdminPath.Pages}/${AdminPath.Management}`">Cancel</NuxtLink>
       <div v-if="response">{{ response }}</div>
-    </UtilsAnimation>
+    </LazyUtilsAnimation>
   </div>
 </template>
 

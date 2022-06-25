@@ -1,6 +1,7 @@
 <script setup lang="ts">
   import { adminStore } from '~~/store/admin'
   import { authStore } from '~~/store/auth'
+  import LazyAdminBar from "~~/components/admin/Bar.vue"
 
   const tokenId = useCookie<Record<string, any>>('witherLoginToken'),
     isLoggedIn = computed(() => authStore.get.getTokenState()),
@@ -22,8 +23,8 @@
       </Head>
     </Html>
 
-    <AdminBar :user="user" />
-      <slot />
+    <LazyAdminBar :user="user" />
+    <slot />
   </div>
 </template>
 

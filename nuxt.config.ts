@@ -15,10 +15,6 @@ export default defineNuxtConfig({
       GQL_HOST: process.env.GQL_HOST
     }
   },
-  components: {
-    global: true,
-    dirs: ['~/components']
-  },
   css: ['~/assets/scss/wither/main.scss'],
   vite: {
     css: {

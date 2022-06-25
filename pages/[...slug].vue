@@ -3,6 +3,7 @@
   import { getUrlPathFromDynamicRoute } from '~~/utils'
   import { authStore } from '~~/store/auth'
   import { Cookie } from '~~/types/enums'
+  import LazyRendererPage from "~~/components/renderer/Page.vue"
 
   const cookie = ref()
 
@@ -15,8 +16,5 @@
   </script>
 
 <template>
-  <div>
-    <PageComponentsCookieWall v-if="cookie !== Cookie.Accepted" />
-    <RendererPage :path="path" />
-  </div>
+  <LazyRendererPage :path="path" />
 </template>

@@ -6,6 +6,7 @@ import { flattenObject } from "./flattenObject"
 import { getUrlPathFromDynamicRoute } from "./getUrlPathFromDynamicRoute"
 import { isFront } from "./isFront"
 import { sanitizeStylingValue } from "./sanitzeStylingValue"
+import { sanitzeComponentName } from "./sanitizecomponentName"
 import { sanitzeComponentContent } from "./sanitizeComponentContent"
 
 export {
@@ -17,5 +18,6 @@ export {
   getUrlPathFromDynamicRoute,
   isFront,
   sanitzeComponentContent,
+  sanitzeComponentName,
   sanitizeStylingValue
 }

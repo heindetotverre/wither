@@ -7,7 +7,7 @@
   })
 
   const emits = defineEmits([
-    'setFields'
+    'setFields',
   ])
 
   emits('setFields', [

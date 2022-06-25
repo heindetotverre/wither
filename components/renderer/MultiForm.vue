@@ -2,6 +2,7 @@
   import { formStore } from '~~/store/forms'
   import { PropType } from 'vue'
   import { Form, FormField } from '~~/types/types'
+  import LazyRendererForm from "~~/components/renderer/Form.vue"
 
   const props = defineProps({
     form: {
@@ -57,7 +58,7 @@
     </div>
   </div>
   <div v-for="(formPart, index) of form.formInfo.parts" :key="index">
-    <RendererForm
+    <LazyRendererForm
       v-if="activeTab === formPart"
       :form="getSplitForm(formPart)"
       @inputField="emits('inputField', $event)"

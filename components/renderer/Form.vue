@@ -77,7 +77,7 @@
     <component
       v-for="field in formFields"
       :domclass="field.domclass"
-      :is="dynamicComponent(field.component, true)"
+      :is="dynamicComponent(field.component)"
       :autocomplete="field.autocomplete"
       :disabled="isDisabled(field)"
       :id="field.id"
@@ -104,7 +104,7 @@
       v-for="(button, index) in buttons"
       class="m-t-2"
       :key="index"
-      :is="dynamicComponent(button.component, true)"
+      :is="dynamicComponent(button.component)"
       :disabled="isDisabled(button)"
       :label="$content(`global.forms.buttons.${button.key}`)"
       @click="onSubmit()"

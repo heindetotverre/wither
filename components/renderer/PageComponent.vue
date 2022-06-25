@@ -3,6 +3,10 @@
   import { Mode } from '~~/types/enums'
   import { ContentField, FormField } from '~~/types/types'
 
+  const emits = defineEmits([
+    'triggerFieldsToFill'
+  ])
+
   const props = defineProps({
     mode: {
       type: Number,
@@ -34,12 +38,11 @@
 </script>
 
 <template>
-  <div>
-    <component
-      :content="content"
-      :is="dynamicComponent(name)"
-      @setFields="setFields($event)"
-    />
-    <div v-if="props.mode === Mode.Back">Backend of {{ id }} component</div>
-  </div>
+  <component
+    :content="content"
+    :is="dynamicComponent(name)"
+    @click="emits('triggerFieldsToFill')"
+    @setFields="setFields($event)"
+  />
+  <div v-if="props.mode === Mode.Back">Backend of {{ id }} component</div>
 </template>

@@ -1,6 +1,8 @@
 import { createId } from '~~/utils'
 import { FormField, Forms } from '~~/types/types'
-import { presetComponents } from '~~/assets/resources/definedComponents'
+import { themeComponentsMeta } from '~~/theme/components/index'
+
+const componentKeys = themeComponentsMeta.map(component => component.key)
 
 const loginFormName: keyof Forms = 'login',
   registerFormName: keyof Forms = 'register',
@@ -64,8 +66,6 @@ const loginFormName: keyof Forms = 'login',
     component: 'UiButton',
     visible: true
   }
-
-const componentKeys = presetComponents.map(component => component.key)
 
 export {
   textInputField,

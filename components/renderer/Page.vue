@@ -2,6 +2,7 @@
   import { frontStore } from '~~/store/front'
   import { authStore } from '~~/store/auth'
   import { Mode } from '~~/types/enums'
+  import LazyRendererPageComponent from "~~/components/renderer/PageComponent.vue"
 
   const props = defineProps({
     path: {
@@ -30,7 +31,7 @@
     <template v-if="is404" #404>This is a 404 layout template</template>
   </NuxtLayout>
   <div v-if="!noHomePage && !is404">
-    <RendererPageComponent
+    <LazyRendererPageComponent
       v-for="(component, index) in page?.pageComponents"
       :key="index"
       :mode="Mode.Front"

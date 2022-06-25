@@ -3,6 +3,9 @@
   import { formStore } from '~~/store/forms'
   import { User } from '~~/types/types'
   import { Auth, FormNames } from '~~/types/enums'
+  import LazyRendererForm from "~~/components/renderer/Form.vue"
+  import LazyUtilsAnimation from "~~/components/utils/Animation.vue"
+
 
   const response = ref(),
     formRenderer = ref(Auth.Login),
@@ -33,7 +36,7 @@
 <template>
     <div class="auth__landing">
       <div class="auth__form absolute--center b-r-t-1 b-r-b-3 p-3">
-        <UtilsAnimation
+        <LazyUtilsAnimation
           :animateTargets="['height', 'width']"
         >
           <p class="auth__title">{{ $content('admin.auth.title') }}</p>
@@ -41,7 +44,7 @@
             class="login"
             v-if="formRenderer === Auth.Login"
           >
-            <RendererForm :form="loginForm" @submit="auth(Auth.Login, $event)" />
+            <LazyRendererForm :form="loginForm" @submit="auth(Auth.Login, $event)" />
             <p>Not a member yet?</p>
             <button class="m-t-1" @click="switchAuthMethod()">{{ $content('admin.auth.buttons.goToRegister') }}</button>
           </div>
@@ -49,11 +52,11 @@
             class="register"
             v-if="formRenderer === Auth.Register"
           >
-            <RendererForm :form="registerForm" @submit="auth(Auth.Register, $event)" />
+            <LazyRendererForm :form="registerForm" @submit="auth(Auth.Register, $event)" />
             <p>Already a member?</p>
             <button class="m-t-1" @click="switchAuthMethod()">{{ $content('admin.auth.buttons.goToLogin') }}</button>
           </div>
-        </UtilsAnimation>
+        </LazyUtilsAnimation>
       </div>
       <div v-if="response">{{ response.error ? response.error.message : response }}</div>
   </div>

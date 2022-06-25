@@ -3,6 +3,8 @@
   import { formStore } from '~~/store/forms'
   import { Forms, User } from '~~/types/types'
   import { AdminPath } from '~~/types/enums'
+  import LazyRendererForm from "~~/components/renderer/Form.vue"
+
 
   definePageMeta({
     layout: 'admin'
@@ -36,12 +38,12 @@
 <template>
   <div>
     <p>Edit user info</p>
-    <RendererForm
+    <LazyRendererForm
       :form="updateUserInfoForm"
       @submit="editUser($event, updateUserInfoForm.formInfo.name)"
     />
     <p>Edit credentials</p>
-    <RendererForm
+    <LazyRendererForm
       :form="updateUserCredentials"
       @submit="editUser($event, updateUserCredentials.formInfo.name)"
     />
