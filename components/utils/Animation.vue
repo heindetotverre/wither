@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { PropType } from 'vue'
 
-  const { getConstants, getStyleOffset, getStyleToAnimate } = useAnimationUtils()
+  const { getConstants, getStyleToAnimate } = useAnimationUtils()
 
   const props = defineProps({
     animateTargets: {
@@ -40,7 +40,7 @@
           animationStyleArr.push(`${animateTarget}:${style}`)
         } else {
           const styleInt = style as number
-          animationStyleArr.push(`${animateTarget}:${styleInt + getStyleOffset(animateEl.value.parentElement, animateTarget)}px;`)
+          animationStyleArr.push(`${animateTarget}:${styleInt}px;`)
         }
       })
       animationStyle.value = animationStyleArr.toString().replace(',', '')
@@ -51,7 +51,8 @@
     mutationOberser = new MutationObserver(setAnimation);
     mutationOberser.observe(animateEl.value, {
       childList: true,
-      subtree: true 
+      subtree: true,
+      attributes: true
     });
   }
   const unsetObserver = () => {

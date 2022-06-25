@@ -51,8 +51,10 @@
 </script>
 
 <template>
-  <div v-for="(formPart, index) of form.formInfo.parts" :key="index">
-    <button @click="handleTab(formPart)">{{ formPart }}</button>
+  <div class="tabs m-t-1">
+    <div class="tabs__tab" v-for="(formPart, index) of form.formInfo.parts" :key="index">
+      <button @click="handleTab(formPart)">{{ formPart }}</button>
+    </div>
   </div>
   <div v-for="(formPart, index) of form.formInfo.parts" :key="index">
     <RendererForm
@@ -70,3 +72,9 @@
     @click="onSubmit()"
   ></component>
 </template>
+
+<style lang="scss" scoped>
+  .tabs {
+    display: flex;
+  }
+</style>

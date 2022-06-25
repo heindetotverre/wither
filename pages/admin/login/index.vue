@@ -36,7 +36,7 @@
         <UtilsAnimation
           :animateTargets="['height', 'width']"
         >
-          <p>{{ $content('admin.auth.title') }}</p>
+          <p class="auth__title">{{ $content('admin.auth.title') }}</p>
           <div
             class="login"
             v-if="formRenderer === Auth.Login"
@@ -76,6 +76,10 @@
         width: 600px;
       }
     }
+  }
+
+  &__title {
+    display: inline;
   }
 
   &__form {
