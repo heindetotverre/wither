@@ -55,7 +55,7 @@
     <div>
       <h1>{{ content.title }}</h1>
       <h2>{{ content.subTitle }}</h2>
-      <a :href="content['link.url']">{{ content['link.text'] }}</a>
+      <a :href="content.url">{{ content.text }}</a>
     </div>
     <div>
       <img :src="content.image" />

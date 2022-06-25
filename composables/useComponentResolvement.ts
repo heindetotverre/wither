@@ -9,7 +9,7 @@ import LazyUiMultiSelect from "~~/components/ui/MultiSelect.vue"
 import LazyUiSelect from "~~/components/ui/Select.vue"
 
 //theme
-import * as snippets from "~~/theme/components/index"
+import * as themeComponents from "~~/theme/components/index"
 
 import { sanitzeComponentName } from "~~/utils"
 
@@ -44,7 +44,7 @@ const useComponentResolvement = () => {
       return LazyUiSelect
     }
 
-    const [, themeComponent] = Object.entries(snippets).find(([key, value]) => {
+    const [, themeComponent] = Object.entries(themeComponents).find(([key, value]) => {
       if (key === sanitzeComponentName(componentName)) {
         return value
       }

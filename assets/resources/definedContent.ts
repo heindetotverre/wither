@@ -17,7 +17,11 @@ export default {
             title: 'page title',
             description: 'page description',
             keywords: 'page keywords',
-            pageComponents: 'page components'
+            pageComponents: 'page components',
+            subTitle: 'sub title',
+            image: 'image',
+            url: 'url',
+            text: 'text'
           },
           validationErrors: {
             email: 'is not an email',

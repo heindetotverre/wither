@@ -15,7 +15,10 @@ const state = reactive({
 
 const fetchSinglePage = async (pageSlug: string) => {
   try {
-    const { data } = await useAsyncData('fetchSinglePage', async () => GqlFetchSinglePage({slug: pageSlug}))
+    const { data } = await useAsyncData(`fetchSinglePage${pageSlug}`, async () => GqlFetchSinglePage({slug: pageSlug}))
+
+    console.log(pageSlug)
+    console.log(data.value)
 
     const componentData = data.value.getComponentContentBySlug as [DynamicForm]
     const page = data.value.getSinglePage as Page

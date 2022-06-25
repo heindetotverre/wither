@@ -16,5 +16,7 @@
   </script>
 
 <template>
-  <LazyRendererPage :path="path" />
+  <div>
+    <LazyRendererPage :path="path" />
+  </div>
 </template>

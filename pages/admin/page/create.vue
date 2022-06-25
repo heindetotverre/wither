@@ -60,7 +60,7 @@
 </script>
 
 <template>
-  <div class="page-create absolute--center b-r-t-1 b-r-b-3 p-3">
+  <div class="page-create absolute--horizontal b-r-t-1 b-r-b-3 p-3">
     <LazyUtilsAnimation
       :animateTargets="['height']"
     >
@@ -82,6 +82,7 @@
       background-color: $feather-grey;
       max-height: 80vh;
       overflow: auto;
+      top: 7rem;
       width: 300px;
 
       @include breakpoint($m) {
