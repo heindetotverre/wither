@@ -14,11 +14,12 @@ const useAnimationUtils = () => {
     const elArr = [...elToAnimate.children] as []
     if (targetStyle === 'height') {
       elArr.forEach((childEl : HTMLElement, index) => {
+        const elBounds = childEl.getBoundingClientRect()
         if (index === 0) {
-          topPos = childEl.getBoundingClientRect().top
+          topPos = elBounds.top
         }
         if (index === elArr.length - 1) {
-          bottomPos = childEl.getBoundingClientRect().bottom
+          bottomPos = elBounds.bottom
         }
       })
       styleInt = bottomPos - topPos

@@ -62,14 +62,12 @@
     <UtilsAnimation
       :animateTargets="['height']"
     >
-      <div>
-        <p>{{ Object.keys(query).length ? 'Edit page' : 'Create page' }}</p>
-        <RendererMultiForm
-          :form="createPageForm"
-          @inputField="onInput($event)"
-          @submit="createPage($event)"
-        />
-      </div>
+      <p>{{ Object.keys(query).length ? 'Edit page' : 'Create page' }}</p>
+      <RendererMultiForm
+        :form="createPageForm"
+        @inputField="onInput($event)"
+        @submit="createPage($event)"
+      />
       <NuxtLink :to="`/${AdminPath.Admin}/${AdminPath.Pages}/${AdminPath.Management}`">Cancel</NuxtLink>
       <div v-if="response">{{ response }}</div>
     </UtilsAnimation>

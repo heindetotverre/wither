@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { PropType } from 'vue'
+  import { PropType, nextTick } from 'vue'
 
   const { getConstants, getStyleToAnimate } = useAnimationUtils()
 
@@ -14,23 +14,21 @@
     }
   })
 
-  const animateEl = ref()
-  const animationStyle = ref()
-  const transitionStyle = ref()
+  const animateEl = ref(),
+    animationStyle = ref(),
+    transitionStyle = ref()
   let mutationOberser : MutationObserver
 
-  onMounted(() => {
+  onMounted(async () => {
     setObserver()
-    if (animateEl.value) {
-      setAnimation([])
-    }
+    setAnimation([])
   })
 
   onBeforeUnmount(() => {
     unsetObserver()
   })
 
-  const setAnimation = async (mutations : MutationRecord[]) => {
+  const setAnimation = (mutations : MutationRecord[]) => {
     const obtainStyles = () => {
       transitionStyle.value = `transition:all ${props.transitionSpeed}s ease;`
       const animationStyleArr = [] as string[]
@@ -45,9 +43,9 @@
       })
       animationStyle.value = animationStyleArr.toString().replace(',', '')
     }
-    await setTimeout(() => {
+    setTimeout(() => {
       obtainStyles()
-    }, mutations.length)
+    }, mutations.length || 50)
   }
 
   const setObserver = () => {
