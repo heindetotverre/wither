@@ -22,7 +22,7 @@
   onMounted(() => {
     setObserver()
     if (animateEl.value) {
-      setAnimation()
+      setAnimation([])
     }
   })
 
@@ -30,8 +30,8 @@
     unsetObserver()
   })
 
-  const setAnimation = async () => {
-    await setTimeout(() => {
+  const setAnimation = async (mutations : MutationRecord[]) => {
+    const obtainStyles = () => {
       transitionStyle.value = `transition:all ${props.transitionSpeed}s ease;`
       const animationStyleArr = [] as string[]
       props.animateTargets.forEach((animateTarget : string) => {
@@ -44,7 +44,10 @@
         }
       })
       animationStyle.value = animationStyleArr.toString().replace(',', '')
-    }, 3)
+    }
+    await setTimeout(() => {
+      obtainStyles()
+    }, mutations.length)
   }
 
   const setObserver = () => {
