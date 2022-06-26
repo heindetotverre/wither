@@ -29,22 +29,22 @@
 <template>
   <NuxtLayout name="page" :page="page">
     <template v-if="is404" #404>This is a 404 layout template</template>
+    <div v-if="!noHomePage && !is404">
+      <LazyRendererPageComponent
+        v-for="(component, index) in page?.pageComponents"
+        :key="index"
+        :mode="Mode.Front"
+        :slug="slug"
+        :name="component"
+        :id="component"
+      />
+    </div>
+    <div v-if="noHomePage">
+      <p>No Homepage yet, go and <a href="/admin/page/create">create one</a></p>
+    </div>
   </NuxtLayout>
-  <div v-if="!noHomePage && !is404">
-    <LazyRendererPageComponent
-      v-for="(component, index) in page?.pageComponents"
-      :key="index"
-      :mode="Mode.Front"
-      :slug="slug"
-      :name="component"
-      :id="component"
-    />
-  </div>
-  <div v-if="noHomePage">
-    <p>No Homepage yet, go and <a href="/admin/page/create">create one</a></p>
-  </div>
 </template>
 
 <style lang="scss">
-  @import "~~/assets/scss/wither/front.scss";
+  @import "~~/theme/resources/theme.scss";
 </style>

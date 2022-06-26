@@ -28,6 +28,10 @@
     <LazyAdminBar v-if="isLoggedIn" />
 
     <slot name="404" />
-    <slot />
+    <div class="theme">
+      <div class="theme__wrapper">
+          <slot />
+      </div>
+    </div>
   </div>
 </template>

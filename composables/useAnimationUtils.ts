@@ -34,7 +34,7 @@ const useAnimationUtils = () => {
     }
     if (!styleInt) {
       console.log(`${Errors.FE_ERROR_ANIMATION_STYLE} ${targetStyle}`)
-      return '100%;';
+      return getConstants().FALLBACK;
     }
     return styleInt
   }

@@ -98,7 +98,6 @@
   }
 
   const triggerFieldsToFill = (id: string) => {
-    console.log(id)
     document.body.addEventListener('click', handleClickOutside)
     activeComponent.value = id
     contentFormToFill.value = formStore.get.getDynamicFormById(id)

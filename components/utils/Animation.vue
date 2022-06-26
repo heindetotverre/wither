@@ -45,7 +45,7 @@
     }
     setTimeout(() => {
       obtainStyles()
-    }, mutations.length || 5)
+    }, mutations.length * 2 || 10)
   }
 
   const setObserver = () => {
