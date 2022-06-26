@@ -26,7 +26,7 @@ const login = async (formContent: User) => {
     }
     const { data, error } = await useAsyncData('createToken', async () => GqlCreateToken({ input: loginPayload }))
     if (data.value?.createToken?.id) {
-      await finishLogin(data.value.createToken.id as string, true)
+      finishAuth(data.value.createToken.id as string, true)
       return data.value
     }
     return error.value
@@ -40,7 +40,7 @@ const logout = async () => {
   try {
     const { data } = await useAsyncData('deleteToken', async () => GqlDeleteToken({ tokenId: state.tokenId }))
     if (data.value.deleteToken) {
-      await finishLogin('', false)
+      finishAuth('', false)
     }
   } catch (error) {
     console.log(`${Errors.GQL_ERROR_DELETE_TOKEN}: ${state.tokenId} | ${error}`)
@@ -64,7 +64,7 @@ const register = async (formContent: User) => {
     }
     const { data } = await useAsyncData('createUser', async () => GqlCreateUser({ input: userPayload }))
     if (data.value.createUser) {
-      await finishLogin(userPayload.id, true)
+      finishAuth(userPayload.id, true)
     }
     return data
   } catch (error) {
@@ -94,10 +94,16 @@ export const authStore = readonly({
 })
 
 // internals
-const finishLogin = async (data: string, set: boolean) => {
-  await useFetch<any>('/setcookie', { method: 'POST', body: { secret: data, set: set } })
-  state.hasToken = !state.hasToken
-  state.tokenId = set
-    ? data
-    : ''
+const finishAuth = (data: string, set: boolean) => {
+  const date = new Date()
+  if (set) {
+    date.setHours( date.getHours() + 2 )
+    document.cookie = `__wither_login_token__=${data}; expires=${date}; path=/`
+    state.tokenId = data
+    state.hasToken = true
+  } else {
+    date.setHours( date.getHours() - 2)
+    document.cookie = `__wither_login_token__=${data}; expires=${date}; path=/`
+  }
+  setTokenState(data)
 }

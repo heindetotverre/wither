@@ -1,15 +1,11 @@
 <script setup lang="ts">
   import { adminStore } from '~~/store/admin'
-  import { authStore } from '~~/store/auth'
 
   definePageMeta({
     layout: 'admin'
   })
 
-  const tokenId = useCookie<Record<string, any>>('witherLoginToken'),
-    user = computed(() => adminStore.get.getUser())
-
-  await authStore.do.setTokenState(tokenId.value?.id)
+  const user = computed(() => adminStore.get.getUser())
 </script>
 
 <template>

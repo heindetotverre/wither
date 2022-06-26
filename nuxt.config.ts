@@ -2,7 +2,7 @@ import { defineNuxtConfig } from 'nuxt'
 
 export default defineNuxtConfig({
   serverMiddleware: [
-    { path: '/setcookie', handler: '~/server/auth/setCookie.ts' }
+    { path: '/saveimages', handler: '~/server/images/uploadImages.ts' }
   ],
   meta: {
     meta: [

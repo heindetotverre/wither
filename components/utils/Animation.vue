@@ -53,7 +53,8 @@
     mutationOberser.observe(animateEl.value, {
       childList: true,
       subtree: true,
-      attributes: true
+      attributes: true,
+      attributeFilter: ['class']
     });
   }
   const unsetObserver = () => {

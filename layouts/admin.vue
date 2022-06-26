@@ -3,11 +3,8 @@
   import { authStore } from '~~/store/auth'
   import LazyAdminBar from "~~/components/admin/Bar.vue"
 
-  const tokenId = useCookie<Record<string, any>>('witherLoginToken'),
-    isLoggedIn = computed(() => authStore.get.getTokenState()),
+  const isLoggedIn = computed(() => authStore.get.getTokenState()),
     user = computed(() => adminStore.get.getUser())
-
-  await authStore.do.setTokenState(tokenId.value?.id)
 
   if (isLoggedIn.value) {
     await adminStore.get.fetchAdmin()
