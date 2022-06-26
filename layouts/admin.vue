@@ -28,10 +28,6 @@
   </div>
 </template>
 
-<style lang="scss">
-  @import "~~/assets/scss/wither/admin.scss";
-</style>
-
 <style lang="scss" scoped>
   .admin {
     @include spread
