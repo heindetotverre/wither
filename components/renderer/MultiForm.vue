@@ -16,12 +16,12 @@
     'submit'
   ])
 
-  const buttons = ref(props.form.fields.filter(f => f.class === 'Button'))
+  const buttons = ref(props.form.fields.filter(f => f.component === 'UiButton'))
 
   const isDisabled = (field: FormField) => {
     return field.disabled
       ? field.disabled
-      : field.class === 'Button' && fullFormValidationHasError()
+      : field.component === 'UiButton' && fullFormValidationHasError()
   }
 
   const formValues = computed(() => formStore.get.getFormValues(props.form.formInfo.name)),

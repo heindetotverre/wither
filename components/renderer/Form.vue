@@ -17,8 +17,8 @@
   ])
 
   const formValues = computed(() => formStore.get.getFormValues(props.form.formInfo.name)),
-    formFields = props.form.fields.filter(f => f.class !== 'Button'),
-    buttons = props.form.fields.filter(f => f.class === 'Button'),
+    formFields = props.form.fields.filter(f => f.component !== 'UiButton'),
+    buttons = props.form.fields.filter(f => f.component === 'UiButton'),
     showValidationError = ref()
 
   onMounted(() => {
@@ -38,7 +38,7 @@
   const isDisabled = (field: FormField) => {
     return field.disabled
       ? field.disabled
-      : field.class === 'Button' && fullFormValidationHasError()
+      : field.component === 'UiButton' && fullFormValidationHasError()
   }
 
   const mapValidationMessagesToContent = () => {

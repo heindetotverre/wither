@@ -2,6 +2,7 @@ import { reactive, readonly, } from "vue"
 import { User } from '~~/types/types'
 import { Errors, Group } from "~~/types/enums"
 import { createUUID } from "~~/utils"
+import { main as constants } from '~~/constants/main.constants'
 
 // externals
 const initialState = {
@@ -98,12 +99,12 @@ const finishAuth = (data: string, set: boolean) => {
   const date = new Date()
   if (set) {
     date.setHours( date.getHours() + 2 )
-    document.cookie = `__wither_login_token__=${data}; expires=${date}; path=/`
+    document.cookie = `${constants.cookieName}=${data}; expires=${date}; path=/`
     state.tokenId = data
     state.hasToken = true
   } else {
     date.setHours( date.getHours() - 2)
-    document.cookie = `__wither_login_token__=${data}; expires=${date}; path=/`
+    document.cookie = `${constants.cookieName}=${data}; expires=${date}; path=/`
   }
   setTokenState(data)
 }

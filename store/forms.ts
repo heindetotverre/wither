@@ -61,7 +61,7 @@ const getAllDynamicFormsBySlug = (slug: string) => {
 
 const getFormValues = (formName: keyof Forms) => {
   return state.presetForms[formName].fields.reduce((acc: any, curr) => {
-    return curr.class !== 'Button'
+    return curr.component !== 'UiButton'
       ? { ...acc, [curr.key]: curr.value }
       : acc
   }, {})
