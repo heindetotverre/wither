@@ -10,14 +10,14 @@ const loginFormName: keyof Forms = 'login',
   updateUserInfoFormName: keyof Forms = 'updateUserInfo',
   updateUserCredentialFormName: keyof Forms = 'updateUserCredentials',
   textInputField = {
-    class: 'text-input',
+    elementName: 'text-input',
     component: 'UiInput',
     type: 'text',
     required: true,
     visible: true
   },
   emailInputField = {
-    class: 'email-input',
+    elementName: 'email-input',
     component: 'UiInput',
     type: 'email',
     required: true,
@@ -30,7 +30,7 @@ const loginFormName: keyof Forms = 'login',
     visible: true
   },
   passwordInputField = {
-    class: 'password-input',
+    elementName: 'password-input',
     component: 'UiInput',
     type: 'password',
     required: true,
@@ -43,26 +43,26 @@ const loginFormName: keyof Forms = 'login',
     visible: true
   },
   selectInputField = {
-    class: 'select-input',
+    elementName: 'select-input',
     component: 'UiSelect',
     type: 'select',
     options: [],
     visible: true
   },
   checkboxInputField = {
-    class: 'checkbox-input',
+    elementName: 'checkbox-input',
     component: 'UiCheckbox',
     type: 'checkbox',
     visible: true
   },
   imageInputfield = {
-    class: 'image-input',
+    elementName: 'image-input',
     component: 'UiFileUpload',
     type: 'file',
     visible: true
   },
   button = {
-    class: 'button',
+    elementName: 'button',
     component: 'UiButton',
     visible: true
   }

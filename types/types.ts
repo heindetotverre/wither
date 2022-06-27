@@ -36,10 +36,10 @@ interface FormEvent {
 
 interface FormField {
   autocomplete?: string,
-  class: string,
   component: string,
   disabled?: boolean,
   domclass?: string,
+  elementName: string,
   formPart?: string,
   id: string,
   key: string,

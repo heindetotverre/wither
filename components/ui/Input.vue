@@ -23,21 +23,19 @@
 </script>
 
 <template>
-  <div :class="['form__field', `form__field--${type}`]">
-    <div :class="[domclass, 'input__wrapper']" v-if="visible">
-      <label class="input__label" :for="id">{{ label }}</label>
-      <input
-        class="input__el"
-        :id="id"
-        :autocomplete="autocomplete"
-        :value="currentValue"
-        :type="type"
-        :disabled="disabled"
-        @blur="emits('blur')"
-        @focus="emits('focus')"
-        @input="input($event)"
-      />
-      <slot name="error-message" />
-    </div>
+  <div :class="[domclass, 'input__wrapper']" v-if="visible">
+    <label class="input__label" :for="id">{{ label }}</label>
+    <input
+      class="input__el"
+      :id="id"
+      :autocomplete="autocomplete"
+      :value="currentValue"
+      :type="type"
+      :disabled="disabled"
+      @blur="emits('blur')"
+      @focus="emits('focus')"
+      @input="input($event)"
+    />
+    <slot name="error-message" />
   </div>
 </template>

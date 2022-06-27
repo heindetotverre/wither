@@ -31,6 +31,10 @@
     return 'Oops, error!'
   }
 
+  const componentClass = (field : FormField) => {
+    return [field.domclass, field.elementName].join(' ')
+  }
+
   const fullFormValidationHasError = () => {
     return formStore.get.getFullFormValidationState(props.form.formInfo.name)
   }
@@ -76,7 +80,7 @@
   <form class="m-t-3 m-b-4" @keypress.enter="onSubmit()">
     <component
       v-for="field in formFields"
-      :domclass="field.domclass"
+      :domclass="componentClass(field)"
       :is="dynamicComponent(field.component)"
       :autocomplete="field.autocomplete"
       :disabled="isDisabled(field)"
