@@ -1,59 +1,14 @@
 <script setup lang="ts">
-  const props = defineProps({
-    disabled: {
-      type: Boolean,
-      default: false
-    },
-    id: {
-      type: String,
-      required: true
-    },
-    autocomplete: {
-      type: String
-    },
-    name: {
-      type: String,
-      required: true
-    },
-    label: {
-      type: String,
-      default: 'test'
-    },
-    modelValue: {
-      type: String,
-      default: ''
-    },
-    type: {
-      type: String,
-      default: 'text'
-    },
-    options: {
-      type: Array,
-      default: []
-    },
-    value: {
-      type: [String, Number],
-      default: ''
-    },
-    domclass: {
-      type: String,
-      default: ''
-    },
-    visible: {
-      type: Boolean,
-      default: true
-    },
-    validation: {
-      type: Object
-    }
-  })
+  import shareableProps from "./shareableProps"
+  import shareableEmits from "./shareableEmits"
 
-  const emits = defineEmits([
-    'blur',
-    'focus',
-    'submit',
-    'input'
-  ])
+  const props = defineProps({...shareableProps,
+      value: {
+        type: [String, Number],
+        default: ''
+      }
+    }),
+    emits = defineEmits(shareableEmits)
 
   onMounted(() => {
     currentValue.value = props.value

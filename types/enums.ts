@@ -29,7 +29,8 @@ enum Errors {
   GQL_ERROR_UPDATE_USER = 'Error: Couldn\'t update page with userId',
   GQL_ERROR_CREATE_TOKEN = 'Error: Couldn\'t create token for user',
   FE_ERROR_ANIMATION_COMPONENT = 'Error: Only one root element is allowed inside an animation component',
-  FE_ERROR_ANIMATION_STYLE = 'Error: Fallback set: No style value was found for style: ',
+  FE_ERROR_ANIMATION_CHILDREN = 'Error: No child elements found to determine animation for style:',
+  FE_ERROR_ANIMATION_STYLE = 'Error: Fallback set: No style value was found for style:',
   FE_ERROR_CONTENT_NOTFOUND = 'Error: No content was found with search path: '
 }
 

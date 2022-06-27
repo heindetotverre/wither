@@ -1,55 +1,9 @@
 <script setup lang="ts">
-  const props = defineProps({
-    disabled: {
-      type: Boolean,
-      default: false
-    },
-    id: {
-      type: String,
-      required: true
-    },
-    autocomplete: {
-      type: String
-    },
-    name: {
-      type: String,
-      required: true
-    },
-    label: {
-      type: String,
-      default: 'test'
-    },
-    type: {
-      type: String,
-      default: 'text'
-    },
-    options: {
-      type: Array,
-      default: []
-    },
-    value: {
-      type: String,
-      default: ''
-    },
-    domclass: {
-      type: String,
-      default: ''
-    },
-    validation: {
-      type: Object,
-      required: true
-    },
-    visible: {
-      type: Boolean,
-      default: true
-    }
-  })
+  import shareableProps from "./shareableProps"
+  import shareableEmits from "./shareableEmits"
 
-  const emits = defineEmits([
-    'blur',
-    'focus',
-    'input'
-  ])
+  const props = defineProps(shareableProps),
+    emits = defineEmits(shareableEmits)
 
   onMounted(() => {
     currentValue.value = props.value
@@ -69,19 +23,21 @@
 </script>
 
 <template>
-  <div :class="[domclass, 'input__wrapper']" v-if="visible">
-    <label class="input__label" :for="id">{{ label }}</label>
-    <input
-      class="input__el"
-      :id="id"
-      :autocomplete="autocomplete"
-      :value="currentValue"
-      :type="type"
-      :disabled="disabled"
-      @blur="emits('blur')"
-      @focus="emits('focus')"
-      @input="input($event)"
-    />
-    <slot name="error-message" />
+  <div :class="['form__field', `form__field--${type}`]">
+    <div :class="[domclass, 'input__wrapper']" v-if="visible">
+      <label class="input__label" :for="id">{{ label }}</label>
+      <input
+        class="input__el"
+        :id="id"
+        :autocomplete="autocomplete"
+        :value="currentValue"
+        :type="type"
+        :disabled="disabled"
+        @blur="emits('blur')"
+        @focus="emits('focus')"
+        @input="input($event)"
+      />
+      <slot name="error-message" />
+    </div>
   </div>
 </template>

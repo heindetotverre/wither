@@ -1,55 +1,17 @@
 <script setup lang="ts">
-  const props = defineProps({
-    disabled: {
-      type: Boolean,
-      default: false
-    },
-    id: {
-      type: String,
-      required: true
-    },
-    autocomplete: {
-      type: String
-    },
-    name: {
-      type: String,
-      required: true
-    },
-    label: {
-      type: String,
-      default: 'test'
-    },
-    type: {
-      type: String,
-      default: 'text'
-    },
-    options: {
-      type: Array,
-      default: []
-    },
-    value: {
-      type: [String, Boolean],
-      default: false
-    },
-    domclass: {
-      type: String,
-      default: ''
-    },
-    validation: {
-      type: Object
-    },
-    visible: {
-      type: Boolean,
-      default: true
-    }
-  })
+  import shareableProps from "./shareableProps"
+  import shareableEmits from "./shareableEmits"
 
-  const emits = defineEmits([
-    'blur',
-    'focus',
-    'submit',
-    'input'
-  ])
+  const props = defineProps({...shareableProps, 
+      value: {
+        type: Boolean,
+        required: true
+      },
+      validation: {
+        type: undefined
+      }
+    }),
+    emits = defineEmits(shareableEmits)
 
   const currentValue = ref()
 
