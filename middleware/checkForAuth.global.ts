@@ -2,16 +2,21 @@ import { main as constants } from '~~/constants/main.constants'
 import { authStore } from '~~/store/auth' 
 
 export default defineNuxtRouteMiddleware(async (to) => {
-  const { value } = useCookie(constants.cookieName) as any,
-    tokenId = value
+  const { value = '' } = useCookie(constants.cookieName) as any,
+    tokenIdFromCookie = value,
+    tokenIdFromStore = authStore.get.getTokenId()
 
-  if (tokenId) {
+  if (tokenIdFromStore) {
+    return
+  }
+
+  if (tokenIdFromCookie) {
     const { deleteToken, getToken } = useTokenization()
-    const tokenMatchFromDb = await getToken(tokenId)
+    const tokenMatchFromDb = await getToken(tokenIdFromCookie)
     if (!tokenMatchFromDb) {
       await authStore.do.setTokenState('')
       useCookie(constants.cookieName, { path: '/' , maxAge: 0})
-      await deleteToken(tokenId)
+      await deleteToken(tokenIdFromCookie)
       return navigateTo('/admin/login')
     }
     const now = new Date()
@@ -19,10 +24,10 @@ export default defineNuxtRouteMiddleware(async (to) => {
     if (tokenMatchFromDb?.created as number < (now.getTime() - twoHours)) {
       await authStore.do.setTokenState('')
       useCookie(constants.cookieName, { path: '/' , maxAge: 0})
-      await deleteToken(tokenId)
+      await deleteToken(tokenIdFromCookie)
       return navigateTo('/admin/login')
     }
-    await authStore.do.setTokenState(tokenId)
+    await authStore.do.setTokenState(tokenIdFromCookie)
   } else {
     if (to.fullPath.includes('admin') && to.fullPath !== '/admin/login') {
       return navigateTo('/admin/login')

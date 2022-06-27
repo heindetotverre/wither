@@ -1,14 +1,10 @@
 <script setup lang="ts">
   import { adminStore } from '~~/store/admin'
-  import { authStore } from '~~/store/auth'
   import LazyAdminBar from "~~/components/admin/Bar.vue"
 
-  const isLoggedIn = computed(() => authStore.get.getTokenState()),
-    user = computed(() => adminStore.get.getUser())
+  const user = computed(() => adminStore.get.getUser())
 
-  if (isLoggedIn.value) {
-    await adminStore.get.fetchAdmin()
-  }
+  await adminStore.get.fetchAdmin()
 </script>
 
 <template>
