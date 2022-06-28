@@ -7,7 +7,9 @@ const env = process.env.NODE_ENV
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 console.log(__dirname)
-const imageFolder = path.join(__dirname, env === 'development' ? '../../public/images' : '../public/images');
+const imageFolder = path.join(__dirname, env === 'development'
+  ? '../../public/images'
+  : '../images');
 
 export default async () => {
   const files = fs.readdirSync(imageFolder, {withFileTypes: true})
