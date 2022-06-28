@@ -31,17 +31,18 @@
 
 <template>
   <div :class="domclass" v-if="visible">
-    <label :for="id">{{ label }}</label>
+    <slot name="label" />
     <input
       :id="id"
       :autocomplete="autocomplete"
       :checked="currentValue"
+      :class="`input__el input__el--${type}`"
       :type="type"
       :disabled="disabled"
       @blur="emits('blur')"
       @focus="emits('focus')"
       @input="input()"
     />
-    <slot />
+    <slot name="error-message" />
   </div>
 </template>

@@ -24,11 +24,11 @@
 
 <template>
   <div :class="[domclass, 'input__wrapper']" v-if="visible">
-    <label class="input__label" :for="id">{{ label }}</label>
+    <slot name="label" />
     <input
-      class="input__el"
       :id="id"
       :autocomplete="autocomplete"
+      :class="`input__el input__el--${type}`"
       :value="currentValue"
       :type="type"
       :disabled="disabled"

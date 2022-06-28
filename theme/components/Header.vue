@@ -26,8 +26,8 @@
     {
       name: 'image',
       type: 'image',
-      label: 'Upload the image',
-      default: '/dummy.png'
+      label: 'Select an image',
+      default: 'dummy.png'
     },
     {
       name: 'link',
@@ -58,7 +58,7 @@
       <a :href="content.url">{{ content.text }}</a>
     </div>
     <div>
-      <img :src="content.image" />
+      <img :src="`/images/${content.image}`" />
     </div>
   </div>
 </template>

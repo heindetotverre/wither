@@ -56,10 +56,11 @@
 
 <template>
   <div :class="domclass" v-if="visible" ref="multiSelect">
-    <label :for="id">{{ label }}</label>
+    <slot name="label" />
     <input
       :id="id"
       :autocomplete="autocomplete"
+      :class="`input__el input__el--${type}`"
       :value="currentValue"
       :type="type"
       :disabled="disabled"

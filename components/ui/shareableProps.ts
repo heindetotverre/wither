@@ -41,5 +41,9 @@ export default {
   visible: {
     type: Boolean,
     default: true
+  },
+  elementName: {
+    type: String,
+    required: true
   }
 }

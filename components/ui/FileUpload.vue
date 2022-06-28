@@ -5,33 +5,28 @@
   const props = defineProps(shareableProps),
     emits = defineEmits(shareableEmits)
 
-  onMounted(() => {
-
-  })
-
-  watch(() => props.value, () => {
-
-  })
-
-  const currentValue = ref()
-
   const input = (event: Event) => {
+  const fileInputEl = event.target as HTMLInputElement,
+    files = fileInputEl.files as FileList
+  
+  Array.from(files).forEach(file => {
+    console.log(file)
+  })
 
   }
 </script>
 
 <template>
-  <div :class="[domclass, 'input__wrapper']" v-if="visible">
-    <label class="input__label" :for="id">{{ label }}</label>
+  <div :class="[domclass, 'input__wrapper']">
+    <slot name="label" />
     <input
-      class="input__el"
+      multiple accept="image/*"
+      :class="`input__el input__el--${type}`"
       :id="id"
       :autocomplete="autocomplete"
-      :value="currentValue"
+      value=""
       :type="type"
       :disabled="disabled"
-      @blur="emits('blur')"
-      @focus="emits('focus')"
       @input="input($event)"
     />
     <slot name="error-message" />

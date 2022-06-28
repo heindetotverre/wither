@@ -26,8 +26,8 @@
     {
       name: 'image',
       type: 'image',
-      label: 'Upload the image',
-      default: '/dummy.png'
+      label: 'Select an image',
+      default: 'dummy.png'
     }
   ])
 </script>
@@ -39,7 +39,7 @@
     </div>
     <p>{{ content.text }}</p>
     <div>
-      <img :src="content.image" />
+      <img :src="`/images/${content.image}`" />
     </div>
   </div>
 </template>

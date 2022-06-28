@@ -66,7 +66,7 @@ const getFormfield = (field: ContentField) => {
     return {
       ...imageInputfield,
       key: field.name,
-      label: field.name,
+      label: field.label,
       id: createId(field.name),
       value: field.default,
       validation: {

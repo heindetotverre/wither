@@ -21,7 +21,9 @@ export default {
             subTitle: 'sub title',
             image: 'image',
             url: 'url',
-            text: 'text'
+            text: 'text',
+            selectImage: 'select image or upload one',
+            fileUpload: 'upload your file'
           },
           validationErrors: {
             email: 'is not an email',
@@ -35,7 +37,9 @@ export default {
             login: 'Login',
             register: 'Register',
             save: 'Save',
-            cancel: 'Cancel'
+            cancel: 'Cancel',
+            fileUpload: 'Upload file',
+            fileSelect: 'Select file from library'
           }
         }
       },

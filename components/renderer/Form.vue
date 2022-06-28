@@ -78,29 +78,37 @@
 
 <template>
   <form class="m-t-3 m-b-4" @keypress.enter="onSubmit()">
-    <component
+    <div
       v-for="field in formFields"
-      :domclass="componentClass(field)"
-      :is="dynamicComponent(field.component)"
-      :autocomplete="field.autocomplete"
-      :disabled="isDisabled(field)"
-      :id="field.id"
-      :label="$content(`global.forms.labels.${field.key}`)"
-      :key="field.key"
-      :name="field.key"
-      :type="field.type"
-      :options="field.options"
-      :value="field.value"
-      :validation="field.validation"
-      :visible="field.visible"
-      @blur="onBlur(field)"
-      @focus="onFocus(field)"
-      @input="onInput(field, $event)"
+      :class="`form__field form__field--${field.key}`"
     >
-      <template #error-message>
-          <div class="m-t-1 error--message" v-if="!field.validation?.validated">{{ field.validation?.validationMessage }}</div>
-      </template>
-    </component>
+      <component
+        :domclass="componentClass(field)"
+        :is="dynamicComponent(field.component)"
+        :autocomplete="field.autocomplete"
+        :disabled="isDisabled(field)"
+        :elementName="field.elementName"
+        :id="field.id"
+        :label="$content(`global.forms.labels.${field.key}`)"
+        :key="field.key"
+        :name="field.key"
+        :type="field.type"
+        :options="field.options"
+        :value="field.value"
+        :validation="field.validation"
+        :visible="field.visible"
+        @blur="onBlur(field)"
+        @focus="onFocus(field)"
+        @input="onInput(field, $event)"
+      >
+        <template #label>
+          <label :for="field.id" class="input__label">{{ field.label }}</label>
+        </template>
+        <template #error-message>
+            <div class="m-t-1 error--message" v-if="!field.validation?.validated">{{ field.validation?.validationMessage }}</div>
+        </template>
+      </component>
+    </div>
     <div class="m-t-1 error--message" v-if="showValidationError">
       <span>{{ collectValidationMessages() }}</span>
     </div>

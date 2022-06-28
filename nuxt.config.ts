@@ -1,7 +1,11 @@
 import { defineNuxtConfig } from 'nuxt'
 
 export default defineNuxtConfig({
+  alias: {
+    "images": "/<rootDir>/assets/images",
+  },
   serverMiddleware: [
+    { path: '/getimages', handler: '~/server/images/getImages.ts' },
     { path: '/saveimages', handler: '~/server/images/uploadImages.ts' }
   ],
   meta: {

@@ -18,7 +18,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
       date.setHours( date.getHours() - 2)
       await authStore.do.setTokenState('')
       useCookie(constants.cookieName, { path: '/' , maxAge: 0})
-      document.cookie = `${constants.cookieName}=${tokenIdFromCookie}; expires=${date}; path=/`
+      // document.cookie = `${constants.cookieName}=${tokenIdFromCookie}; expires=${date}; path=/`
       await deleteToken(tokenIdFromCookie)
       return navigateTo('/admin/login')
     }
@@ -29,7 +29,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
       date.setHours( date.getHours() - 2)
       await authStore.do.setTokenState('')
       useCookie(constants.cookieName, { path: '/' , maxAge: 0})
-      document.cookie = `${constants.cookieName}=${tokenIdFromCookie}; expires=${date}; path=/`
+      // document.cookie = `${constants.cookieName}=${tokenIdFromCookie}; expires=${date}; path=/`
       await deleteToken(tokenIdFromCookie)
       return navigateTo('/admin/login')
     }

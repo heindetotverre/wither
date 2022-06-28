@@ -1,8 +1,4 @@
 .input {
-  &__wrapper {
-    margin-top: 2rem;
-  }
-
   &__label {
     display: block;
     margin-bottom: .5rem;
@@ -12,6 +8,10 @@
     display: block;
     padding: .5rem;
     width: 100%;
+
+    &--checkbox {
+      width: auto;
+    }
   }
 }
 
@@ -23,5 +23,18 @@
 
   &--message {
     text-align: right;
+  }
+}
+
+.select {
+  &__option {
+    background-color: $light-grey;
+    cursor: pointer;
+    padding: .5rem;
+    max-width: 20rem;
+
+    & + & {
+      margin-top: 1rem;
+    }
   }
 }

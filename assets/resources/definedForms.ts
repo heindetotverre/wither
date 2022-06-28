@@ -57,7 +57,7 @@ const loginFormName: keyof Forms = 'login',
   },
   imageInputfield = {
     elementName: 'image-input',
-    component: 'UiFileUpload',
+    component: 'UiFileSelect',
     type: 'file',
     visible: true
   },

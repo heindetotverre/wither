@@ -36,13 +36,9 @@
     emits('focus')
   }
 
-  const onInput = () => {
-
-  }
-
   const selectOption = (option: string) => {
     currentValue.value = option === 'clear'
-      ? ''
+      ? currentValue.value
       : option
     emits('input', currentValue.value)
     hasFocus.value = false
@@ -50,25 +46,26 @@
 </script>
 
 <template>
-  <div :class="domclass" v-if="visible" ref="select">
-    <label :for="id">{{ label }}</label>
+  <div :class="[domclass, 'select']" v-if="visible" ref="select">
+    <slot name="label" />
     <input
       :id="id"
       :autocomplete="autocomplete"
+      :class="`input__el input__el--${type}`"
       :value="currentValue"
       :type="type"
       :disabled="disabled"
       @focus="onFocus()"
-      @input="onInput()"
     />
 
     <ul v-if="hasFocus">
-      <span @click="selectOption('clear')">clear</span>
       <li
         v-for="(option, index) of options"
+        class="select__option"
         :key="index"
-        @click="selectOption(option as string)"
+        @click.stop.prevent="selectOption(option as string)"
       >{{ option }}</li>
+      <span @click.stop.prevent="selectOption('clear')">clear</span>
     </ul>
   </div>
 </template>

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
   import { formStore } from '~~/store/forms'
-  import { changeArrayPos, createId } from '~~/utils'
+  import { changeArrayPos, createId, sanitzeComponentName } from '~~/utils'
   import { Mode, Sort } from '~~/types/enums'
   import LazyRendererForm from "~~/components/renderer/Form.vue"
   import shareableProps from "./shareableProps"
@@ -97,7 +97,7 @@
         v-for="(component, index) of options"
         :key="index"
         @click="addComponent(createId(component as string))"
-      >{{ component }}</li>
+      >{{ sanitzeComponentName(component as string, { replace: 'Lazy' }) }}</li>
     </ul>
   </div>
 </template>
