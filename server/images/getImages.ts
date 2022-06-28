@@ -1,15 +1,13 @@
-import { fileURLToPath } from 'url';
 import * as fs from 'fs'
-import path from 'path'
+import { resolve } from 'path'
 
 const env = process.env.NODE_ENV
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-console.log(__dirname)
-const imageFolder = path.join(__dirname, env === 'development'
-  ? '../../public/images'
-  : '../images');
+const rootDir = resolve('.');
+
+const imageFolder = `${rootDir}/public/images`
+
+console.log(imageFolder)
 
 export default async () => {
   const files = fs.readdirSync(imageFolder, {withFileTypes: true})
