@@ -1,4 +1,4 @@
-export const findNestedKeyInObject = (keyArray : string[], searchObject : Record<string, any>) => {
+export const findNestedKeyInObject = (keyArray : string[], searchObject : Record<string, unknown>) => {
   let foundKey : string = ''
   const searchPerKey = (keyArray : string[], searchObject : Record<string, any>) => {
     keyArray.forEach((key) => {

@@ -17,7 +17,7 @@
     if (!authResult?.response?.errors) {
       useRouter().push('/')
     } else {
-      if (method === Auth.Login && authResult?.response?.errors.find((error : any) => error.message.includes('User not found'))) {
+      if (method === Auth.Login && authResult?.response?.errors.find((error : { message: string }) => error.message.includes('User not found'))) {
         formStore.do.updateAllFormValues(FormNames.LOGIN, 'clear')
       }
     }

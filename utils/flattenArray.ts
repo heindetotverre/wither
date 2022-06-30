@@ -1,15 +1,15 @@
-export const flattenObject = (arr: Array<any>) => {
+export const flattenArray = (arr: any[]) => {
   if (arr.length) {
-    const flattenedArray = [] as Array<any>
-    const reduceObject = (arr: Array<any>) => {
+    const flattenedArray = [] as any[]
+    const reduceArray = (arr: any[]) => {
       arr.reduce((acc, curr) => {
         flattenedArray.push(curr)
         if (curr.children?.length > 0) {
-          return reduceObject(curr.children)
+          return reduceArray(curr.children)
         }
       }, [])
     }
-    reduceObject(arr)
+    reduceArray(arr)
     return flattenedArray
   } else {
     return []

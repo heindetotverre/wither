@@ -1,10 +1,11 @@
 <script setup lang="ts">
-  import { EventTypes } from '~~/types/enums' 
+  import { Errors, EventTypes } from '~~/types/enums' 
   import shareableProps from "./shareableProps"
   import shareableEmits from "./shareableEmits"
   import LazyFileUpload from "./FileUpload.vue"
   import LazyUiSelect from "./Select.vue"
   import LazyUiButton from "./Button.vue"
+  import { adminStore } from '~~/store/admin'
 
   const props = defineProps({...shareableProps,
       value: {
@@ -17,20 +18,15 @@
     updatedOptions = ref()
 
   onBeforeMount(async () => {
-    updatedOptions.value = await getImagePaths('initialImages')
+    updatedOptions.value = await adminStore.get.fetchImagesPath('initialImages')
   })
 
-  const onInput = (config : any) => {
+  const onInput = (config : { eventType: string, eventData: Event | null }) => {
     emits(config.eventType, config.eventData)
   }
 
   const onFilesUploaded = async () => {
-    updatedOptions.value = await getImagePaths('updatedImages')
-  }
-
-  const getImagePaths = async (cacheKey : string) => {
-    const { data } = await useAsyncData(cacheKey, () => $fetch('/getimages'))
-    return data.value
+    updatedOptions.value = await adminStore.get.fetchImagesPath('updatedImages')
   }
 
 </script>
@@ -52,8 +48,8 @@
       :value="props.value"
       :validation="props.validation"
       :visible="props.visible"
-      @onBlur="onInput({ eventType: EventTypes.BLUR })"
-      @focus="onInput({ eventType: EventTypes.FOCUS })"
+      @onBlur="onInput({ eventType: EventTypes.BLUR, eventData: null })"
+      @focus="onInput({ eventType: EventTypes.FOCUS, eventData: null })"
       @input="onInput({ eventType: EventTypes.INPUT, eventData: $event })" />
     <LazyUiButton
       class="m-t-1"

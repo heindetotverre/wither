@@ -1,4 +1,4 @@
-export const sanitzeComponentName = (componentName: string, config: any | void) => {
+export const sanitzeComponentName = (componentName: string, config: { replace : string } | void) => {
   if (config?.replace) {
     return componentName?.replace(config.replace, '')
   }

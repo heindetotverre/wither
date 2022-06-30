@@ -2,7 +2,7 @@ import { changeArrayPos } from "./changeArrayPos"
 import { createId } from "./createId"
 import { createUUID } from "./createUUID"
 import { findNestedKeyInObject } from "./findNestedKeyInObject"
-import { flattenObject } from "./flattenObject"
+import { flattenArray } from "./flattenArray"
 import { getUrlPathFromDynamicRoute } from "./getUrlPathFromDynamicRoute"
 import { isFront } from "./isFront"
 import { sanitizeStylingValue } from "./sanitzeStylingValue"
@@ -14,7 +14,7 @@ export {
   createId,
   createUUID,
   findNestedKeyInObject,
-  flattenObject,
+  flattenArray,
   getUrlPathFromDynamicRoute,
   isFront,
   sanitzeComponentContent,

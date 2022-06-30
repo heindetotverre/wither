@@ -60,7 +60,7 @@ const getAllDynamicFormsBySlug = (slug: string) => {
 }
 
 const getFormValues = (formName: keyof Forms) => {
-  return state.presetForms[formName].fields.reduce((acc: any, curr) => {
+  return state.presetForms[formName].fields.reduce((acc: Record<string, unknown>, curr) => {
     return curr.component !== 'UiButton'
       ? { ...acc, [curr.key]: curr.value }
       : acc
@@ -127,7 +127,7 @@ const setDynamicForm = (form: DynamicForm, source: string | void) => {
   state.dynamicForms.push(form)
 }
 
-const setFormValuesBasedOnQuery = (formName: keyof Forms, queriedObject: Record<string, any>) => {
+const setFormValuesBasedOnQuery = (formName: keyof Forms, queriedObject: Record<string, unknown>) => {
   const keys = Object.keys(queriedObject),
     values = Object.values(queriedObject)
 

@@ -16,6 +16,7 @@
     "sass-loader": "^10.2.1"
   },
   "dependencies": {
+    "formidable": "^2.0.1",
     "graphql": "^16.5.0",
     "mongoose": "^6.1.6",
     "nuxt-graphql-client": "^0.0.33"

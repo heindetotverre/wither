@@ -1,6 +1,6 @@
 import { Sort } from '~~/types/enums'
 
-export const changeArrayPos = (arr: any[], el: any, direction: number) => {
+export const changeArrayPos = (arr: string[], el: string, direction: number) => {
   let elIndex = arr.indexOf(el)
   const newArr = arr,
     elToChangePosition = newArr[elIndex],

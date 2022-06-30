@@ -2,7 +2,7 @@ import { reactive, readonly, } from "vue"
 import { ContentField, DynamicForm, FormField } from "~~/types/types"
 import { formStore } from "./forms"
 import { textInputField, imageInputfield } from "~~/assets/resources/definedForms"
-import { createId, flattenObject, sanitzeComponentContent } from "~~/utils"
+import { createId, flattenArray, sanitzeComponentContent } from "~~/utils"
 
 // externals
 const initialState = {
@@ -23,7 +23,7 @@ const createdFields = (componentId: string, slug: string) => {
 }
 
 const registerFields = (fields: ContentField[], formId: string, slug: string) => {
-  const formFields = flattenObject(fields).map(field => {
+  const formFields = flattenArray(fields).map(field => {
     return getFormfield(field)
   })
   const form: DynamicForm = {

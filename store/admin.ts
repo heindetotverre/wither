@@ -61,6 +61,17 @@ const fetchAdmin = async () => {
   }
 }
 
+const fetchImagesPath = async (cacheKey : string) => {
+  try {
+    const { data } = await useAsyncData(cacheKey, () => $fetch('/getimages'))
+    if (data.value) {
+      return data.value
+    }
+  } catch(error) {
+
+  }
+}
+
 const getPages = () => state.pages
 
 const getUser = () => state.user
@@ -124,6 +135,7 @@ export const adminStore = readonly({
   },
   get: {
     fetchAdmin,
+    fetchImagesPath,
     getPages,
     getUser
   }
