@@ -39,7 +39,7 @@ export default async (req: IncomingMessage, res: ServerResponse) => {
       error: handleFilesResult
     })
   }
-  // save filemeta to DB
+  // save filemeta to
   return JSON.stringify({
     status: 200,
     message: 'Handled files, returning path',
