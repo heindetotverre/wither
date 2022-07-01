@@ -1,0 +1,35 @@
+query fetchAllFileMeta {
+  getAllFileMeta {
+    id
+    fileName
+    fileType
+    title
+    uploadDate
+  }
+}
+
+query fetchSingleFileMeta($id: ID) {
+  getSingleFileMeta(id: $id) {
+    id
+    fileName
+    fileType
+    title
+    uploadDate
+  }
+}
+
+mutation createFileMeta($input: FileMetaInput) {
+  createFileMeta(input: $input) {
+    id
+    fileName
+    fileType
+    title
+    uploadDate
+  }
+}
+
+mutation deleteFileMeta($id: ID) {
+  deleteFileMeta(id: $id) {
+    fileName
+  }
+}

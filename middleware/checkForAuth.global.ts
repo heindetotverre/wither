@@ -12,8 +12,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
   }
 
   if (tokenIdFromCookie) {
-    const { getToken } = useTokenization()
-    const tokenMatchFromDb = await getToken(tokenIdFromCookie)
+    const tokenMatchFromDb = await authStore.do.fetchToken(tokenIdFromCookie)
     if (!tokenMatchFromDb) {
       await deleteCookie(tokenIdFromCookie)
       return navigateTo('/admin/login')
@@ -33,9 +32,8 @@ export default defineNuxtRouteMiddleware(async (to) => {
 })
 
 const deleteCookie = async (token : string) => {
-  const { deleteToken } = useTokenization()
   authStore.do.setTokenState('')
   const newCookie = useCookie(constants.cookieName, { maxAge: 0 })
   newCookie.value = ''
-  await deleteToken(token)
+  await authStore.do.deleteToken(token)
 }

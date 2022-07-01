@@ -1,13 +1,15 @@
 <script setup lang="ts">
   import shareableProps from "./shareableProps"
   import shareableEmits from "./shareableEmits"
-  import { authStore } from "~~/store/auth";
+  import { fileStore } from "~~/store/files";
 
   const props = defineProps(shareableProps),
     emits = defineEmits(shareableEmits),
     isLoading = ref()
 
   const input = async (event: Event) => {
+    isLoading.value = true
+
     const fileInputEl = event.target as HTMLInputElement,
       files = fileInputEl.files as FileList,
       form = new FormData
@@ -16,24 +18,7 @@
       form.append(file.name, file)
     })
 
-    console.log(form)
-
-    const options = {
-      // headers: {
-      //   "Authorization": `Bearer ${authStore.get.getTokenId()}`,
-      //   "Content-Type": "multipart/form-data; boundary=----WebKitFormBoundaryyrV7KO0BoCBuDbTL"
-      // },
-      method: 'POST',
-      body: form
-    }
-    isLoading.value = true
-    const response = await fetch('/saveimages', options)
-    if (response.status === 200) {
-      const body = await response.json()
-      console.log(body)
-    } else {
-      console.log('ERROR')
-    }
+    const response = await fileStore.do.setFiles(form)
     isLoading.value = false
   }
 </script>

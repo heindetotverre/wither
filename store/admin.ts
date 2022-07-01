@@ -4,7 +4,6 @@ import { Errors } from "~~/types/enums"
 import { createId, sanitzeComponentContent } from "~~/utils"
 import { authStore } from "./auth"
 import { formStore } from "./forms"
-import { contentStore } from "./content"
 
 // externals
 const initialState = {
@@ -58,17 +57,6 @@ const fetchAdmin = async () => {
     return pageData
   } catch (error) {
     console.log(`${Errors.GQL_ERROR_GET_ADMIN_DATA} | ${error}`)
-  }
-}
-
-const fetchImagesPath = async (cacheKey : string) => {
-  try {
-    const { data } = await useAsyncData(cacheKey, () => $fetch('/getimages'))
-    if (data.value) {
-      return data.value
-    }
-  } catch(error) {
-
   }
 }
 
@@ -135,7 +123,6 @@ export const adminStore = readonly({
   },
   get: {
     fetchAdmin,
-    fetchImagesPath,
     getPages,
     getUser
   }

@@ -5,8 +5,9 @@ export default defineNuxtConfig({
     "images": "/<rootDir>/assets/images",
   },
   serverMiddleware: [
-    { path: '/getimages', handler: '~/server/images/getImages.ts' },
-    { path: '/saveimages', handler: '~/server/images/uploadImages.ts' }
+    { path: '/getfiles', handler: '~/server/files/getFiles.ts' },
+    { path: '/setfiles', handler: '~/server/files/setFiles.ts' },
+    { path: '/deletefiles', handler: '~/server/files/deleteFiles.ts' }
   ],
   meta: {
     meta: [

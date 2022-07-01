@@ -18,13 +18,24 @@ export default async (req: IncomingMessage, res: ServerResponse) => {
         throw new Error(err)
       }
       const fileMetaArr : FileMeta[] = []
-      Object.entries(files).forEach(([, fileContent]) => {
+      Object.entries(files).forEach(async ([, fileContent]) => {
         try {
           const file = fileContent as ParsedFile
           const checkedFile = isFileValid(file)
           const fileName = `${file.newFilename}.${checkedFile.fileType}`
-          fs.renameSync(file.filepath, join(options.uploadDir, fileName));
-          fileMetaArr.push(createFileMeta(file, checkedFile.fileType as string))
+          const fileMeta : FileMeta = createFileMeta(
+            file,
+            checkedFile.fileType as string,
+            fileName as string
+          )
+          if (fileMeta) {
+            fs.renameSync(file.filepath, join(options.uploadDir, fileName));
+            fileMetaArr.push(fileMeta)
+          } else {
+            fs.unlink(`${options.uploadDir}/${file.newFilename}`, (err) => {
+              if (err) throw err;
+          });
+          }
         } catch (error) {
           resolve(error)
         }        
@@ -33,20 +44,13 @@ export default async (req: IncomingMessage, res: ServerResponse) => {
     });
   })
   if (handleFilesResult instanceof Error) {
-    return JSON.stringify({
-      status: 500,
-      message: handleFilesResult.message,
+    return {
       error: handleFilesResult
-    })
-  }
-  // save filemeta to
-  return JSON.stringify({
-    status: 200,
-    message: 'Handled files, returning path',
-    data: {
-      fileMeta: handleFilesResult
     }
-  })
+  }
+  return {
+    fileMetaArray: handleFilesResult
+  }
 }
 
 const isFileValid = (file : ParsedFile) => {
@@ -64,11 +68,12 @@ const isFileValid = (file : ParsedFile) => {
   }
 }
 
-const createFileMeta = (file : ParsedFile, fileType : string) => {
+const createFileMeta = (file : ParsedFile, fileType : string, fileName : string) => {
   return {
     id: file.newFilename,
+    fileName: fileName,
+    fileType: fileType,
     title: file.originalFilename,
-    uploadDate: new Date,
-    fileType: fileType
+    uploadDate: Date.now()
   }
 }

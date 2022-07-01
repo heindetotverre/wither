@@ -14,6 +14,28 @@ const state = reactive({
   ...initialState
 })
 
+const deleteToken = async (tokenId : string) => {
+  try {
+    const { data } = await useAsyncData('deleteToken', async () => GqlDeleteToken({ tokenId: tokenId }))
+    if (data.value?.deleteToken) {
+      return data.value?.deleteToken
+    }
+  } catch (error) {
+    console.log(`${Errors.GQL_ERROR_DELETE_TOKEN} ${tokenId} | ${error}`)
+  }
+}
+
+const fetchToken = async (tokenId : string) => {
+  try {
+    const { data } = await useAsyncData('fetchToken', async () => GqlFetchToken({ tokenId: tokenId }))
+    if (data.value?.getToken) {
+      return data.value?.getToken
+    }
+  } catch (error) {
+    console.log(`${Errors.GQL_ERROR_GET_TOKEN} ${tokenId} | ${error}`)
+  }
+}
+
 const getTokenId = () => state.tokenId
 
 const getTokenState = () => state.hasToken
@@ -83,6 +105,8 @@ const setTokenState = (tokenId: string) => {
 export const authStore = readonly({
   state: state,
   do: {
+    deleteToken,
+    fetchToken,
     login,
     logout,
     register,

@@ -20,9 +20,10 @@ interface DynamicForm {
 
 interface FileMeta {
   id: string,
+  fileName: string,
+  fileType: string,
   title: string,
-  uploadDate: Date,
-  fileType: string
+  uploadDate: number
 }
 
 interface Form {

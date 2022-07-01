@@ -5,7 +5,7 @@
   import LazyFileUpload from "./FileUpload.vue"
   import LazyUiSelect from "./Select.vue"
   import LazyUiButton from "./Button.vue"
-  import { adminStore } from '~~/store/admin'
+  import { fileStore } from '~~/store/files'
 
   const props = defineProps({...shareableProps,
       value: {
@@ -15,18 +15,14 @@
     }),
     emits = defineEmits(shareableEmits),
     renderUpload = ref(false),
-    updatedOptions = ref()
+    files = computed(() => fileStore.get.getFiles())
 
   onBeforeMount(async () => {
-    updatedOptions.value = await adminStore.get.fetchImagesPath('initialImages')
+    await fileStore.get.fetchAllFileMeta()
   })
 
-  const onInput = (config : { eventType: string, eventData: Event | null }) => {
-    emits(config.eventType, config.eventData)
-  }
-
-  const onFilesUploaded = async () => {
-    updatedOptions.value = await adminStore.get.fetchImagesPath('updatedImages')
+  const onInput = (config : { eventType: string, eventData: any | null }) => {
+    emits(config.eventType, config.eventData?.fileName)
   }
 
 </script>
@@ -44,7 +40,7 @@
       :label="$content(`global.forms.labels.selectImage`)"
       name="FileSelect"
       type="select"
-      :options="updatedOptions"
+      :options="files"
       :value="props.value"
       :validation="props.validation"
       :visible="props.visible"
@@ -64,7 +60,6 @@
       name="FileUpload"
       type="file"
       :validation="props.validation"
-      @filesUploaded="onFilesUploaded()"
       />
   </div>
 </template>

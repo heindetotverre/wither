@@ -78,7 +78,7 @@ const getFullFormValidationState = (formName: keyof Forms) => {
     for (const singleFieldToValidate of fieldsToValidate) {
       const fieldKey = singleFieldToValidate.key,
         fieldValidator = mapValidators(singleFieldToValidate.validation.validator),
-        fieldValue = getFormValues(formName)[fieldKey]
+        fieldValue = getFormValues(formName)[fieldKey] as any
 
       if (fieldValidator) {
         !fieldValidator(fieldValue)
