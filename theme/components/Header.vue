@@ -27,7 +27,7 @@
       name: 'image',
       type: 'image',
       label: 'Select an image',
-      default: 'dummy.png'
+      default: ''
     },
     {
       name: 'link',
@@ -57,7 +57,7 @@
       <h2>{{ content.subTitle }}</h2>
       <a :href="content.url">{{ content.text }}</a>
     </div>
-    <div>
+    <div v-if="content.image">
       <img :src="`/images/${content.image}`" />
     </div>
   </div>

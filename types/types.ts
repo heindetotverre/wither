@@ -18,6 +18,13 @@ interface DynamicForm {
   __typename?: string
 }
 
+interface FileMeta {
+  id: string,
+  title: string,
+  uploadDate: Date,
+  fileType: string
+}
+
 interface Form {
   formInfo: {
     name: keyof Forms,
@@ -79,6 +86,14 @@ interface Page {
   title: string
 }
 
+interface ParsedFile {
+  newFilename: string,
+  originalFilename: string,
+  filepath: string,
+  mimetype: string,
+  size: number
+}
+
 interface Token {
   id: string,
   user: string,
@@ -111,11 +126,13 @@ interface Validator {
 export {
   ContentField,
   DynamicForm,
+  FileMeta,
   Forms,
   Form,
   FormEvent,
   FormField,
   Page,
+  ParsedFile,
   User,
   Token,
   Validators
