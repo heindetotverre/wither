@@ -1,11 +1,8 @@
 import { defineNuxtConfig } from 'nuxt'
 
 export default defineNuxtConfig({
-  alias: {
-    "images": "/<rootDir>/assets/images",
-  },
   serverMiddleware: [
-    { path: '/getfiles', handler: '~/server/files/getFiles.ts' },
+    { path: '/getfile', handler: '~/server/files/getFile.ts' },
     { path: '/setfiles', handler: '~/server/files/setFiles.ts' },
     { path: '/deletefiles', handler: '~/server/files/deleteFiles.ts' }
   ],
@@ -31,5 +28,5 @@ export default defineNuxtConfig({
               },
           },
       },
-  },
+  }
 })

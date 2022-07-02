@@ -63,8 +63,8 @@ const setFiles = async (form : FormData) => {
       body: form
     }
     const { data } = await useAsyncData('setFiles', () => $fetch('/setfiles', options)) as any
-    const createdFileMetaArray = data.value.fileMetaArray
-    if (createdFileMetaArray.length) {
+    const createdFileMetaArray = data.value?.fileMetaArray
+    if (createdFileMetaArray?.length) {
       await logFileMeta(createdFileMetaArray)
     } else {
       throw new Error
