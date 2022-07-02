@@ -5,14 +5,14 @@ import * as fs from 'fs'
 import { getFolderPath } from '../utils'
 import { FileMeta, ParsedFile } from '~~/types/types'
 import { Errors } from '~~/types/enums'
+import { main }  from '~~/constants/main.constants'
 
 export default async (req: IncomingMessage, res: ServerResponse) => {
   const options = {
     multiples: true,
-    uploadDir: getFolderPath('public/images'),
+    uploadDir: getFolderPath(main.imageFolder),
   }
   const form = new formidable.IncomingForm(options)
-  console.log(options)
   const handleFilesResult : any = await new Promise((resolve) => {
     form.parse(req, async (err : any, fields : any, files : any) => {
       if (err) {
@@ -44,7 +44,6 @@ export default async (req: IncomingMessage, res: ServerResponse) => {
       resolve(fileMetaArr)
     });
   })
-  console.log(handleFilesResult)
   if (handleFilesResult instanceof Error) {
     return {
       error: handleFilesResult

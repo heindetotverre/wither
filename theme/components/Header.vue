@@ -58,7 +58,7 @@
       <a :href="content.url">{{ content.text }}</a>
     </div>
     <div v-if="content.image">
-      <img :src="`/images/${content.image}`" />
+      <img :src="`/img/${content.image}`" />
     </div>
   </div>
 </template>
