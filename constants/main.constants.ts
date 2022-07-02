@@ -1,6 +1,6 @@
 const main = {
   cookieName: '__wither_login_token__',
-  imageFolder: 'public/img'
+  imageFolder: 'theme/uploadedImages'
 }
 
 Object.freeze(main)
