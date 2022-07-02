@@ -25,9 +25,9 @@ query fetchAdminData($tokenId: String) {
     }
     fields {
       autocomplete
-      class
       component
       disabled
+      elementName
       formPart
       id
       key

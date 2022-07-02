@@ -11,10 +11,9 @@ query fetchSinglePage($slug: String) {
       slug
     }
     fields {
-      autocomplete
-      class
       component
       disabled
+      elementName
       formPart
       id
       key
