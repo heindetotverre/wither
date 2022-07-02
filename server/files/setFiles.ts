@@ -12,6 +12,7 @@ export default async (req: IncomingMessage, res: ServerResponse) => {
     uploadDir: getFolderPath('public/images'),
   }
   const form = new formidable.IncomingForm(options)
+  console.log(options)
   const handleFilesResult : any = await new Promise((resolve) => {
     form.parse(req, async (err : any, fields : any, files : any) => {
       if (err) {
@@ -43,6 +44,7 @@ export default async (req: IncomingMessage, res: ServerResponse) => {
       resolve(fileMetaArr)
     });
   })
+  console.log(handleFilesResult)
   if (handleFilesResult instanceof Error) {
     return {
       error: handleFilesResult

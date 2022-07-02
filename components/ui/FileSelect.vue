@@ -21,8 +21,8 @@
     await fileStore.get.fetchAllFileMeta()
   })
 
-  const onInput = (config : { eventType: string, eventData: any | null }) => {
-    emits(config.eventType, config.eventData?.fileName)
+  const onInput = (event : { eventType: string, eventData: any | null }) => {
+    emits(event.eventType, event.eventData?.fileName)
   }
 
 </script>

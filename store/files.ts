@@ -64,7 +64,11 @@ const setFiles = async (form : FormData) => {
     }
     const { data } = await useAsyncData('setFiles', () => $fetch('/setfiles', options)) as any
     const createdFileMetaArray = data.value.fileMetaArray
-    await logFileMeta(createdFileMetaArray)
+    if (createdFileMetaArray.length) {
+      await logFileMeta(createdFileMetaArray)
+    } else {
+      throw new Error
+    }
   } catch (error) {
     console.log(`${Errors.FE_ERROR_SET_FILES} | ${error}`)
   }
