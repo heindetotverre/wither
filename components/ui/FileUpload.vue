@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import shareableProps from "./shareableProps"
   import shareableEmits from "./shareableEmits"
-  import { fileStore } from "~~/store/files";
+  import { imageStore } from "~~/store/images";
 
   const props = defineProps(shareableProps),
     emits = defineEmits(shareableEmits),
@@ -18,7 +18,7 @@
       form.append(file.name, file)
     })
 
-    const response = await fileStore.do.setFiles(form)
+    const response = await imageStore.do.setImages(form)
     isLoading.value = false
   }
 </script>

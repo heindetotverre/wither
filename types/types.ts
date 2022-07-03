@@ -18,11 +18,9 @@ interface DynamicForm {
   __typename?: string
 }
 
-interface FileMeta {
-  id: string,
+interface ImageMeta {
   fileName: string,
-  fileType: string,
-  title: string,
+  id: string,
   uploadDate: number
 }
 
@@ -127,11 +125,11 @@ interface Validator {
 export {
   ContentField,
   DynamicForm,
-  FileMeta,
   Forms,
   Form,
   FormEvent,
   FormField,
+  ImageMeta,
   Page,
   ParsedFile,
   User,

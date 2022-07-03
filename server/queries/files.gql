@@ -1,35 +1,15 @@
-query fetchAllFileMeta {
-  getAllFileMeta {
-    id
+query fetchAllImageMeta {
+  getAllImageMeta {
     fileName
-    fileType
-    title
+    id
     uploadDate
   }
 }
 
-query fetchSingleFileMeta($id: ID) {
-  getSingleFileMeta(id: $id) {
+query fetchSingleImageMeta($id: ID) {
+  getSingleImageMeta(id: $id) {
+    fileName
     id
-    fileName
-    fileType
-    title
     uploadDate
-  }
-}
-
-mutation createFileMeta($input: FileMetaInput) {
-  createFileMeta(input: $input) {
-    id
-    fileName
-    fileType
-    title
-    uploadDate
-  }
-}
-
-mutation deleteFileMeta($id: ID) {
-  deleteFileMeta(id: $id) {
-    fileName
   }
 }

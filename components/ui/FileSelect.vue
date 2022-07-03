@@ -1,11 +1,11 @@
 <script setup lang="ts">
-  import { Errors, EventTypes } from '~~/types/enums' 
+  import { EventTypes } from '~~/types/enums' 
   import shareableProps from "./shareableProps"
   import shareableEmits from "./shareableEmits"
   import LazyFileUpload from "./FileUpload.vue"
   import LazyUiSelect from "./Select.vue"
   import LazyUiButton from "./Button.vue"
-  import { fileStore } from '~~/store/files'
+  import { imageStore } from '~~/store/images'
 
   const props = defineProps({...shareableProps,
       value: {
@@ -15,14 +15,14 @@
     }),
     emits = defineEmits(shareableEmits),
     renderUpload = ref(false),
-    files = computed(() => fileStore.get.getFiles())
+    files = computed(() => imageStore.get.getImages())
 
   onBeforeMount(async () => {
-    await fileStore.get.fetchAllFileMeta()
+    await imageStore.get.fetchAllImageMeta()
   })
 
   const onInput = (event : { eventType: string, eventData: any | null }) => {
-    emits(event.eventType, event.eventData?.fileName)
+    emits(event.eventType, event.eventData?.id)
   }
 
 </script>
