@@ -14,6 +14,9 @@ const state = reactive({
 })
 
 const fetchSinglePage = async (pageSlug: string) => {
+  if (state.currentPage.slug === pageSlug) {
+    return state.currentPage
+  }
   try {
     const { data } = await useAsyncData(`fetchSinglePage:${pageSlug}`, async () => GqlFetchSinglePage({slug: pageSlug})),
       componentData = data.value.getComponentContentBySlug as [DynamicForm],
@@ -32,10 +35,17 @@ const fetchSinglePage = async (pageSlug: string) => {
 
 const getCurrentPage = computed(() => state.currentPage)
 
+const setCurrentPage = (page : Page) => {
+  state.currentPage = page
+}
+
 export const frontStore = readonly({
   state: state,
   get: {
     fetchSinglePage,
     getCurrentPage
+  },
+  set: {
+    setCurrentPage
   }
 })

@@ -4,6 +4,7 @@ import { Errors } from "~~/types/enums"
 import { createId, sanitzeComponentContent } from "~~/utils"
 import { authStore } from "./auth"
 import { formStore } from "./forms"
+import { frontStore } from "./front"
 
 // externals
 const initialState = {
@@ -77,6 +78,7 @@ const setPage = async (formContent: Page) => {
     }
     const { data } = await useAsyncData('createPage', async () => GqlCreatePage({ input: pageToInsert }))
     if (data.value.createPage) {
+      frontStore.set.setCurrentPage(data.value.createPage as Page)
       const existingPage = state.pages.find(p => p.id === data.value.createPage?.id)
       if (existingPage) {
         Object.assign(existingPage, data.value.createPage)
