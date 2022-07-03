@@ -1,8 +1,7 @@
-import mongoose from 'mongoose'
 import formidable from 'formidable'
 import * as fs from 'fs'
 import { IncomingMessage } from 'http'
-import Image from '~~/utils/getImageModel'
+import Image from '~~/server/utils/getImageModel'
 
 interface ImageData {
   fileName : string,
@@ -63,7 +62,6 @@ const getImageData = async (req : IncomingMessage) => {
 }
 
 const storeFiles = async (fileData : ImageData[]) => {
-  mongoose.connect(process.env.MONGO_URL as string)
   fileData.forEach((file) => {
     const newImage = new Image({
       ...file

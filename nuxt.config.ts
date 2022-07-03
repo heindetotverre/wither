@@ -2,9 +2,9 @@ import { defineNuxtConfig } from 'nuxt'
 
 export default defineNuxtConfig({
   serverMiddleware: [
-    { path: '/getimage', handler: '~/server/files/getSingleImage.ts' },
-    { path: '/setimages', handler: '~/server/files/setImages.ts' },
-    { path: '/deleteimages', handler: '~/server/files/deleteImages.ts' }
+    { path: '/getimage', handler: '~/server/images/getSingleImage.ts' },
+    { path: '/setimages', handler: '~/server/images/setImages.ts' },
+    { path: '/deleteimages', handler: '~/server/images/deleteImages.ts' }
   ],
   meta: {
     meta: [

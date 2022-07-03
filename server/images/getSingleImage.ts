@@ -1,6 +1,5 @@
 import { Errors } from '~~/types/enums'
-import mongoose from 'mongoose'
-import Image from '~~/utils/getImageModel'
+import Image from '~~/server/utils/getImageModel'
 
 export default defineEventHandler(async (event) => {
   try {
@@ -17,7 +16,6 @@ export default defineEventHandler(async (event) => {
 })
 
 const getImage = async (fileId : string) => {
-  mongoose.connect(process.env.MONGO_URL as string)
   const image = await Image.findOne({ id: fileId })
   if (image) {
     return image
