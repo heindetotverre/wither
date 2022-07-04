@@ -6,9 +6,7 @@ import getFolderPath from '~~/server/utils/getFolderPath'
 import { main } from '~~/constants/main.constants'
 import { ImageData } from '../types'
 
-export default defineEventHandler(async (event) => {
-  console.log('set image to folder: ', getFolderPath(main.imageFolder))
-  
+export default defineEventHandler(async (event) => { 
   try {
     const fileStoreData = await getImageData(event.req) as ImageData[]
     await storeFiles(fileStoreData)

@@ -25,7 +25,6 @@ const removeImageData = async (fileid : string) => {
   return await new Promise((resolve, reject) => {
     try {
       const root = getFolderPath(main.imageFolder)
-      console.log('delete image from folder: ', root)
       fs.unlink(`${root}/${fileid}`, (err) => {
         if (err) {
           throw err
