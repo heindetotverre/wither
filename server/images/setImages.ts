@@ -2,6 +2,8 @@ import formidable from 'formidable'
 import * as fs from 'fs'
 import { IncomingMessage } from 'http'
 import Image from '~~/server/utils/getImageModel'
+import getFolderPath from '~~/server/utils/getFolderPath'
+import { main } from '~~/constants/main.constants'
 
 interface ImageData {
   fileName : string,
@@ -36,8 +38,10 @@ const getImageData = async (req : IncomingMessage) => {
   return await new Promise((resolve, reject) => {
     try {
       const options = {
+        keepExtensions: true,
         maxFileSize: 4 * 1024 * 1024,
-        multiples: true
+        multiples: true,
+        uploadDir: getFolderPath(main.imageFolder)
       }
       const form = new formidable.IncomingForm(options)
       const filePaths : ImageData[] = []
