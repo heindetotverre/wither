@@ -148,3 +148,57 @@
 .full-width {
   width: 100%;
 }
+
+.aspect-ratio {
+  overflow: hidden;
+  position: relative;
+
+  img {
+    @include absolute-center;
+    height: auto;
+    width: 100%;
+  }
+
+
+  &--portrait img {
+    height: 100%;
+    width: auto;
+  }
+
+  &::after {
+    content: '';
+    display: block;
+  }
+
+  &--21-9::after {
+    padding-top: 40%;
+  }
+
+  &--1-1::after {
+    padding-top: 100%;
+  }
+
+  &--21-9::after {
+    padding-top: 40%;
+  }
+
+  &--16-9::after {
+    padding-top: 56.25%;
+  }
+
+  &--4-3::after {
+    padding-top: 75%;
+  }
+
+  &--3-2::after {
+    padding-top: 66.66%;
+  }
+
+  &--8-5::after {
+    padding-top: 62.5%;
+  }
+
+  &--2-3::after {
+    padding-top: 110%;
+  }
+}

@@ -57,8 +57,8 @@
       <h2>{{ content.subTitle }}</h2>
       <a :href="content.url">{{ content.text }}</a>
     </div>
-    <div v-if="content.image">
-      <img :src="`/getimage/${content.image}`" />
+    <div class="image aspect-ratio aspect-ratio--16-9">
+      <img loading="lazy" :src="`/getimage/${content.image}`" />
     </div>
   </div>
 </template>
