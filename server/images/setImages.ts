@@ -4,18 +4,11 @@ import { IncomingMessage } from 'http'
 import Image from '~~/server/utils/getImageModel'
 import getFolderPath from '~~/server/utils/getFolderPath'
 import { main } from '~~/constants/main.constants'
-
-interface ImageData {
-  fileName : string,
-  id : string,
-  uploadDate: number,
-  img?: {
-    contentType: string,
-    data: Buffer
-  }
-}
+import { ImageData } from '../types'
 
 export default defineEventHandler(async (event) => {
+  console.log('set image to folder: ', getFolderPath(main.imageFolder))
+  
   try {
     const fileStoreData = await getImageData(event.req) as ImageData[]
     await storeFiles(fileStoreData)

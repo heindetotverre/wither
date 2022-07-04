@@ -1,6 +1,7 @@
 <script setup lang="ts">
   import shareableProps from "./shareableProps"
   import shareableEmits from "./shareableEmits"
+  import { imageStore } from "~~/store/images";
 
   const props = defineProps({...shareableProps,
       value: {
@@ -8,7 +9,8 @@
         default: ''
       }
     }),
-    emits = defineEmits(shareableEmits)
+    emits = defineEmits(shareableEmits),
+    isLoading = ref()
 
   onMounted(() => {
     currentValue.value = props.value
@@ -21,6 +23,13 @@
   const currentValue = ref(),
     hasFocus = ref(false),
     select = ref()
+
+  const deleteImage = async (image : any) => {
+    isLoading.value = true
+    await imageStore.do.deleteImage(image.id)
+    currentValue.value = ''
+    isLoading.value = false
+  }
 
   const handleClickOutside = (event: Event) => {
     if (select.value && !select.value.contains(event.target)) {
@@ -57,14 +66,20 @@
       :disabled="disabled"
       @focus="onFocus()"
     />
-
+    <div v-if="isLoading" class="loader">LOADER!!!!</div>
     <ul v-if="hasFocus">
       <li
         v-for="(option, index) of options"
         class="select__option"
         :key="index"
         @click.stop.prevent="selectOption(option as string)"
-      >{{ option }}</li>
+      > 
+        <div v-if="props.elementName === 'image-input'">
+          <span>{{ option }}</span>
+          <a @click.stop.prevent="deleteImage(option)">delete image</a>
+        </div>
+         <span v-else>{{ option }}</span>
+      </li>
       <span @click.stop.prevent="selectOption('clear')">clear</span>
     </ul>
   </div>

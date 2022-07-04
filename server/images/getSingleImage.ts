@@ -5,6 +5,8 @@ import { sendStream } from 'h3'
 
 export default defineEventHandler(async (event) => {
   const root = getFolderPath(main.imageFolder)
+  console.log('get image from folder: ', root)
+  
   const files = fs.readdirSync(root, {withFileTypes: true})
     .filter(item => !item.isDirectory())
     .map(item => item.name)

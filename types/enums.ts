@@ -38,6 +38,7 @@ enum Errors {
   FE_ERROR_CONTENT_NOTFOUND = 'Error: No content was found with search path: ',
   FE_ERROR_COMPONENT_NOTFOUND = 'Error: No dynamic component was found for component name: ',
   FE_ERROR_GET_IMAGE_PATHS = 'Error: Couldn\'t retrieve file paths: ',
+  FE_ERROR_DELETE_IMAGES = 'Error: Couldn\'t delete file from disk',
   FE_ERROR_SET_IMAGES = 'Error: Couldn\'t create files on disk',
   BE_ERROR_IMAGE_BOUNCE_UNSUPPORTED = 'Error: File type not supported',
   BE_ERROR_IMAGE_BOUNCE_TOO_LARGE = 'Error: File too large',

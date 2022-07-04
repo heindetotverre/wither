@@ -11,6 +11,21 @@ const state = reactive({
   ...initialState
 })
 
+const deleteImage = async (imageId : string) => {
+  try {
+    const { data } = await useAsyncData('setImages', () => $fetch(`/deleteimages/${imageId}`)) as any
+    const deletedImage = data.value
+    if (deletedImage) {
+      state.imageMeta = state.imageMeta.filter(image => image.id !== imageId)
+      return imageId
+    } else {
+      throw new Error
+    }
+  } catch (error) {
+    console.log(`${Errors.FE_ERROR_DELETE_IMAGES} | ${error}`)
+  }
+}
+
 const fetchSingleImageMeta = async (id : string) => {
   try {
     const { data } = await useAsyncData('fetchSingleImageMeta', async () => GqlFetchSingleImageMeta({ id: id }))
@@ -63,6 +78,7 @@ const setImages = async (form : FormData) => {
 export const imageStore = readonly({
   state: state,
   do: {
+    deleteImage,
     setImages
   },
   get: {
