@@ -3,6 +3,7 @@
   import { adminStore } from '~~/store/admin'
   import { FormEvent, Page } from '~~/types/types'
   import { AdminPath } from '~~/types/enums'
+  import { createUUID } from '~~/utils'
   import LazyRendererMultiForm from "~~/components/renderer/MultiForm.vue"
   import LazyUtilsAnimation from "~~/components/utils/Animation.vue"
 
@@ -12,8 +13,9 @@
 
   const response = ref(),
     createPageForm = ref(formStore.get.getCreatePageForm()),
-    formName = createPageForm.value.formInfo.name,
-    query = useRoute().query
+    formName = createPageForm.value.pageInfo.name,
+    query = useRoute().query,
+    pageId = ref(createUUID())
 
   onBeforeMount(() => {
     setFormValues()
@@ -27,7 +29,7 @@
   }
 
   const createPage = async (formSubmitEvent: Page) => {
-    response.value = await adminStore.do.setPage(formSubmitEvent)
+    response.value = await adminStore.do.setPage(formSubmitEvent, pageId.value)
     if (response.value?.createPage) {
       useRouter().push(`/admin/${AdminPath.Pages}/${AdminPath.Management}`)
     }
@@ -52,6 +54,7 @@
     if (Object.keys(query).length) {
       const page = adminStore.get.getPages().find(p => p.id === query.pageid)
       if (page) {
+        pageId.value = query.pageid as string
         formStore.do.setFormValuesBasedOnQuery('createPage', page)
       }
     }
@@ -67,6 +70,7 @@
       <p>{{ Object.keys(query).length ? 'Edit page' : 'Create page' }}</p>
       <LazyRendererMultiForm
         :form="createPageForm"
+        :id="pageId"
         @inputField="onInput($event)"
         @submit="createPage($event)"
       />

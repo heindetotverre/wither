@@ -30,7 +30,7 @@
     const query = useRoute().query
     if (query) {
       const user = adminStore.get.getUser()
-      formStore.do.setFormValuesBasedOnQuery(updateUserInfoForm.value.formInfo.name, user)
+      formStore.do.setFormValuesBasedOnQuery(updateUserInfoForm.value.pageInfo.name, user)
     }
   }
 </script>
@@ -40,12 +40,12 @@
     <p>Edit user info</p>
     <LazyRendererForm
       :form="updateUserInfoForm"
-      @submit="editUser($event, updateUserInfoForm.formInfo.name)"
+      @submit="editUser($event, updateUserInfoForm.pageInfo.name)"
     />
     <p>Edit credentials</p>
     <LazyRendererForm
       :form="updateUserCredentials"
-      @submit="editUser($event, updateUserCredentials.formInfo.name)"
+      @submit="editUser($event, updateUserCredentials.pageInfo.name)"
     />
     <NuxtLink :to="`/${AdminPath.Admin}`">Cancel</NuxtLink>
     <div v-if="response">{{ response }}</div>

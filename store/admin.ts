@@ -1,7 +1,7 @@
 import { reactive, readonly, } from "vue"
 import { DynamicForm, Page, User } from '~~/types/types'
 import { Errors } from "~~/types/enums"
-import { createId, sanitzeComponentContent } from "~~/utils"
+import { sanitzeComponentContent } from "~~/utils"
 import { authStore } from "./auth"
 import { formStore } from "./forms"
 import { frontStore } from "./front"
@@ -65,18 +65,19 @@ const getPages = () => state.pages
 
 const getUser = () => state.user
 
-const setPage = async (formContent: Page) => {
-  const pageComponentsContent = formStore.get.getAllDynamicFormsBySlug(formContent.slug) as [DynamicForm]
-  const pageToInsert = await formatPageToInsert(formContent)
+const setPage = async (formContent: Page, pageId: string) => {
+  const pageComponentsContent = formStore.get.getAllDynamicFormsById(pageId) as [DynamicForm]
+  const pageToInsert = await formatPageToInsert(formContent, pageId)
+  console.log('setPage: ', pageToInsert)
   try {
     for (const content of pageComponentsContent) {
-      const { data } = await useAsyncData(content.formInfo.name, async () => GqlCreateComponentContent({ input: content }))
+      const { data } = await useAsyncData(content.pageInfo.name, async () => GqlCreateComponentContent({ input: content }))
       if (!data.value.createComponentContent) {
         throw new Error()
       }
       formStore.do.setDynamicForm(content)
     }
-    const { data } = await useAsyncData('createPage', async () => GqlCreatePage({ input: pageToInsert }))
+    const { data } = await useAsyncData(pageId, async () => GqlCreatePage({ input: pageToInsert }))
     if (data.value.createPage) {
       frontStore.set.setCurrentPage(data.value.createPage as Page)
       const existingPage = state.pages.find(p => p.id === data.value.createPage?.id)
@@ -131,7 +132,7 @@ export const adminStore = readonly({
 })
 
 // internals
-const formatPageToInsert = async (unformattedPage: Page): Promise<Page> => {
+const formatPageToInsert = async (unformattedPage: Page, pageId: string): Promise<Page> => {
   const user: User = getUser()
   const page = {
     name: unformattedPage.name,
@@ -143,7 +144,7 @@ const formatPageToInsert = async (unformattedPage: Page): Promise<Page> => {
     description: unformattedPage.description,
     keywords: unformattedPage.keywords,
     pageComponents: unformattedPage.pageComponents,
-    id: createId('page'),
+    id: pageId,
     author: user.email
   }
   return page

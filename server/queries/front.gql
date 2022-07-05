@@ -6,7 +6,8 @@ query fetchSinglePage($slug: String) {
     id
   }
   getComponentContentBySlug(slug: $slug) {
-    formInfo {
+    pageInfo {
+      id
       name
       slug
     }

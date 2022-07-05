@@ -8,6 +8,10 @@
     form: {
       type: Object as PropType<Form>,
       required: true
+    },
+    id: {
+      type: String,
+      default: ''
     }
   })
 
@@ -24,16 +28,16 @@
       : field.component === 'UiButton' && fullFormValidationHasError()
   }
 
-  const formValues = computed(() => formStore.get.getFormValues(props.form.formInfo.name)),
-    activeTab = ref(props.form.formInfo.parts[0])
+  const formValues = computed(() => formStore.get.getFormValues(props.form.pageInfo.name)),
+    activeTab = ref(props.form.pageInfo.parts[0])
 
   const fullFormValidationHasError = () => {
-    return formStore.get.getFullFormValidationState(props.form.formInfo.name)
+    return formStore.get.getFullFormValidationState(props.form.pageInfo.name)
   }
 
   const getSplitForm = (formPart: string): Form => {
     return {
-      formInfo: props.form.formInfo,
+      pageInfo: props.form.pageInfo,
       fields: props.form.fields.filter(f => f.formPart === formPart)
     }
   }
@@ -53,14 +57,15 @@
 
 <template>
   <div class="tabs m-t-1">
-    <div class="tabs__tab" v-for="(formPart, index) of form.formInfo.parts" :key="index">
+    <div class="tabs__tab" v-for="(formPart, index) of form.pageInfo.parts" :key="index">
       <button @click="handleTab(formPart)">{{ formPart }}</button>
     </div>
   </div>
-  <div v-for="(formPart, index) of form.formInfo.parts" :key="index">
+  <div v-for="(formPart, index) of form.pageInfo.parts" :key="index">
     <LazyRendererForm
       v-if="activeTab === formPart"
       :form="getSplitForm(formPart)"
+      :id="id"
       @inputField="emits('inputField', $event)"
     />
   </div>

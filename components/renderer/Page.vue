@@ -34,6 +34,7 @@
         v-for="(component, index) in page?.pageComponents"
         :key="index"
         :mode="Mode.Front"
+        :pageId="(page?.id as string)"
         :slug="slug"
         :name="component"
         :id="component"

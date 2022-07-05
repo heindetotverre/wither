@@ -21,9 +21,8 @@ const fetchSinglePage = async (pageSlug: string) => {
     const { data } = await useAsyncData(`fetchSinglePage:${pageSlug}`, async () => GqlFetchSinglePage({slug: pageSlug})),
       componentData = data.value.getComponentContentBySlug as [DynamicForm],
       page = data.value.getSinglePage as Page
-    console.log(data.value)
     componentData.forEach((content: DynamicForm) => {
-      if (!formStore.get.getDynamicFormById(content.formInfo.name)) {
+      if (!formStore.get.getDynamicFormById(content.pageInfo.id)) {
         formStore.do.setDynamicForm(sanitzeComponentContent(content))
       }
     })

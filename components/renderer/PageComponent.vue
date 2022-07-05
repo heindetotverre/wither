@@ -12,6 +12,10 @@
       type: Number,
       required: true
     },
+    pageId: {
+      type: String,
+      required: true
+    },
     slug: {
       type: String,
       required: true
@@ -26,11 +30,11 @@
     }
   })
 
-  const content = computed(() => contentStore.get.createdFields(props.id, props.slug) as FormField[])
+  const content = computed(() => contentStore.get.createdFields(props.id, props.slug, props.pageId) as FormField[])
 
   const setFields = (fieldsFromComponent: ContentField[]) => {
     if (props.mode === Mode.Back && !Object.keys(content.value).length) {
-      contentStore.do.registerFields(fieldsFromComponent, props.id, props.slug)
+      contentStore.do.registerFields(fieldsFromComponent, props.id, props.slug, props.pageId)
     }
   }
 

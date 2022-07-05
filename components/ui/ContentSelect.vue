@@ -7,6 +7,10 @@
   import shareableEmits from "./shareableEmits"
 
   const props = defineProps({...shareableProps, 
+      pageId: {
+        type: String,
+        required: true
+      },
       value: {
         type: Array,
         required: true
@@ -85,10 +89,11 @@
         :slug="getSlug()"
         :name="component"
         :id="component"
+        :pageId="pageId"
         @triggerFieldsToFill="triggerFieldsToFill(component)"
       />
       <div v-if="activeComponent === component">
-        <LazyRendererForm :form="contentFormToFill" />
+        <LazyRendererForm :form="contentFormToFill" :id="pageId" />
       </div>
     </div>
     <button @click.prevent="openComponents()">Add component</button>

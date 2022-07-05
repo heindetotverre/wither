@@ -13,26 +13,31 @@ const state = reactive({
   ...initialState
 })
 
-const createdFields = (componentId: string, slug: string) => {
-  const fieldsPerPage = formStore.get.getAllDynamicFormsBySlug(slug)
-  const fieldsPerComponent = fieldsPerPage?.find((f) => f.formInfo.name === componentId)
+const createdFields = (componentId: string, slug: string, pageId: string) => {
+  const fieldsPerPage = formStore.get.getAllDynamicFormsById(pageId)
+  const fieldsPerComponent = fieldsPerPage?.find((f) => f.pageInfo.name === componentId)
   const parseFields = () => fieldsPerComponent?.fields?.reduce((acc, curr) => {
     return { ...acc, [curr.key]: curr.value }
   }, {})
+  console.log('get content: ', componentId, slug, pageId)
+  console.log('returns: ', parseFields())
   return parseFields() || {}
 }
 
-const registerFields = (fields: ContentField[], formId: string, slug: string) => {
+const registerFields = (fields: ContentField[], formId: string, slug: string, pageId: string) => {
   const formFields = flattenArray(fields).map(field => {
     return getFormfield(field)
   })
   const form: DynamicForm = {
-    formInfo: {
+    pageInfo: {
+      id: pageId,
       name: formId,
       slug: slug
     },
     fields: formFields.filter(f => f !== undefined) as FormField[]
   }
+  console.log('registerFields: ', formId, slug, pageId)
+  console.log('registers', form)
   formStore.do.setDynamicForm(sanitzeComponentContent(form), 'register')
 }
 

@@ -9,7 +9,8 @@ interface ContentField {
 }
 
 interface DynamicForm {
-  formInfo: {
+  pageInfo: {
+    id: string,
     name: string,
     slug: string,
     __typename?: string
@@ -25,7 +26,7 @@ interface ImageMeta {
 }
 
 interface Form {
-  formInfo: {
+  pageInfo: {
     name: keyof Forms,
     multipart: boolean,
     parts: string[]

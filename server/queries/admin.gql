@@ -19,7 +19,8 @@ query fetchAdminData($tokenId: String) {
     id
   }
   getComponentContent {
-    formInfo {
+    pageInfo {
+      id
       name
       slug
     }
@@ -48,7 +49,8 @@ query fetchAdminData($tokenId: String) {
 
 mutation createComponentContent($input: ComponentContentInput) {
   createComponentContent(input: $input) {
-    formInfo {
+    pageInfo {
+      id
       name
       slug
     }

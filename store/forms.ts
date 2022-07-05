@@ -46,14 +46,22 @@ const getCreatePageForm = () => {
 }
 
 const getDynamicFormById = (id: string) => {
-  const form = state.dynamicForms.find(f => f.formInfo.name === id)
+  const form = state.dynamicForms.find(f => f.pageInfo.name === id)
   if (form) {
     return form
   }
 }
 
+const getAllDynamicFormsById = (id: string) => {
+  const forms = state.dynamicForms.filter(f => f.pageInfo.id === id)
+  if (forms.length) {
+    return forms
+  }
+}
+
+
 const getAllDynamicFormsBySlug = (slug: string) => {
-  const forms = state.dynamicForms.filter(f => f.formInfo.slug === slug)
+  const forms = state.dynamicForms.filter(f => f.pageInfo.slug === slug)
   if (forms.length) {
     return forms
   }
@@ -71,7 +79,7 @@ const getFullFormValidationState = (formName: keyof Forms) => {
   const presetForm = state.presetForms[formName],
     fieldsToValidate = presetForm
       ? presetForm.fields.filter(field => field.required)
-      : state.dynamicForms.find(f => f.formInfo.name === formName)?.fields.filter(field => field.required),
+      : state.dynamicForms.find(f => f.pageInfo.name === formName)?.fields.filter(field => field.required),
     notValidated = []
 
   if (fieldsToValidate) {
@@ -102,7 +110,7 @@ const getSpecificFormValue = (formName: keyof Forms, key: string) => {
   const presetForm = state.presetForms[formName],
     field = presetForm
       ? presetForm.fields.find(f => f.key === key)
-      : state.dynamicForms.find(f => f.formInfo.name === formName)?.fields.find(f => f.key === key)
+      : state.dynamicForms.find(f => f.pageInfo.name === formName)?.fields.find(f => f.key === key)
   if (field) {
     return field.value
   }
@@ -117,12 +125,12 @@ const getUpdateUserCredentialsForm = () => {
 }
 
 const setDynamicForm = (form: DynamicForm, source: string | void) => {
-  const existingForm = state.dynamicForms.find(f => f.formInfo.name === form.formInfo.name)
+  const existingForm = state.dynamicForms.find(f => f.pageInfo.name === form.pageInfo.name)
   if (existingForm) {
     if (source === 'register') {
       return
     }
-    state.dynamicForms = state.dynamicForms.filter(f => f.formInfo.name !== form.formInfo.name)
+    state.dynamicForms = state.dynamicForms.filter(f => f.pageInfo.name !== form.pageInfo.name)
   }
   state.dynamicForms.push(form)
 }
@@ -156,7 +164,7 @@ const updateSpecificFormValues = (input: FormEvent) => {
   const presetForm = state.presetForms[input.name],
     field = presetForm
       ? presetForm.fields.find(f => f.key === input.key)
-      : state.dynamicForms.find(f => f.formInfo.name === input.name)?.fields.find(f => f.key === input.key)
+      : state.dynamicForms.find(f => f.pageInfo.name === input.name)?.fields.find(f => f.key === input.key)
   if (field) {
     field[input.property] = input.value
   }
@@ -167,7 +175,7 @@ const validateSingleField = (input: FormEvent, reset: State | void) => {
   const presetForm = state.presetForms[input.name],
     field = presetForm
       ? presetForm.fields.find(f => f.key === input.key)
-      : state.dynamicForms.find(f => f.formInfo.name === input.name)?.fields.find(f => f.key === input.key)
+      : state.dynamicForms.find(f => f.pageInfo.name === input.name)?.fields.find(f => f.key === input.key)
   if (field && field.validation && mapValidators(field.validation.validator)) {
     if (reset !== State.Reset) {
       if (field.value && field.value.length && !mapValidators(field.validation.validator)(field.value)) {
@@ -198,6 +206,7 @@ export const formStore = readonly({
   get: {
     getCreatePageForm,
     getDynamicFormById,
+    getAllDynamicFormsById,
     getAllDynamicFormsBySlug,
     getFormValues,
     getFullFormValidationState,

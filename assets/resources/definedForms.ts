@@ -78,7 +78,7 @@ export {
 
 export const presetForms = {
   login: {
-    formInfo: {
+    pageInfo: {
       name: loginFormName,
       multipart: false,
       parts: []
@@ -105,7 +105,7 @@ export const presetForms = {
     ] as FormField[]
   },
   register: {
-    formInfo: {
+    pageInfo: {
       name: registerFormName,
       multipart: false,
       parts: []
@@ -160,10 +160,10 @@ export const presetForms = {
     ] as FormField[]
   },
   createPage: {
-    formInfo: {
+    pageInfo: {
       name: createPageFormName,
       multipart: true,
-      parts: ['general', 'meta', 'content']
+      parts: ['general', 'meta', 'content'],
     },
     fields: [
       {
@@ -286,7 +286,7 @@ export const presetForms = {
   },
   updateUserInfo:
   {
-    formInfo: {
+    pageInfo: {
       name: updateUserInfoFormName,
       multipart: false,
       parts: []
@@ -329,7 +329,7 @@ export const presetForms = {
     ] as FormField[]
   },
   updateUserCredentials: {
-    formInfo: {
+    pageInfo: {
       name: updateUserCredentialFormName,
       multipart: false,
       parts: []
