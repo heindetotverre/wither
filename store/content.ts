@@ -50,12 +50,13 @@ export const contentStore = readonly({
 
 // internals
 const getFormfield = (field: ContentField) => {
-  if (field.type === 'text') {
+  const { type, name, label } = field
+  if (type === 'text') {
     return {
       ...textInputField,
-      key: field.name,
-      label: field.label,
-      id: createId(field.name),
+      key: name,
+      label: label,
+      id: createId(name),
       value: field.default,
       validation: {
         validator: "novalidator",
@@ -66,9 +67,9 @@ const getFormfield = (field: ContentField) => {
   } else if (field.type === 'image') {
     return {
       ...imageInputfield,
-      key: field.name,
-      label: field.label,
-      id: createId(field.name),
+      key: name,
+      label: label,
+      id: createId(name),
       value: field.default,
       validation: {
         validator: "novalidator",
