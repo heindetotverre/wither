@@ -36,17 +36,18 @@
   }
 
   const onInput = (event: FormEvent) => {
-    if (event.key === 'isInMenu') {
+    const { key, value } = event
+    if (key === 'isInMenu') {
       formStore.do.updateSpecificFormValues({ name: formName, key: 'pageMenuParent', property: 'visible', value: true })
     }
-    if (event.key === 'pageMenuParent' && event.value !== '') {
+    if (key === 'pageMenuParent' && value !== '') {
       formStore.do.updateSpecificFormValues({ name: formName, key: 'pageMenuOrder', property: 'visible', value: true })
     }
-    if (event.key === 'isInMenu' && !event.value) {
+    if (key === 'isInMenu' && !value) {
       formStore.do.updateSpecificFormValues({ name: formName, key: 'pageMenuOrder', property: 'visible', value: false })
       formStore.do.updateSpecificFormValues({ name: formName, key: 'pageMenuParent', property: 'visible', value: false })
       formStore.do.updateSpecificFormValues({ name: formName, key: 'pageMenuOrder', property: 'value', value: 0 })
-      formStore.do.updateSpecificFormValues({ name: formName, key: 'pageMenuParent', property: 'value', value: '' })
+      formStore.do.updateSpecificFormValues({ name: formName, key: 'pageMenuParent', property: 'value', value:  '' })
     }
   }
 
@@ -54,7 +55,7 @@
     if (Object.keys(query).length) {
       const page = adminStore.get.getPages().find(p => p.id === query.pageid)
       if (page) {
-        pageId.value = query.pageid as string
+        pageId.value = page.id
         formStore.do.setFormValuesBasedOnQuery('createPage', page)
       }
     }

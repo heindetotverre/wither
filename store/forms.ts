@@ -161,21 +161,23 @@ const updateAllFormValues = (formName: keyof Forms, method: string | void) => {
 }
 
 const updateSpecificFormValues = (input: FormEvent) => {
-  const presetForm = state.presetForms[input.name],
+  const { name, key, property, value } = input
+  const presetForm = state.presetForms[name],
     field = presetForm
-      ? presetForm.fields.find(f => f.key === input.key)
-      : state.dynamicForms.find(f => f.pageInfo.name === input.name)?.fields.find(f => f.key === input.key)
+      ? presetForm.fields.find(f => f.key === key)
+      : state.dynamicForms.find(f => f.pageInfo.name === name)?.fields.find(f => f.key === key)
   if (field) {
-    field[input.property] = input.value
+    field[property] = value
   }
 }
 
 const validateSingleField = (input: FormEvent, reset: State | void) => {
   let domclass = ''
-  const presetForm = state.presetForms[input.name],
+  const { name, key, property } = input,
+    presetForm = state.presetForms[name],
     field = presetForm
-      ? presetForm.fields.find(f => f.key === input.key)
-      : state.dynamicForms.find(f => f.pageInfo.name === input.name)?.fields.find(f => f.key === input.key)
+      ? presetForm.fields.find(f => f.key === key)
+      : state.dynamicForms.find(f => f.pageInfo.name === name)?.fields.find(f => f.key === key)
   if (field && field.validation && mapValidators(field.validation.validator)) {
     if (reset !== State.Reset) {
       if (field.value && field.value.length && !mapValidators(field.validation.validator)(field.value)) {
@@ -189,7 +191,7 @@ const validateSingleField = (input: FormEvent, reset: State | void) => {
       domclass = ''
       field.validation.validated = true
     }
-    field[input.property] = domclass
+    field[property] = domclass
   }
 }
 

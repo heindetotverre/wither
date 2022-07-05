@@ -19,8 +19,6 @@ const createdFields = (componentId: string, slug: string, pageId: string) => {
   const parseFields = () => fieldsPerComponent?.fields?.reduce((acc, curr) => {
     return { ...acc, [curr.key]: curr.value }
   }, {})
-  console.log('get content: ', componentId, slug, pageId)
-  console.log('returns: ', parseFields())
   return parseFields() || {}
 }
 
@@ -36,8 +34,6 @@ const registerFields = (fields: ContentField[], formId: string, slug: string, pa
     },
     fields: formFields.filter(f => f !== undefined) as FormField[]
   }
-  console.log('registerFields: ', formId, slug, pageId)
-  console.log('registers', form)
   formStore.do.setDynamicForm(sanitzeComponentContent(form), 'register')
 }
 
