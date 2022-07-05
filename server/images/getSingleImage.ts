@@ -14,4 +14,4 @@ export default defineEventHandler(async (event) => {
   if (filePathToServe) {
     return sendStream(event, fs.createReadStream(`${root}/${filePathToServe}`))
   }
-}) 
+})

@@ -49,7 +49,7 @@ const login = async (formContent: User) => {
     }
     const { data, error } = await useAsyncData('createToken', async () => GqlCreateToken({ input: loginPayload }))
     if (data.value?.createToken?.id) {
-      finishAuth(data.value.createToken.id as string, true)
+      await finishAuth(data.value.createToken.id as string, true)
       return data.value
     }
     return error.value
@@ -119,7 +119,7 @@ export const authStore = readonly({
 })
 
 // internals
-const finishAuth = (data: string, set: boolean) => {
+const finishAuth = async (data: string, set: boolean) => {
   const date = new Date()
   if (set) {
     date.setHours( date.getHours() + 2 )

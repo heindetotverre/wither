@@ -6,7 +6,5 @@
   </script>
 
 <template>
-  <div>
-    <LazyRendererPage :path="path" />
-  </div>
+  <LazyRendererPage :path="path" />
 </template>
